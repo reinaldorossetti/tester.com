@@ -1,4 +1,4 @@
-# Projeto E-Commerce (Clone Amazon UI)
+# Projeto E-Commerce
 
 Este projeto é uma aplicação de e-commerce construída com **React** e **Vite**, focada em fornecer uma interface de usuário rica, responsiva e com um design visual inspirado fortemente na Amazon. A aplicação possui um fluxo completo desde a visualização de produtos no catálogo até a finalização da compra no carrinho.
 
