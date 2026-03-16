@@ -23,6 +23,7 @@ import Catalog from "./components/Catalog";
 import Cart from "./components/Cart";
 import ThankYouPage from "./components/ThankYouPage";
 import ProductDetails from "./components/ProductDetails";
+import Register from "./components/Register";
 
 import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 
@@ -253,6 +254,28 @@ const NavBar = ({ cartCount, search, setSearch }) => {
           </Typography>
         </Box>
 
+        {/* Cadastre-se button */}
+        <Box
+          id="nav-register-btn"
+          component={Link}
+          to="/register"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            textDecoration: "none",
+            color: "#fff",
+            px: 1,
+            py: 1,
+            borderRadius: "2px",
+            border: "1px solid transparent",
+            "&:hover": { border: "1px solid #fff" },
+          }}
+        >
+          <Typography sx={{ fontSize: "0.75rem", color: "#ccc", lineHeight: 1 }}>Novo?</Typography>
+          <Typography sx={{ fontSize: "0.9rem", fontWeight: 700, lineHeight: 1 }}>Cadastre-se</Typography>
+        </Box>
+
         {/* Carrinho Estilo Amazon idêntico: número flutuante laranja sob SVG */}
         <Box id="nav-cart-btn"
           component={Link}
@@ -393,6 +416,7 @@ const AppInner = () => {
                 <ThankYouPage clearCart={() => setCartItems([])} />
               }
             />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </Box>
         <ToastContainer

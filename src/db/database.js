@@ -45,6 +45,31 @@ const createDatabase = async () => {
         );
     `);
 
+    // 3b. Create users table
+    db.run(`
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            person_type TEXT NOT NULL DEFAULT 'PF',
+            first_name TEXT NOT NULL,
+            last_name TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            phone TEXT,
+            password TEXT NOT NULL,
+            cpf TEXT UNIQUE,
+            cnpj TEXT UNIQUE,
+            company_name TEXT,
+            address_zip TEXT,
+            address_street TEXT,
+            address_number TEXT,
+            address_complement TEXT,
+            address_neighborhood TEXT,
+            address_city TEXT,
+            address_state TEXT,
+            residence_proof_filename TEXT,
+            created_at TEXT DEFAULT (datetime('now','localtime'))
+        );
+    `);
+
     // 4. Sync mock data to ensure any new products added to the JSON are inserted
     const stmt = db.prepare(`
         INSERT INTO products (id, name, price, description, category, image, manufacturer, line, model) 
@@ -137,3 +162,88 @@ export const getProductById = async (id) => {
     stmt.free();
     return null;
 };
+
+// Helper: Register a new user
+export const registerUser = async (userData) => {
+    const db = await getDatabase();
+
+    // Check unique email
+    const emailStmt = db.prepare("SELECT id FROM users WHERE email = :email");
+    emailStmt.bind({ ':email': userData.email });
+    const emailExists = emailStmt.step();
+    emailStmt.free();
+    if (emailExists) throw new Error("Este e-mail já está cadastrado.");
+
+    // Check unique CPF (PF only)
+    if (userData.cpf) {
+        const cpfDigits = userData.cpf.replace(/\D/g, '');
+        const cpfStmt = db.prepare("SELECT id FROM users WHERE cpf = :cpf");
+        cpfStmt.bind({ ':cpf': cpfDigits });
+        const cpfExists = cpfStmt.step();
+        cpfStmt.free();
+        if (cpfExists) throw new Error("Este CPF já está cadastrado.");
+    }
+
+    // Check unique CNPJ (PJ only)
+    if (userData.cnpj) {
+        const cnpjDigits = userData.cnpj.replace(/\D/g, '');
+        const cnpjStmt = db.prepare("SELECT id FROM users WHERE cnpj = :cnpj");
+        cnpjStmt.bind({ ':cnpj': cnpjDigits });
+        const cnpjExists = cnpjStmt.step();
+        cnpjStmt.free();
+        if (cnpjExists) throw new Error("Este CNPJ já está cadastrado.");
+    }
+
+    const insertStmt = db.prepare(`
+        INSERT INTO users (
+            person_type, first_name, last_name, email, phone, password,
+            cpf, cnpj, company_name,
+            address_zip, address_street, address_number, address_complement,
+            address_neighborhood, address_city, address_state,
+            residence_proof_filename
+        ) VALUES (
+            :person_type, :first_name, :last_name, :email, :phone, :password,
+            :cpf, :cnpj, :company_name,
+            :address_zip, :address_street, :address_number, :address_complement,
+            :address_neighborhood, :address_city, :address_state,
+            :residence_proof_filename
+        )
+    `);
+
+    insertStmt.run({
+        ':person_type': userData.person_type,
+        ':first_name': userData.first_name,
+        ':last_name': userData.last_name,
+        ':email': userData.email,
+        ':phone': userData.phone || null,
+        ':password': userData.password, // In production, hash before storing
+        ':cpf': userData.cpf ? userData.cpf.replace(/\D/g, '') : null,
+        ':cnpj': userData.cnpj ? userData.cnpj.replace(/\D/g, '') : null,
+        ':company_name': userData.company_name || null,
+        ':address_zip': userData.address_zip || null,
+        ':address_street': userData.address_street || null,
+        ':address_number': userData.address_number || null,
+        ':address_complement': userData.address_complement || null,
+        ':address_neighborhood': userData.address_neighborhood || null,
+        ':address_city': userData.address_city || null,
+        ':address_state': userData.address_state || null,
+        ':residence_proof_filename': userData.residence_proof_filename || null,
+    });
+    insertStmt.free();
+    saveDatabase(db);
+};
+
+// Helper: Get user by email (for future login)
+export const getUserByEmail = async (email) => {
+    const db = await getDatabase();
+    const stmt = db.prepare("SELECT * FROM users WHERE email = :email");
+    stmt.bind({ ':email': email });
+    if (stmt.step()) {
+        const result = stmt.getAsObject();
+        stmt.free();
+        return result;
+    }
+    stmt.free();
+    return null;
+};
+

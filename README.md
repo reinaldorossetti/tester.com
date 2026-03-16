@@ -1,131 +1,157 @@
-# Projeto E-Commerce
+# 🛒 AmazonQA — Loja Online
 
-Este projeto é uma aplicação de e-commerce construída com **React** e **Vite**, focada em fornecer uma interface de usuário rica, responsiva e com um design visual inspirado fortemente na Amazon. A aplicação possui um fluxo completo desde a visualização de produtos no catálogo até a finalização da compra no carrinho.
+Aplicação de e-commerce completa construída com **React + Vite**, com design visual inspirado na Amazon. Inclui catálogo de produtos conectado a um banco SQLite rodando via WebAssembly no navegador, internacionalização PT/EN e um fluxo completo de compra.
 
-## 🚀 Funcionalidades (Features)
+---
 
-A aplicação foi desenvolvida com o intuito de simular as principais funcionalidades de um e-commerce moderno:
+## 🚀 Funcionalidades
 
-*   **Catálogo de Produtos:** Exibe uma lista de produtos disponíveis em uma grade responsiva.
-*   **Busca Integrada:** Uma barra de pesquisas na NavBar que filtra os produtos mostrados no catálogo em tempo real.
-*   **Gestão de Carrinho:**
-    *   **Adicionar Produtos:** Inclusão de novos itens ao carrinho.
-    *   **Atualizar Quantidade:** Alterar o número de itens desejados de um mesmo produto diretamente no carrinho.
-    *   **Remover Produtos:** Exclusão de itens do carrinho.
-*   **Feedback Visual (Toast Notifications):** Utilização da biblioteca `react-toastify` para apresentar notificações elegantes ao usuário (ex: produto adicionado, produto removido, quantidade atualizada).
-*   **Checkout / Finalização:** Uma página de agradecimento ("Thank You Page") simulando o pós-compra, que também se encarrega de limpar os itens do carrinho após a confirmação.
-*   **Contador Dinâmico:** O ícone do carrinho na barra de navegação exibe uma contagem exata e em tempo real da quantidade total de itens no carrinho.
+- **Catálogo com Filtros:** Grade responsiva de produtos com busca em tempo real e filtro por categoria. Produtos exibidos em **ordem alfabética**.
+- **Página de Detalhes do Produto:** Exibe imagem ampliada, descrição, fabricante, linha, modelo, seleção de quantidade e botão de adicionar ao carrinho.
+- **Gestão de Carrinho:** Adicionar, atualizar quantidade e remover produtos. Contador dinâmico no ícone da NavBar.
+- **Checkout / Thank You Page:** Finalização de compra com resumo do pedido e mensagem de agradecimento.
+- **Notificações (Toast):** Alertas visuais elegantes para ações do usuário via `react-toastify`.
+- **Internacionalização (i18n):** Alternância de idioma PT ⇆ EN com botão na NavBar. Preferência salva no `localStorage`.
+- **Logo Personalizada:** Imagem `logo.PNG` exibida na barra de navegação no lugar do texto.
+
+---
 
 ## 💾 Banco de Dados Local (SQLite via WebAssembly)
 
-Nesta arquitetura moderna *client-side*, a aplicação embute um banco de dados **SQLite real rodando diretamente no navegador** do usuário, sem a necessidade imediata de uma API/Backend externo para operar o catálogo online.
+A aplicação utiliza um banco de dados **SQLite real rodando diretamente no navegador**, sem necessidade de backend externo.
 
-*   **Poder do WebAssembly (WASM):** Utilizamos a biblioteca `sql.js` (compilada em WebAssembly) para executar um motor SQL robusto totalmente na memória, de forma extremamente rápida.
-*   **Camada de Conexão:** Na pasta nova `src/db/`, o arquivo `database.js` concentra as funções de criação de tabelas, inserção primária de dados estáticos (`products_mock.json`) e consultas diretas ao banco (queries puras como `SELECT * FROM products`).
-*   **Contexto Global (`DatabaseContext.jsx`):** A estrutura React aguarda a inicialização do banco via Context API (pasta `src/contexts/`), que compartilha a conexão pronta aos componentes filhos (`Catalog` e `ProductDetails`) possibilitando carregamentos assíncronos precisos.
-*   **Persistência Automática:** Apesar de viver na memória do navegador, criamos um listener: toda vez que carregamos dados atualizados, o array binário original do WebAssembly é convertido para Base64 e salvo discretamente no uso do `localStorage`. Assim, o estado transacional persiste perfeitamente recarregamentos de página (refresh).
-*   **Script de Geração Física:** Para casos mais complexos de manipulação externa, acoplamos também utilitário Node.js secundário (`src/db/generate_db.js`) capaz de compilar o arquivo `.sqlite` físico real localmente ao apenas ser executado, que inclusive auxilia se a aplicação migrar para o backend.
+| Arquivo | Responsabilidade |
+|---|---|
+| `src/db/database.js` | Inicialização do banco, criação de tabelas, seed e queries (`getProducts`, `getProductById`) |
+| `src/db/generate_db.js` | Script Node.js para gerar o arquivo físico `ecommerce.sqlite` localmente |
+| `src/db/ecommerce.sqlite` | Arquivo SQLite físico gerado com todos os produtos |
+| `src/contexts/DatabaseContext.jsx` | Context API que aguarda a inicialização do banco antes de renderizar os filhos |
+| `public/sql-wasm.wasm` | Módulo WebAssembly da biblioteca `sql.js` |
 
-## 🧩 Componentes Criados
+### Estratégia de Sincronização
 
-A estrutura do projeto foi devidamente componentizada para promover a manutenção e o reuso de código. Os principais componentes localizam-se no diretório `src/components/`:
+- **UPSERT automático:** A cada inicialização da app, o conteúdo de `products_mock.json` é sincronizado com o banco via `INSERT ... ON CONFLICT(id) DO UPDATE SET`, garantindo que edições no JSON (nomes, preços, imagens) sejam refletidas imediatamente.
+- **Persistência via LocalStorage:** O banco in-memory é exportado em Base64 e salvo no `localStorage` a cada atualização.
 
-*   **`NavBar`** (localizado em `App.jsx`): Barra de navegação global. Fornece o contêiner de logo, a barra de pesquisa ao estilo Amazon, botões de acesso ao catálogo e o ícone com contador do carrinho.
-*   **`Catalog`**: Página inicial do projeto renderizando a lista completa ou filtrada de itens e interagindo com a funcionalidade de busca da NavBar.
-*   **`Product`**: Card individual de cada produto do catálogo, exibindo imagem, detalhes, preço e botão para adicionar ao carrinho.
-*   **`Cart`**: Página do carrinho de compras, calculando subtotais, apresentando os itens adicionados e o resumo do pedido.
-*   **`CartItem`**: Componente de linha/item dentro do carrinho, permitindo a gestão de quantidade (aumentar/diminuir) e a remoção.
-*   **`CheckoutButton`**: Componente de botão estilizado focado em conduzir o usuário para a finalização imediata da compra.
-*   **`ThankYouPage`**: Página de sucesso renderizada após o "Checkout", exibindo uma mensagem de agradecimento pelo pedido.
+### Gerar o banco físico manualmente
 
-## 🎨 Material Design e Tematização (MUI)
+```bash
+node src/db/generate_db.js
+```
 
-Para acelerar o desenvolvimento de interfaces e garantir consistência cross-browser, adotamos o **Material-UI (MUI v5+)** como nossa principal biblioteca de componentes visuais baseada no Material Design.
+---
 
-Fizemos uso avançado do **`ThemeProvider`** e **`createTheme`** para desviar do visual "padrão" do Google e aproxima-lo à identidade de e-commerce similar à Amazon:
+## 🧩 Componentes
 
-*   **Paleta de Cores Customizada:** 
-    *   *Primary (Dark Blue)*: `#131921` para fundos dominantes, como a NavBar.
-    *   *Secondary (Amazon Orange/Yellow)*: `#ff9900`, `#FFD814` e `#FFA41C` focando em chamadas de ação (Call to Action) e destaques de preço.
-*   **Tipografia:** Substituímos a família padrão pelo conjunto limpo utilizando estilos de títulos com peso maior (`font-weight: 700`) e variação de cor escura para garantir alto contraste e legibilidade (`#0F1111`).
-*   **Sobrescrita de Componentes (StyleOverrides):**
-    *   **Buttons:** Retirada do uppercase automático (`textTransform: "none"`), implementando botões perfeitamente alinhados ao estilo "Add to Cart" ou "Buy Now" com bordas coloridas `#FCD200` e fundos amarelados/alaranjados em `:hover`.
-    *   **Cards:** Remoção proposital de sombra espessa inicial, substituída por bordas finas `#D5D9D9` e `borderRadius` sútil para uma apresentação mais "clean".
-*   **Ícones:** Biblioteca `@mui/icons-material`, destacando o `ShoppingCartOutlined` e svgs customizados.
+| Componente | Descrição |
+|---|---|
+| `NavBar` (em `App.jsx`) | Logo, busca estilo Amazon, toggle de idioma, carrinho com contador |
+| `Catalog` | Grade de produtos com busca e filtro por categoria |
+| `Product` | Card de produto com imagem, preço, categoria e botão de adicionar ao carrinho |
+| `ProductDetails` | Página de detalhes: imagem, descrição, fabricante/linha/modelo, quantidade e carrinho |
+| `Cart` | Carrinho com lista de itens, resumo do pedido e subtotais |
+| `CartItem` | Item do carrinho com seleção de quantidade e exclusão |
+| `CheckoutButton` | Botão de finalização com validação de carrinho vazio |
+| `ThankYouPage` | Confirmação de pedido com tabela de itens e total |
+
+---
+
+## 🌐 Internacionalização (i18n)
+
+- Implementada via `LanguageContext` (Context API) em `src/contexts/LanguageContext.jsx`.
+- Dicionários em **Português** e **Inglês** cobrem todos os textos da UI: NavBar, Catálogo, Carrinho, Detalhes, Checkout, Página de Agradecimento e Toast messages.
+- Preferência do idioma persistida no `localStorage`.
+- Botão na NavBar com ícone de idioma para alternar PT ⇆ EN.
+
+---
+
+## 🎨 Design e Tematização (MUI)
+
+Utilizamos **Material-UI (MUI v7+)** com `ThemeProvider` e `createTheme` para replicar a identidade visual da Amazon:
+
+- **Paleta Primary:** `#131921` (dark) e `#0f1111` (foco) para NavBar e fundos.
+- **Paleta Secondary (CTA):** `#ff9900`, `#FFD814`, `#FFA41C` para botões e destaques de preço.
+- **Overrides de Componentes:**
+  - `Button`: sem maiúsculas automáticas, estilo "Add to Cart" com fundo âmbar.
+  - `Card`: sombra sutil, borda fina `#D5D9D9`, hover com elevação.
+  - `AppBar`: cor sólida `#131921`, sem bordas arredondadas.
+
+---
 
 ## 📁 Estrutura de Pastas
 
-Abaixo está a organização principal dos diretórios do projeto e suas responsabilidades:
-
 ```text
 tester.com/
-├── public/              # Arquivos estáticos públicos e módulos WASM essenciais como sql-wasm.wasm.
-├── src/                 # Código-fonte principal da aplicação React.
-│   ├── assets/          # Arquivos de mídia, como imagens e ícones.
-│   ├── components/      # Componentes visuais do React (botões, cards, navbar, carrinho).
-│   ├── contexts/        # React Contexts para estados globais (idiomas, conexões ao banco db).
-│   ├── data/            # Dados estáticos/mocks em JSON (usados inicialmente como seed p/ o SQLite).
-│   ├── db/              # Controladores locais do SQLite (database.js) e scripts geradores físicos (generate_db.js).
-│   ├── App.jsx          # Componente raiz da aplicação, abarcando roteadores e contextos.
-│   ├── main.jsx         # Ponto de entrada do React que renderiza o App no DOM.
-│   └── index.css/App.css# Estilos globais e escopos básicos.
-├── package.json         # Gerenciamento de dependências e scripts do projeto.
-└── vite.config.js       # Configurações do empacotador Vite.
+├── public/
+│   ├── logo.PNG              # Logo da marca exibida na NavBar
+│   ├── sql-wasm.wasm         # WebAssembly do sql.js
+│   └── sql-wasm-browser.wasm # WASM específico para ambientes de browser
+├── src/
+│   ├── components/           # Componentes visuais (Product, Cart, Catalog, etc.)
+│   ├── contexts/
+│   │   ├── DatabaseContext.jsx   # Context de inicialização do banco SQLite
+│   │   └── LanguageContext.jsx   # Context de i18n com dicionários PT/EN
+│   ├── data/
+│   │   └── products_mock.json    # Fonte de verdade dos produtos (seed do SQLite)
+│   ├── db/
+│   │   ├── database.js           # Core do SQLite: inicialização, queries, persistência
+│   │   ├── generate_db.js        # Script Node.js para gerar o .sqlite físico
+│   │   └── ecommerce.sqlite      # Arquivo SQLite gerado com os dados dos produtos
+│   ├── App.jsx               # Roteamento, thema MUI e NavBar
+│   └── main.jsx              # Ponto de entrada React
+├── package.json
+└── vite.config.js
 ```
 
-## ⚛️ Padrões e Organização no React
+---
 
-Para manter a base de código escalável, limpa e fácil de dar manutenção, este projeto segue algumas convenções e padrões arquiteturais recomendados para o ecossistema React:
+## ⚛️ Padrões de Arquitetura
 
-*   **Componentização por Propósito:** Cada arquivo na pasta `src/components/` deve exportar preferencialmente um único componente principal. O nome do arquivo deve corresponder ao nome do componente desenvolvido (ex: `CartItem.jsx` exporta o `<CartItem />`).
-*   **Separação de Preocupações (Separation of Concerns):** A lógica complexa e o gerenciamento de estado global (neste caso, na raiz do App) são separados da renderização visual. Componentes filhos, como `Product` e `CartItem`, tendem a ser componentes de apresentação (Presentational Components), recebendo dados e callbacks via *props*.
-*   **Props e Callbacks Mapeados:** A comunicação flui de cima para baixo. Ações que afetam múltiplos lugares na tela (como atualizar a quantidade de itens do carrinho) disparam funções enviadas pelos componentes "pai" (no caso, repassadas a partir do `App.jsx`, que atua como *Container/State Manager*).
-*   **Estilização Centralizada e Temática:** Ao utilizar Material-UI, optamos por configurar cores, tipologia e overrides de forma global via `ThemeProvider` no `App.jsx`. Componentes individuais herdam esses estilos ou os complementam via a prop `sx={...}`, evitando a proliferação excessiva de arquivos CSS separados e garantindo um visual coeso de E-Commerce (similar a Amazon) em toda iteração do layout.
-*   **Uso de Hooks Nativos:** Em vez de classes, o estado e ciclo de vida interativo é gerenciado predominantemente pelo uso de Hooks nativos do **React v18**, notoriamente `useState` e, quando necessário de forma estendida, contextos ou reducers.
+- **Componentização por propósito:** Um componente por arquivo, nomeado de forma idêntica ao export.
+- **Separação de Responsabilidades:** Lógica de estado no `App.jsx` (container), apresentação nos componentes filhos (props + callbacks).
+- **Context API:** `LanguageContext` e `DatabaseContext` para estados verdadeiramente globais.
+- **Hooks nativos:** `useState`, `useEffect`, `useContext`, `useParams`, `useNavigate` — sem bibliotecas de estado externo.
+- **IDs semânticos em componentes:** Cada `Box` (MuiBox-root) possui um `id` descritivo para facilitar testes automatizados com Playwright ou ferramentas similares.
 
-## ⚙️ Configurações do Projeto e Como Rodar
+---
 
-Este projeto foi inicializado utilizando o **Vite**, que oferece um tempo de boot quase instantâneo do servidor e *Hot Module Replacement (HMR)* super rápido, com configuração no `vite.config.js`.
+## ⚙️ Como Rodar
 
 ### Pré-requisitos
-*   [Node.js](https://nodejs.org/) (versão LTS recomendada: 18.x ou 20.x+)
-*   NPM, Yarn ou PNPM instalados na máquina.
+- [Node.js](https://nodejs.org/) 18.x ou 20.x+
+- NPM ou Yarn
 
-### Instalação e Execução
+### Instalação
 
-1. **Clone do repositório** (se aplicável):
-   ```bash
-   git clone <URL_DO_REPOSITORIO>
-   cd tester.com
-   ```
+```bash
+git clone <URL_DO_REPOSITORIO>
+cd tester.com
+npm install
+```
 
-2. **Instalar Dependências:**
-   Instale todas as dependências listadas no `package.json` utilizando seu gerenciador de pacotes:
-   ```bash
-   npm install
-   # ou
-   yarn install
-   ```
+### Desenvolvimento (HMR)
 
-3. **Ambiente de Desenvolvimento (Start):**
-   Inicie o servidor de desenvolvimento do Vite executando o comando abaixo. Ele será iniciado geralmente na porta `http://localhost:5173`.
-   ```bash
-   npm run dev
-   # ou
-   yarn dev
-   ```
+```bash
+npm run dev
+# Acesse: http://localhost:5173
+```
 
-4. **Gerar Versão de Produção (Build):**
-   Para preparar os arquivos minimificados e otimizados para deploy:
-   ```bash
-   npm run build
-   ```
-   *Os arquivos ficarão disponíveis na pasta `dist/`.*
+### Build de Produção
 
-### Principais Dependências Catalogadas
-*   `react` & `react-dom`
-*   `react-router-dom` (Roteamento SPA)
-*   `@mui/material`, `@mui/icons-material`, `@emotion/react`, `@emotion/styled` (Design System)
-*   `sql.js` (Core do SQLite via WebAssembly rodando diretamente no Front-end)
-*   `react-toastify` (Alertas Otimizados)
-*   `vite` & `@vitejs/plugin-react` (Build Toolchain)
+```bash
+npm run build
+npm run preview
+# Acesse: http://localhost:4173
+```
+
+### Dependências Principais
+
+| Dependência | Função |
+|---|---|
+| `react` + `react-dom` | Core da UI |
+| `react-router-dom` | Roteamento SPA (catálogo, produto, carrinho) |
+| `@mui/material` + `@mui/icons-material` | Design System / componentes visuais |
+| `@emotion/react` + `@emotion/styled` | Engine de CSS-in-JS do MUI |
+| `sql.js` | SQLite via WebAssembly no browser |
+| `react-toastify` | Notificações toast |
+| `vite` + `@vitejs/plugin-react` | Build tool e servidor de desenvolvimento |
