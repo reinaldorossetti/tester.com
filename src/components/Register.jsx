@@ -37,6 +37,12 @@ import { registerUser } from "../db/database";
 
 // ─── Validation helpers ──────────────────────────────────────────────────────
 
+/**
+ * Validates a Brazilian CPF number using the official two-digit verification algorithm.
+ *
+ * @param {string} cpf - Raw CPF string (may contain dots and hyphens).
+ * @returns {boolean} `true` if the CPF is structurally valid.
+ */
 const validateCPF = (cpf) => {
   const digits = cpf.replace(/\D/g, "");
   if (digits.length !== 11) return false;
@@ -53,6 +59,12 @@ const validateCPF = (cpf) => {
   return r === parseInt(digits[10]);
 };
 
+/**
+ * Validates a Brazilian CNPJ number using the official two-digit verification algorithm.
+ *
+ * @param {string} cnpj - Raw CNPJ string (may contain punctuation).
+ * @returns {boolean} `true` if the CNPJ is structurally valid.
+ */
 const validateCNPJ = (cnpj) => {
   const digits = cnpj.replace(/\D/g, "");
   if (digits.length !== 14) return false;
@@ -72,10 +84,21 @@ const validateCNPJ = (cnpj) => {
   );
 };
 
+/**
+ * Validates an email address using a simple RFC-compliant pattern.
+ *
+ * @param {string} email
+ * @returns {boolean}
+ */
 const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
 // ─── Mask helpers ────────────────────────────────────────────────────────────
 
+/**
+ * Applies the CPF input mask (`000.000.000-00`), stripping non-digits first.
+ * @param {string} v - Raw input value.
+ * @returns {string} Masked CPF string.
+ */
 const maskCPF = (v) =>
   v
     .replace(/\D/g, "")
@@ -84,6 +107,11 @@ const maskCPF = (v) =>
     .replace(/(\d{3})(\d)/, "$1.$2")
     .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
 
+/**
+ * Applies the CNPJ input mask (`00.000.000/0000-00`), stripping non-digits first.
+ * @param {string} v - Raw input value.
+ * @returns {string} Masked CNPJ string.
+ */
 const maskCNPJ = (v) =>
   v
     .replace(/\D/g, "")
@@ -93,6 +121,11 @@ const maskCNPJ = (v) =>
     .replace(/(\d{3})(\d{1,4})/, "$1/$2")
     .replace(/(\d{4})(\d{1,2})$/, "$1-$2");
 
+/**
+ * Applies the Brazilian phone number mask (`(00) 00000-0000`).
+ * @param {string} v - Raw input value.
+ * @returns {string} Masked phone string.
+ */
 const maskPhone = (v) =>
   v
     .replace(/\D/g, "")
@@ -100,6 +133,11 @@ const maskPhone = (v) =>
     .replace(/(\d{2})(\d)/, "($1) $2")
     .replace(/(\d{5})(\d{1,4})$/, "$1-$2");
 
+/**
+ * Applies the CEP (postal code) input mask (`00000-000`).
+ * @param {string} v - Raw input value.
+ * @returns {string} Masked CEP string.
+ */
 const maskCEP = (v) =>
   v
     .replace(/\D/g, "")
@@ -108,6 +146,14 @@ const maskCEP = (v) =>
 
 // ─── Password strength ───────────────────────────────────────────────────────
 
+/**
+ * Calculates a password strength score based on length, uppercase letters,
+ * digits, and special characters.
+ *
+ * @param {string} pwd - The password to evaluate.
+ * @returns {{ label: string, color: 'error'|'warning'|'info'|'success' }}
+ *   An object suitable for rendering as an MUI `<Chip>` with a colour prop.
+ */
 const passwordStrength = (pwd) => {
   let score = 0;
   if (pwd.length >= 8) score++;
@@ -176,6 +222,13 @@ const Register = () => {
 
   // ─── CEP lookup ─────────────────────────────────────────────────────────────
 
+  /**
+   * Handles CEP field changes: applies the mask, and — once 8 digits are
+   * entered — calls the ViaCEP API to auto-populate address fields.
+   *
+   * @param {string} raw - Raw value from the CEP input.
+   * @returns {Promise<void>}
+   */
   const handleCEP = async (raw) => {
     const masked = maskCEP(raw);
     set("addressZip", masked);
@@ -210,6 +263,13 @@ const Register = () => {
 
   // ─── Validation per step ────────────────────────────────────────────────────
 
+  /**
+   * Validates all fields in step 0 (personal data).
+   * Updates the `errors` state with per-field messages and returns a boolean
+   * indicating whether the step is valid.
+   *
+   * @returns {boolean} `true` if all required fields are valid.
+   */
   const validateStep0 = () => {
     const errs = { ...initialErrors };
     let ok = true;
@@ -234,6 +294,13 @@ const Register = () => {
     return ok;
   };
 
+  /**
+   * Validates all fields in step 1 (address & documents).
+   * Updates the `errors` state with per-field messages and returns a boolean
+   * indicating whether the step is valid.
+   *
+   * @returns {boolean} `true` if all required fields are valid.
+   */
   const validateStep1 = () => {
     const errs = { ...errors };
     let ok = true;
@@ -260,6 +327,15 @@ const Register = () => {
 
   // ─── Submit ─────────────────────────────────────────────────────────────────
 
+  /**
+   * Form submission handler (step 1). Validates address fields, then calls
+   * {@link registerUser} with the collected form data. On success shows a
+   * toast and redirects to the home page after 2 seconds. On failure
+   * (e.g. duplicate email/CPF) shows the server error message as a toast.
+   *
+   * @param {React.FormEvent<HTMLFormElement>} e
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateStep1()) return;

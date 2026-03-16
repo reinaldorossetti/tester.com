@@ -3,28 +3,28 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 const translations = {
   pt: {
     // NavBar
-    "nav.logo": "tester<Box id=\"nav-logo-span\" component=\"span\" sx={{ color: \"#ff9900\", fontSize: \"1.2rem\", ml: \"1px\" }}>.com</Box>",
+    "nav.logo": "amazonQA<Box id=\"nav-logo-span\" component=\"span\" sx={{ color: \"#ff9900\", fontSize: \"1.2rem\", ml: \"1px\" }}>.com</Box>",
     "nav.browse": "Navegue pelo",
     "nav.catalog": "Catálogo",
     "nav.all": "Todos ▾",
-    "nav.search_placeholder": "Pesquisa tester.com",
+    "nav.search_placeholder": "Pesquisa amazonQA.com",
     "nav.cart": "Carrinho",
     "nav.new_customer": "Cliente novo?",
     "nav.start_here": "Comece aqui.",
     "nav.hello": "Olá,",
     "nav.logout_tooltip": "Sair",
-    
+
     // Catalog
     "catalog.title": "Catálogo de Produtos",
     "catalog.products_found": "{count} produto{plural} encontrado{plural}",
     "catalog.search_placeholder": "Pesquisar produtos...",
     "catalog.all_categories": "Todos",
     "catalog.no_products": "Nenhum produto encontrado.",
-    
+
     // Product
     "product.add_to_cart": "Adicionar ao Carrinho",
     "product.in_stock": "Em estoque",
-    
+
     // Cart
     "cart.title": "Meu Carrinho",
     "cart.empty_title": "Seu carrinho está vazio",
@@ -36,22 +36,22 @@ const translations = {
     "cart.free": "Grátis",
     "cart.total": "Total",
     "cart.continue_shopping": "Continuar comprando",
-    
+
     // Cart Item
     "cart_item.qty": "Qtd:",
     "cart_item.delete": "Excluir",
-    
+
     // Checkout Button
     "checkout.button": "Fechar Pedido",
     "checkout.processing": "Processando...",
     "checkout.toast.empty": "O carrinho está vazio.",
     "checkout.toast.error": "Erro no checkout",
-    
+
     // App (Toast messages)
     "app.toast.qty_updated": "Quantidade atualizada: {name}",
     "app.toast.added": "{name} adicionado ao carrinho!",
     "app.toast.removed": "{name} removido do carrinho.",
-    
+
     // Thank You
     "thank_you.title": "Obrigado pela sua compra!",
     "thank_you.subtitle": "Seu pedido foi processado e já estamos preparando para envio.",
@@ -73,28 +73,28 @@ const translations = {
   },
   en: {
     // NavBar
-    "nav.logo": "tester<Box id=\"nav-logo-span\" component=\"span\" sx={{ color: \"#ff9900\", fontSize: \"1.2rem\", ml: \"1px\" }}>.com</Box>",
+    "nav.logo": "amazonQA<Box id=\"nav-logo-span\" component=\"span\" sx={{ color: \"#ff9900\", fontSize: \"1.2rem\", ml: \"1px\" }}>.com</Box>",
     "nav.browse": "Browse",
     "nav.catalog": "Catalog",
     "nav.all": "All ▾",
-    "nav.search_placeholder": "Search tester.com",
+    "nav.search_placeholder": "Search amazonQA.com",
     "nav.cart": "Cart",
     "nav.new_customer": "New here?",
     "nav.start_here": "Start here.",
     "nav.hello": "Hello,",
     "nav.logout_tooltip": "Sign out",
-    
+
     // Catalog
     "catalog.title": "Product Catalog",
     "catalog.products_found": "{count} product{plural} found",
     "catalog.search_placeholder": "Search products...",
     "catalog.all_categories": "All",
     "catalog.no_products": "No products found.",
-    
+
     // Product
     "product.add_to_cart": "Add to Cart",
     "product.in_stock": "In Stock",
-    
+
     // Cart
     "cart.title": "Shopping Cart",
     "cart.empty_title": "Your cart is empty",
@@ -106,22 +106,22 @@ const translations = {
     "cart.free": "Free",
     "cart.total": "Total",
     "cart.continue_shopping": "Continue shopping",
-    
+
     // Cart Item
     "cart_item.qty": "Qty:",
     "cart_item.delete": "Delete",
-    
+
     // Checkout Button
     "checkout.button": "Proceed to Checkout",
     "checkout.processing": "Processing...",
     "checkout.toast.empty": "Cart is empty.",
     "checkout.toast.error": "Checkout error",
-    
+
     // App (Toast messages)
     "app.toast.qty_updated": "Quantity updated: {name}",
     "app.toast.added": "{name} added to cart!",
     "app.toast.removed": "{name} removed from cart.",
-    
+
     // Thank You
     "thank_you.title": "Thank you for your purchase!",
     "thank_you.subtitle": "Your order has been processed and is being prepared for shipping.",
@@ -159,6 +159,12 @@ export const LanguageProvider = ({ children }) => {
     }
   }, []);
 
+  /**
+   * Toggles the active language between `'pt'` (Portuguese) and `'en'` (English).
+   * The selection is persisted to `localStorage` under the key `'app_language'`.
+   *
+   * @returns {void}
+   */
   const toggleLanguage = () => {
     setLanguage((prevLang) => {
       const newLang = prevLang === "pt" ? "en" : "pt";
@@ -167,22 +173,38 @@ export const LanguageProvider = ({ children }) => {
     });
   };
 
+  /**
+   * Sets the application language explicitly.
+   * No-op if `lang` is not a supported locale key.
+   *
+   * @param {'pt'|'en'} lang - The locale to activate.
+   * @returns {void}
+   */
   const setAppLanguage = (lang) => {
-     if(translations[lang]) {
-         setLanguage(lang);
-         localStorage.setItem("app_language", lang);
-     }
-  }
+    if (translations[lang]) {
+      setLanguage(lang);
+      localStorage.setItem("app_language", lang);
+    }
+  };
 
-  // Helper function to translate keys
+  /**
+   * Translates a dot-notation key to the active locale string.
+   * Supports simple named parameter interpolation via `{paramName}` placeholders.
+   * Falls back to the raw key if no translation is found.
+   *
+   * @param {string}  key    - Translation key (e.g. `'nav.cart'`).
+   * @param {Object}  [params={}] - Optional map of placeholder values.
+   * @returns {string} The translated (and interpolated) string.
+   *
+   * @example
+   * t('catalog.products_found', { count: 5, plural: 's' })
+   * // => '5 produtos encontrados'
+   */
   const t = (key, params = {}) => {
     let text = translations[language][key] || key;
-    
-    // Replace parameters
-    Object.keys(params).forEach(param => {
+    Object.keys(params).forEach((param) => {
       text = text.replace(new RegExp(`{${param}}`, 'g'), params[param]);
     });
-    
     return text;
   };
 
@@ -193,6 +215,14 @@ export const LanguageProvider = ({ children }) => {
   );
 };
 
+/**
+ * Custom hook that returns the current language context value.
+ *
+ * Must be called from a component rendered inside {@link LanguageProvider}.
+ *
+ * @returns {{ language: string, toggleLanguage: function, setAppLanguage: function, t: function }}
+ * @throws {Error} If called outside a `LanguageProvider` tree.
+ */
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (!context) {

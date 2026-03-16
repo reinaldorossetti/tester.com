@@ -37,6 +37,18 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Handles the login form submission.
+   *
+   * Looks up the email in the database via {@link getUserByEmail}, then
+   * compares the provided password against the stored value. On success,
+   * calls {@link AuthContext.login} to persist the session and redirects
+   * the user to `nextPath` (from the `?next=` query parameter, defaulting
+   * to `'/'`).
+   *
+   * @param {React.FormEvent<HTMLFormElement>} e
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -239,7 +251,7 @@ const Login = () => {
 
             <Divider sx={{ my: 2.5 }}>
               <Typography variant="caption" color="text.secondary">
-                Novo no tester.com?
+                Novo no amazonQA.com?
               </Typography>
             </Divider>
 

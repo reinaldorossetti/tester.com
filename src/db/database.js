@@ -1,36 +1,45 @@
 import initSqlJs from 'sql.js';
 import productsMock from '../data/products_mock.json';
 
+/** @type {Promise<import('sql.js').Database> | null} Singleton promise for the DB instance. */
 let dbPromise = null;
 
+/**
+ * Bootstraps the in-browser SQLite database.
+ *
+ * Attempts to rehydrate a previously persisted database from localStorage.
+ * If none exists (or if the stored data is corrupt), a fresh database is
+ * created. Both the `products` and `users` tables are created if they do
+ * not already exist, and every product from the mock JSON is upserted so
+ * the catalog is always up-to-date.
+ *
+ * @returns {Promise<import('sql.js').Database>} Resolved database instance.
+ */
 const createDatabase = async () => {
-    // 1. Load the WebAssembly module
     const SQL = await initSqlJs({
-        // This URLs assumes we copied sql-wasm.wasm to public/ (which we did)
-        locateFile: file => `/${file}`
+        locateFile: (file) => `/${file}`,
     });
 
-    // 2. Load existing DB from localStorage or create a fresh one
+    // Rehydrate from localStorage or create a fresh instance
     const savedDb = localStorage.getItem('sqlite_db');
     let db;
     if (savedDb) {
         try {
             const binaryString = atob(savedDb);
-            const binaryLen = binaryString.length;
-            const bytes = new Uint8Array(binaryLen);
-            for (let i = 0; i < binaryLen; i++) {
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
                 bytes[i] = binaryString.charCodeAt(i);
             }
             db = new SQL.Database(bytes);
-        } catch(e) {
-            console.error("Failed to load saved DB, creating a new one", e);
+        } catch (e) {
+            console.error('[DB] Failed to restore saved database — creating a fresh one.', e);
             db = new SQL.Database();
         }
     } else {
         db = new SQL.Database();
     }
-    
-    // 3. Create products table
+
+    // Products table
     db.run(`
         CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY,
@@ -45,7 +54,7 @@ const createDatabase = async () => {
         );
     `);
 
-    // 3b. Create users table
+    // Users table – supports Pessoa Física (CPF) and Pessoa Jurídica (CNPJ)
     db.run(`
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -70,58 +79,71 @@ const createDatabase = async () => {
         );
     `);
 
-    // 4. Sync mock data to ensure any new products added to the JSON are inserted
+    // Upsert all mock products so the catalog is always current
     const stmt = db.prepare(`
-        INSERT INTO products (id, name, price, description, category, image, manufacturer, line, model) 
+        INSERT INTO products (id, name, price, description, category, image, manufacturer, line, model)
         VALUES ($id, $name, $price, $description, $category, $image, $manufacturer, $line, $model)
         ON CONFLICT(id) DO UPDATE SET
-            name = excluded.name,
-            price = excluded.price,
-            description = excluded.description,
-            category = excluded.category,
-            image = excluded.image,
+            name         = excluded.name,
+            price        = excluded.price,
+            description  = excluded.description,
+            category     = excluded.category,
+            image        = excluded.image,
             manufacturer = excluded.manufacturer,
-            line = excluded.line,
-            model = excluded.model
+            line         = excluded.line,
+            model        = excluded.model
     `);
-    
-    db.run("BEGIN TRANSACTION;");
-    let addedCount = 0;
-    productsMock.forEach(p => {
-        // Checking if product exists theoretically not needed with IGNORE, but we can track if we need to save
+
+    db.run('BEGIN TRANSACTION;');
+    productsMock.forEach((p) => {
         stmt.run({
-            $id: p.id,
-            $name: p.name,
-            $price: p.price,
-            $description: p.description,
-            $category: p.category,
-            $image: p.image,
+            $id:           p.id,
+            $name:         p.name,
+            $price:        p.price,
+            $description:  p.description,
+            $category:     p.category,
+            $image:        p.image,
             $manufacturer: p.manufacturer || null,
-            $line: p.line || null,
-            $model: p.model || null
+            $line:         p.line         || null,
+            $model:        p.model        || null,
         });
     });
-    db.run("COMMIT;");
+    db.run('COMMIT;');
     stmt.free();
-    
-    // Always resave to sync in case new products were ignored/inserted
-    saveDatabase(db);
 
+    saveDatabase(db);
     return db;
 };
 
-// 5. Utility to Save DB to LocalStorage (since this is an in-memory SQLite setup in the browser)
+/**
+ * Serialises the in-memory SQLite database to a Base-64 string and writes
+ * it to localStorage under the key `'sqlite_db'`.
+ *
+ * Uses `Uint8Array.reduce` with `String.fromCharCode` in chunks to avoid
+ * call-stack overflows that can occur when spreading very large arrays into
+ * `String.fromCharCode`.
+ *
+ * @param {import('sql.js').Database} db - The SQL.js database instance to persist.
+ * @returns {void}
+ */
 export const saveDatabase = (db) => {
     const binaryArray = db.export();
-    const binaryLen = binaryArray.byteLength;
-    let binaryString = "";
-    for (let i = 0; i < binaryLen; i++) {
-        binaryString += String.fromCharCode(binaryArray[i]);
+    // Process in chunks to avoid call-stack limits on large databases
+    const CHUNK = 8192;
+    let binaryString = '';
+    for (let i = 0; i < binaryArray.length; i += CHUNK) {
+        binaryString += String.fromCharCode(...binaryArray.subarray(i, i + CHUNK));
     }
-    const base64String = btoa(binaryString);
-    localStorage.setItem('sqlite_db', base64String);
+    localStorage.setItem('sqlite_db', btoa(binaryString));
 };
 
+/**
+ * Returns a singleton promise that resolves to the active database instance.
+ * Initialises the database on first call; subsequent calls return the cached
+ * promise without re-running the bootstrap logic.
+ *
+ * @returns {Promise<import('sql.js').Database>}
+ */
 export const getDatabase = () => {
     if (!dbPromise) {
         dbPromise = createDatabase();
@@ -129,31 +151,35 @@ export const getDatabase = () => {
     return dbPromise;
 };
 
-// Helper: Get all products
+/**
+ * Fetches all products from the database, sorted alphabetically by name.
+ *
+ * @returns {Promise<Object[]>} Array of product row objects.
+ *   Each object has keys matching the `products` table columns.
+ */
 export const getProducts = async () => {
     const db = await getDatabase();
-    const res = db.exec("SELECT * FROM products ORDER BY name ASC");
+    const res = db.exec('SELECT * FROM products ORDER BY name ASC');
     if (res.length === 0) return [];
-    
-    // Convert SQL.js result payload back to array of objects
-    const columns = res[0].columns;
-    const values = res[0].values;
-    
-    return values.map(row => {
-        let obj = {};
-        columns.forEach((col, idx) => {
-            obj[col] = row[idx];
-        });
-        return obj;
-    });
+
+    const { columns, values } = res[0];
+    return values.map((row) =>
+        Object.fromEntries(columns.map((col, idx) => [col, row[idx]]))
+    );
 };
 
-// Helper: Get single product by ID
+/**
+ * Fetches a single product by its numeric ID.
+ *
+ * @param {number|string} id - The product ID to look up.
+ * @returns {Promise<Object|null>} The matching product row object, or `null`
+ *   if no product with the given ID exists.
+ */
 export const getProductById = async (id) => {
     const db = await getDatabase();
-    const stmt = db.prepare("SELECT * FROM products WHERE id = :id");
-    stmt.bind({":id": Number(id)});
-    
+    const stmt = db.prepare('SELECT * FROM products WHERE id = :id');
+    stmt.bind({ ':id': Number(id) });
+
     if (stmt.step()) {
         const result = stmt.getAsObject();
         stmt.free();
@@ -163,35 +189,67 @@ export const getProductById = async (id) => {
     return null;
 };
 
-// Helper: Register a new user
+/**
+ * Registers a new user in the `users` table.
+ *
+ * Performs uniqueness validation for email, CPF (Pessoa Física), and CNPJ
+ * (Pessoa Jurídica) before inserting. CPF and CNPJ are stored as digit-only
+ * strings (masks stripped). The database is persisted to localStorage after
+ * a successful insert.
+ *
+ * @security Passwords are stored as plain text in this demo project.
+ *   In a production environment, always hash passwords with a strong
+ *   algorithm (e.g. bcrypt / argon2) before persisting them.
+ *
+ * @param {Object} userData - User data payload.
+ * @param {string} userData.person_type - `'PF'` (individual) or `'PJ'` (company).
+ * @param {string} userData.first_name
+ * @param {string} userData.last_name
+ * @param {string} userData.email - Must be unique across all users.
+ * @param {string} [userData.phone]
+ * @param {string} userData.password - Plain-text password (see @security note).
+ * @param {string|null} [userData.cpf] - Required for PF; stored without mask.
+ * @param {string|null} [userData.cnpj] - Required for PJ; stored without mask.
+ * @param {string|null} [userData.company_name] - Required for PJ.
+ * @param {string} [userData.address_zip]
+ * @param {string} [userData.address_street]
+ * @param {string} [userData.address_number]
+ * @param {string} [userData.address_complement]
+ * @param {string} [userData.address_neighborhood]
+ * @param {string} [userData.address_city]
+ * @param {string} [userData.address_state]
+ * @param {string|null} [userData.residence_proof_filename]
+ * @throws {Error} If email, CPF, or CNPJ is already registered.
+ * @returns {Promise<void>}
+ */
 export const registerUser = async (userData) => {
     const db = await getDatabase();
 
-    // Check unique email
-    const emailStmt = db.prepare("SELECT id FROM users WHERE email = :email");
+    // Uniqueness check — email
+    const emailStmt = db.prepare('SELECT id FROM users WHERE email = :email');
     emailStmt.bind({ ':email': userData.email });
     const emailExists = emailStmt.step();
     emailStmt.free();
-    if (emailExists) throw new Error("Este e-mail já está cadastrado.");
+    if (emailExists) throw new Error('Este e-mail já está cadastrado.');
 
-    // Check unique CPF (PF only)
+    // Uniqueness check — CPF (PF only)
     if (userData.cpf) {
         const cpfDigits = userData.cpf.replace(/\D/g, '');
-        const cpfStmt = db.prepare("SELECT id FROM users WHERE cpf = :cpf");
+        const cpfStmt = db.prepare('SELECT id FROM users WHERE cpf = :cpf');
         cpfStmt.bind({ ':cpf': cpfDigits });
         const cpfExists = cpfStmt.step();
         cpfStmt.free();
-        if (cpfExists) throw new Error("Este CPF já está cadastrado.");
+        if (cpfExists) throw new Error('Este CPF já está cadastrado.');
     }
 
-    // Check unique CNPJ (PJ only)
+    // Uniqueness check — CNPJ (PJ only)
     if (userData.cnpj) {
         const cnpjDigits = userData.cnpj.replace(/\D/g, '');
-        const cnpjStmt = db.prepare("SELECT id FROM users WHERE cnpj = :cnpj");
+        const cnpjStmt = db.prepare('SELECT id FROM users WHERE cnpj = :cnpj');
         cnpjStmt.bind({ ':cnpj': cnpjDigits });
         const cnpjExists = cnpjStmt.step();
         cnpjStmt.free();
-        if (cnpjExists) throw new Error("Este CNPJ já está cadastrado.");
+        if (cnpjExists) throw new Error('Este CNPJ já está cadastrado.');
     }
 
     const insertStmt = db.prepare(`
@@ -211,32 +269,39 @@ export const registerUser = async (userData) => {
     `);
 
     insertStmt.run({
-        ':person_type': userData.person_type,
-        ':first_name': userData.first_name,
-        ':last_name': userData.last_name,
-        ':email': userData.email,
-        ':phone': userData.phone || null,
-        ':password': userData.password, // In production, hash before storing
-        ':cpf': userData.cpf ? userData.cpf.replace(/\D/g, '') : null,
-        ':cnpj': userData.cnpj ? userData.cnpj.replace(/\D/g, '') : null,
-        ':company_name': userData.company_name || null,
-        ':address_zip': userData.address_zip || null,
-        ':address_street': userData.address_street || null,
-        ':address_number': userData.address_number || null,
-        ':address_complement': userData.address_complement || null,
-        ':address_neighborhood': userData.address_neighborhood || null,
-        ':address_city': userData.address_city || null,
-        ':address_state': userData.address_state || null,
+        ':person_type':              userData.person_type,
+        ':first_name':               userData.first_name,
+        ':last_name':                userData.last_name,
+        ':email':                    userData.email,
+        ':phone':                    userData.phone                    || null,
+        ':password':                 userData.password,
+        ':cpf':                      userData.cpf   ? userData.cpf.replace(/\D/g, '')   : null,
+        ':cnpj':                     userData.cnpj  ? userData.cnpj.replace(/\D/g, '')  : null,
+        ':company_name':             userData.company_name             || null,
+        ':address_zip':              userData.address_zip              || null,
+        ':address_street':           userData.address_street           || null,
+        ':address_number':           userData.address_number           || null,
+        ':address_complement':       userData.address_complement       || null,
+        ':address_neighborhood':     userData.address_neighborhood     || null,
+        ':address_city':             userData.address_city             || null,
+        ':address_state':            userData.address_state            || null,
         ':residence_proof_filename': userData.residence_proof_filename || null,
     });
     insertStmt.free();
     saveDatabase(db);
 };
 
-// Helper: Get user by email (for future login)
+/**
+ * Retrieves a user record by email address. Used primarily during login to
+ * verify credentials.
+ *
+ * @param {string} email - The email address to search for (case-sensitive).
+ * @returns {Promise<Object|null>} The matching user row object, or `null` if
+ *   no user with the given email exists.
+ */
 export const getUserByEmail = async (email) => {
     const db = await getDatabase();
-    const stmt = db.prepare("SELECT * FROM users WHERE email = :email");
+    const stmt = db.prepare('SELECT * FROM users WHERE email = :email');
     stmt.bind({ ':email': email });
     if (stmt.step()) {
         const result = stmt.getAsObject();
@@ -246,4 +311,3 @@ export const getUserByEmail = async (email) => {
     stmt.free();
     return null;
 };
-
