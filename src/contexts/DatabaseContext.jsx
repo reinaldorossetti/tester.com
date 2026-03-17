@@ -17,10 +17,7 @@ export const DatabaseProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Start the worker immediately
-        initDatabase();
-
-        // Use a lightweight ping (getProducts) to detect when the DB is ready
+        // Use a lightweight ping (getProducts) to detect when the API is ready
         getProducts()
             .then(() => setReady(true))
             .catch((err) => {

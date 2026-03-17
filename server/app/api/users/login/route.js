@@ -30,7 +30,8 @@ export async function POST(request) {
         }
 
         // Return user without the password field
-        const { password: _pw, ...safeUser } = user;
+        const safeUser = { ...user };
+        delete safeUser.password;
         return NextResponse.json(safeUser);
     } catch (err) {
         console.error('[POST /api/users/login]', err.message);

@@ -3,8 +3,11 @@
  *
  * Reads DATABASE_URL from environment (set in .env.local for dev,
  * or via the container env in production).
- */
-import { Pool } from 'pg';
+/* global process */
+import { Pool, types } from 'pg';
+
+// Parse NUMERIC (OID 1700) as float instead of string
+types.setTypeParser(1700, (val) => parseFloat(val));
 
 let pool;
 
