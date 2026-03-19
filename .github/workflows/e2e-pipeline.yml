@@ -86,7 +86,7 @@ jobs:
         run: npx wait-on --timeout 180000 http://127.0.0.1:5174
 
       - name: Run E2E tests
-        run: npm run test:e2e:ci
+        run: xvfb-run --auto-servernum npx playwright test
 
       - name: Upload Playwright report
         if: always()
