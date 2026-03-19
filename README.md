@@ -2,8 +2,10 @@
 
 Aplicação de e-commerce completa construída com **React + Vite** no frontend e **Next.js + PostgreSQL** no backend, com design visual inspirado na Amazon. Inclui catálogo de produtos, sistema de login/cadastro de usuários, gestão de carrinho e internacionalização PT/EN.
 
----
+Piramide de Testes Automatizados  
 
+E2E Testes:  
+https://reinaldorossetti.github.io/tester.com/playwright-reports/  
 
 ---
 
