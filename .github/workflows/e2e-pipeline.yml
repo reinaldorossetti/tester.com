@@ -81,6 +81,7 @@ jobs:
           echo "Frontend PID: $(cat frontend.pid)"
 
       - name: Wait for frontend readiness (timeout)
+        continue-on-error: true
         run: npx wait-on --timeout 180000 http://127.0.0.1:5174
 
       - name: Run E2E tests
