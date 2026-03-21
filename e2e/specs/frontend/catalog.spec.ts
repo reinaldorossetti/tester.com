@@ -79,4 +79,29 @@ test.describe('Catalog Page', () => {
     await expect(page).toHaveURL(/\/product\/1$/);
     await expect(page.locator(selectors.productDetails.image)).toBeVisible();
   });
+
+  /**
+   * Validates search context persistence across navigation.
+   * Expected behavior: after filtering catalog, opening product details and returning,
+   * search term and filtered result set should remain the same.
+   */
+  test('TS06 should preserve search filter after navigating to details and back', async ({ page, waitForPageLoad }) => {
+    await waitForPageLoad(page, 'catalog');
+    await page.fill(selectors.nav.searchInput, 'Smartphone');
+
+    await expect(page.locator(selectors.catalog.productImageById(2))).toBeVisible();
+    await expect(page.locator(selectors.catalog.productImageById(1))).toHaveCount(0);
+
+    await page.locator(selectors.catalog.productImageById(2)).click();
+    await expect(page).toHaveURL(/\/product\/2$/);
+    await waitForPageLoad(page, 'productDetails');
+
+    await page.getByRole('button', { name: /Voltar|Back/i }).first().click();
+    await expect(page).toHaveURL('/');
+    await waitForPageLoad(page, 'catalog');
+
+    await expect(page.locator(selectors.nav.searchInput)).toHaveValue('Smartphone');
+    await expect(page.locator(selectors.catalog.productImageById(2))).toBeVisible();
+    await expect(page.locator(selectors.catalog.productImageById(1))).toHaveCount(0);
+  });
 });

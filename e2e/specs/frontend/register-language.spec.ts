@@ -5,6 +5,16 @@ import { expect, test } from '../../fixtures/ui.fixture';
 import { RegisterPage } from '../../helpers/RegisterPage';
 
 test.describe('Register and Language', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.route('**/api/products**', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(mockProducts),
+      });
+    });
+  });
+
   test('TS01 registro PF completo com sucesso', async ({ page, waitForPageLoad }) => {
     const registerPage = new RegisterPage(page);
     const userData = await registerPage.fillRegistrationForm();
@@ -53,14 +63,6 @@ test.describe('Register and Language', () => {
   });
 
   test('TS01/TS02 idioma alterna e persiste após reload', async ({ page, waitForPageLoad }) => {
-    await page.route('**/api/products**', async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(mockProducts),
-      });
-    });
-
     await page.goto('/');
     await waitForPageLoad(page, 'catalog');
 
@@ -71,5 +73,23 @@ test.describe('Register and Language', () => {
 
     await page.reload();
     await expect(page.getByRole('heading', { name: 'Product Catalog' })).toBeVisible();
+  });
+
+  /**
+   * Validates i18n consistency for cart empty-state content.
+   * Expected behavior: after switching to English, cart page should show
+   * English title and empty-cart texts.
+   */
+  test('TS04 should render cart empty-state content in English after language toggle', async ({ page, waitForPageLoad }) => {
+    await page.goto('/');
+    await waitForPageLoad(page, 'catalog');
+
+    await page.locator(selectors.nav.languageToggle).click();
+    await expect(page.getByRole('heading', { name: 'Product Catalog' })).toBeVisible();
+
+    await page.goto('/cart');
+    await expect(page.getByRole('heading', { name: 'Shopping Cart' })).toBeVisible();
+    await expect(page.locator('body')).toContainText('Your cart is empty');
+    await expect(page.locator('body')).toContainText('Add products from the catalog to get started.');
   });
 });

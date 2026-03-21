@@ -225,4 +225,62 @@ test.describe('Cart and Checkout', () => {
     await expect(page.locator('body')).toContainText(/Seu carrinho está vazio|Your cart is empty/i);
     await expect(page.locator('body')).toContainText(/Ir ao Catálogo|Go to Catalog/i);
   });
+
+  /**
+   * Validates post-checkout cart cleanup behavior.
+   * Expected behavior: after completing checkout and leaving thank-you page,
+   * the cart should be empty and badge should be reset.
+   */
+  test('TS11 should clear cart after successful checkout when leaving thank-you page', async ({ page, waitForPageLoad }) => {
+    await setAuthenticatedUser(page, {
+      id: 202,
+      name: 'Alice',
+      lastName: 'Tester',
+      email: 'alice@example.com',
+      personType: 'PF',
+    });
+
+    await openCartWithOneItem(page, waitForPageLoad);
+    await expect(page.locator(selectors.nav.cartBadge)).toContainText('1');
+
+    await page.getByRole('button', { name: /Fechar Pedido|Proceed to Checkout/i }).click();
+    await expect(page).toHaveURL('/thank-you');
+    await waitForPageLoad(page, 'thankYou');
+
+    await page.getByRole('button', { name: /Voltar ao Catálogo|Back to Catalog/i }).click();
+    await expect(page).toHaveURL('/');
+
+    await page.locator(selectors.nav.cartButton).click();
+    await expect(page).toHaveURL('/cart');
+    await expect(page.locator('body')).toContainText(/Seu carrinho está vazio|Your cart is empty/i);
+    await expect(page.locator(selectors.nav.cartBadge)).toContainText('0');
+  });
+
+  /**
+   * Validates that header cart badge decrements after each item deletion.
+   * Expected behavior: badge transitions 3 → 2 → 1 → 0 as items are removed.
+   */
+  test('TS12 should decrement cart badge after each item removal', async ({ page, waitForPageLoad }) => {
+    await page.goto('/');
+    await waitForPageLoad(page, 'catalog');
+
+    const addButtons = page.getByRole('button', { name: /Adicionar ao Carrinho|Add to Cart/i });
+    await addButtons.nth(0).click();
+    await addButtons.nth(1).click();
+    await addButtons.nth(2).click();
+    await expect(page.locator(selectors.nav.cartBadge)).toContainText('3');
+
+    await page.locator(selectors.nav.cartButton).click();
+    await expect(page).toHaveURL('/cart');
+
+    await page.getByRole('button', { name: /delete/i }).first().click();
+    await expect(page.locator(selectors.nav.cartBadge)).toContainText('2');
+
+    await page.getByRole('button', { name: /delete/i }).first().click();
+    await expect(page.locator(selectors.nav.cartBadge)).toContainText('1');
+
+    await page.getByRole('button', { name: /delete/i }).first().click();
+    await expect(page.locator(selectors.nav.cartBadge)).toContainText('0');
+    await expect(page.locator('body')).toContainText(/Seu carrinho está vazio|Your cart is empty/i);
+  });
 });

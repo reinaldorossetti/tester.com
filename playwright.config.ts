@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const isCI = !!(globalThis as { process?: { env?: { CI?: string } } }).process?.env?.CI;
+
 export default defineConfig({
   testDir: './e2e/specs/frontend',
   // Glob patterns or regular expressions to ignore test files.
@@ -9,9 +11,9 @@ export default defineConfig({
     timeout: 15_000,
   },
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 1,
-  workers: process.env.CI ? 3 : '70%',
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 1,
+  workers: isCI ? 3 : 7,
   reporter: [
     ['list'],
     ['html', { open: 'never', outputFolder: 'playwright-report' }],
@@ -22,7 +24,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     actionTimeout: 15_000,
-    navigationTimeout: 30_000,
+    navigationTimeout: 45_000,
   },
   projects: [
     {
@@ -32,7 +34,7 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 },
         baseURL: 'http://localhost:5174',
-        headless: false,
+        headless: isCI,
         screenshot: 'only-on-failure',
       },
     },
@@ -43,7 +45,7 @@ export default defineConfig({
         ...devices['Desktop Safari'],
         viewport: { width: 1920, height: 1080 },
         baseURL: 'http://localhost:5174',
-        headless: false,
+        headless: isCI,
         screenshot: 'only-on-failure',
       },
     },
@@ -54,7 +56,7 @@ export default defineConfig({
         ...devices['Desktop Edge'],
         viewport: { width: 1920, height: 1080 },
         baseURL: 'http://localhost:5174',
-        headless: false,
+        headless: isCI,
         screenshot: 'only-on-failure',
       },
     },

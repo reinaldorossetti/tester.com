@@ -1,6 +1,7 @@
 import { expect, test } from '../../fixtures/ui.fixture';
 import { selectors } from '../../fixtures/selectors/selectors';
 import { mockProducts } from '../../data/products.mock';
+import { setAuthenticatedUser } from '../../helpers/auth';
 
 test.describe('Security / Access Control', () => {
   test.beforeEach(async ({ page }) => {
@@ -42,5 +43,29 @@ test.describe('Security / Access Control', () => {
     // Currently, standard behavior for an unauthenticated user hitting a protected route
     // is to redirect to /login
     await expect(page).toHaveURL(/\/login|^\/$/);
+  });
+
+  /**
+   * Validates that logout removes access to protected routes.
+   * Expected behavior: after logout, direct access to /thank-you redirects to login.
+   */
+  test('SE03 - Should revoke protected access after logout', async ({ page, waitForPageLoad }) => {
+    await setAuthenticatedUser(page, {
+      id: 700,
+      name: 'Security',
+      lastName: 'Tester',
+      email: 'security@example.com',
+      personType: 'PF',
+    });
+
+    await page.goto('/');
+    await waitForPageLoad(page, 'catalog');
+    await expect(page.locator(selectors.nav.userGreeting)).toBeVisible();
+
+    await page.locator(selectors.nav.logoutButton).click();
+    await expect(page.locator(selectors.nav.userGreeting)).not.toBeVisible();
+
+    await page.goto('/thank-you');
+    await expect(page).toHaveURL(/\/login\?next=(%2Fthank-you|\/thank-you)/);
   });
 });
