@@ -8,14 +8,25 @@
 const BASE = '/api';
 
 async function http(method, path, body) {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
+    const isAuthEndpoint = path.startsWith('/users/login') || path.startsWith('/users/register');
+
     const options = {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && !isAuthEndpoint ? { Authorization: `Bearer ${token}` } : {}),
+        },
     };
     if (body !== undefined) options.body = JSON.stringify(body);
 
     const res = await fetch(`${BASE}${path}`, options);
     const data = await res.json().catch(() => ({}));
+
+    if (res.status === 401 && typeof window !== 'undefined') {
+        localStorage.removeItem('auth_user');
+        localStorage.removeItem('auth_token');
+    }
 
     if (!res.ok) {
         throw new Error(data.error || `HTTP ${res.status}`);

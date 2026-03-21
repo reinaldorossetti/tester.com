@@ -35,6 +35,13 @@ export const mockLoggedUser = (firstName: string, email: string) => ({
   person_type: 'PF',
 });
 
+export const mockLoginResponse = (firstName: string, email: string) => ({
+  accessToken: `mock-token-${faker.string.alphanumeric(12)}`,
+  tokenType: 'Bearer',
+  expiresIn: 3600,
+  user: mockLoggedUser(firstName, email),
+});
+
 type LoginFixtures = {
   setupLoginSuccessMock: (page: Page, email?: string, firstName?: string) => Promise<void>;
   setupLoginFailureMock: (page: Page) => Promise<void>;
@@ -50,7 +57,7 @@ export const test = base.extend<LoginFixtures>({
         await route.fulfill({
           status: LOGIN_VALIDATION.httpStatus.ok,
           contentType: 'application/json',
-          body: JSON.stringify(mockLoggedUser(
+          body: JSON.stringify(mockLoginResponse(
             firstName ?? faker.person.firstName(),
             email ?? LOGIN_VALIDATION.testData.validEmail,
           )),

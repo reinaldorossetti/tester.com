@@ -61,14 +61,23 @@ const Login = () => {
 
     setLoading(true);
     try {
-      const dbUser = await loginUser({ email: email.trim().toLowerCase(), password });
+      const loginResponse = await loginUser({ email: email.trim().toLowerCase(), password });
+      const dbUser = loginResponse.user ?? loginResponse;
+      const accessToken = loginResponse.accessToken;
+
+      if (!accessToken) {
+        throw new Error("Resposta de autenticação inválida: token não recebido.");
+      }
 
       login({
-        id: dbUser.id,
-        name: dbUser.first_name,
-        lastName: dbUser.last_name,
-        email: dbUser.email,
-        personType: dbUser.person_type,
+        user: {
+          id: dbUser.id,
+          name: dbUser.first_name,
+          lastName: dbUser.last_name,
+          email: dbUser.email,
+          personType: dbUser.person_type,
+        },
+        accessToken,
       });
 
       toast.success(`Bem-vindo(a) de volta, ${dbUser.first_name}! 👋`);

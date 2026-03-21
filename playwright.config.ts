@@ -3,9 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 const isCI = !!(globalThis as { process?: { env?: { CI?: string } } }).process?.env?.CI;
 
 export default defineConfig({
-  testDir: './e2e/specs/frontend',
-  // Glob patterns or regular expressions to ignore test files.
-  testIgnore: 'api/**/*.spec.ts',
+  testDir: './e2e/specs',
   timeout: 45_000,
   expect: {
     timeout: 15_000,
@@ -64,7 +62,7 @@ export default defineConfig({
       name: 'api',
       testMatch: /api\/.*\.spec\.ts/,
       use: {
-        baseURL: 'http://127.0.0.1:3001/api',
+        baseURL: 'http://127.0.0.1:3001/api/',
       },
     },
   ],

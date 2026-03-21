@@ -20,11 +20,16 @@ test.describe('Login', () => {
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({
-          id: 1,
-          first_name: 'Valid',
-          last_name: 'User',
-          email: 'valid@example.com',
-          person_type: 'PF',
+          accessToken: 'mock-token-valid-user',
+          tokenType: 'Bearer',
+          expiresIn: 3600,
+          user: {
+            id: 1,
+            first_name: 'Valid',
+            last_name: 'User',
+            email: 'valid@example.com',
+            person_type: 'PF',
+          },
         }),
       });
     });

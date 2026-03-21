@@ -12,8 +12,9 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 /**
  * @typedef {Object} AuthContextValue
  * @property {AuthUser|null} user       - Currently authenticated user, or `null`.
+ * @property {string|null}    accessToken - Current bearer access token.
  * @property {boolean}       isLoggedIn - `true` when a user session is active.
- * @property {function(AuthUser): void} login  - Persists a user session.
+ * @property {function({ user: AuthUser, accessToken: string }): void} login  - Persists a user session.
  * @property {function(): void}          logout - Clears the current session.
  */
 
@@ -32,29 +33,40 @@ const AuthContext = createContext(undefined);
 export const AuthProvider = ({ children }) => {
   /** @type {[AuthUser|null, React.Dispatch<React.SetStateAction<AuthUser|null>>]} */
   const [user, setUser] = useState(null);
+  /** @type {[string|null, React.Dispatch<React.SetStateAction<string|null>>]} */
+  const [accessToken, setAccessToken] = useState(null);
 
   // Restore session from localStorage on initial mount
   useEffect(() => {
-    const saved = localStorage.getItem("auth_user");
-    if (saved) {
+    const savedUser = localStorage.getItem("auth_user");
+    const savedToken = localStorage.getItem("auth_token");
+
+    if (savedUser && savedToken) {
       try {
-        setUser(JSON.parse(saved));
+        setUser(JSON.parse(savedUser));
+        setAccessToken(savedToken);
       } catch {
         // Corrupt data — ignore and start with no session
         localStorage.removeItem("auth_user");
+        localStorage.removeItem("auth_token");
       }
+    } else {
+      localStorage.removeItem("auth_user");
+      localStorage.removeItem("auth_token");
     }
   }, []);
 
   /**
    * Logs a user in by storing their data in React state and localStorage.
    *
-   * @param {AuthUser} userData - Authenticated user details from the database.
+   * @param {{ user: AuthUser, accessToken: string }} authData - Authenticated user details and bearer token.
    * @returns {void}
    */
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem("auth_user", JSON.stringify(userData));
+  const login = (authData) => {
+    setUser(authData.user);
+    setAccessToken(authData.accessToken);
+    localStorage.setItem("auth_user", JSON.stringify(authData.user));
+    localStorage.setItem("auth_token", authData.accessToken);
   };
 
   /**
@@ -65,11 +77,13 @@ export const AuthProvider = ({ children }) => {
    */
   const logout = () => {
     setUser(null);
+    setAccessToken(null);
     localStorage.removeItem("auth_user");
+    localStorage.removeItem("auth_token");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoggedIn: !!user }}>
+    <AuthContext.Provider value={{ user, accessToken, login, logout, isLoggedIn: !!user && !!accessToken }}>
       {children}
     </AuthContext.Provider>
   );
@@ -88,6 +102,6 @@ export const AuthProvider = ({ children }) => {
  */
 export const useAuth = () => {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within an AuthProvider");
+  if (!ctx) throw new Error("use Auth must be used within an AuthProvider");
   return ctx;
 };

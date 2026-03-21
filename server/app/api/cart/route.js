@@ -6,14 +6,26 @@
  */
 import { NextResponse } from 'next/server';
 import { query } from '../../../lib/db.js';
+import { authenticateRequest } from '../../../lib/auth.js';
 
 export async function GET(request) {
     try {
-        const { searchParams } = new URL(request.url);
-        const userId = searchParams.get('userId');
+        const authResult = authenticateRequest(request);
+        if (!authResult.ok) {
+            return NextResponse.json({ error: authResult.error }, { status: 401 });
+        }
 
-        if (!userId) {
+        const { userId: authUserId } = authResult.auth;
+        const { searchParams } = new URL(request.url);
+        const userIdParam = searchParams.get('userId');
+        const userId = userIdParam ? Number(userIdParam) : authUserId;
+
+        if (!userId || Number.isNaN(userId)) {
             return NextResponse.json({ error: 'userId é obrigatório' }, { status: 400 });
+        }
+
+        if (userId !== authUserId) {
+            return NextResponse.json({ error: 'Acesso negado para este usuário' }, { status: 403 });
         }
 
         const { rows } = await query(
@@ -34,10 +46,21 @@ export async function GET(request) {
 
 export async function POST(request) {
     try {
-        const { userId, productId, quantity = 1 } = await request.json();
+        const authResult = authenticateRequest(request);
+        if (!authResult.ok) {
+            return NextResponse.json({ error: authResult.error }, { status: 401 });
+        }
 
-        if (!userId || !productId) {
-            return NextResponse.json({ error: 'userId e productId são obrigatórios' }, { status: 400 });
+        const { userId: authUserId } = authResult.auth;
+        const { userId, productId, quantity = 1 } = await request.json();
+        const targetUserId = userId ? Number(userId) : authUserId;
+
+        if (!targetUserId || Number.isNaN(targetUserId) || !productId) {
+            return NextResponse.json({ error: 'userId válido e productId são obrigatórios' }, { status: 400 });
+        }
+
+        if (targetUserId !== authUserId) {
+            return NextResponse.json({ error: 'Acesso negado para este usuário' }, { status: 403 });
         }
 
         const { rows } = await query(
@@ -46,7 +69,7 @@ export async function POST(request) {
              ON CONFLICT (user_id, product_id)
              DO UPDATE SET quantity = cart_items.quantity + EXCLUDED.quantity
              RETURNING *`,
-            [userId, productId, quantity]
+            [targetUserId, productId, quantity]
         );
         return NextResponse.json(rows[0], { status: 201 });
     } catch (err) {
@@ -57,6 +80,12 @@ export async function POST(request) {
 
 export async function DELETE(request) {
     try {
+        const authResult = authenticateRequest(request);
+        if (!authResult.ok) {
+            return NextResponse.json({ error: authResult.error }, { status: 401 });
+        }
+
+        const { userId: authUserId } = authResult.auth;
         const { cartItemId } = await request.json();
 
         if (!cartItemId) {
@@ -64,8 +93,8 @@ export async function DELETE(request) {
         }
 
         const { rowCount } = await query(
-            'DELETE FROM cart_items WHERE id = $1',
-            [cartItemId]
+            'DELETE FROM cart_items WHERE id = $1 AND user_id = $2',
+            [cartItemId, authUserId]
         );
 
         if (!rowCount) {

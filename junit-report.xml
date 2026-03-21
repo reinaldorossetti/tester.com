@@ -1,24 +1,24 @@
-<testsuites id="" name="" tests="9" failures="0" skipped="0" errors="0" time="21.58696299999999">
-<testsuite name="auth.spec.ts" timestamp="2026-03-21T21:35:13.630Z" hostname="frontend-chromium" tests="6" failures="0" skipped="0" time="83.491" errors="0">
-<testcase name="Login › TS01 - should log in successfully with next redirect and greeting" classname="auth.spec.ts" time="13.77">
+<testsuites id="" name="" tests="9" failures="0" skipped="0" errors="0" time="10.484724">
+<testsuite name="frontend\auth.spec.ts" timestamp="2026-03-21T22:00:10.556Z" hostname="frontend-chromium" tests="6" failures="0" skipped="0" time="25.842" errors="0">
+<testcase name="Login › TS01 - should log in successfully with next redirect and greeting" classname="frontend\auth.spec.ts" time="4.237">
 </testcase>
-<testcase name="Login › TS02 - should display error for invalid credentials" classname="auth.spec.ts" time="13.831">
+<testcase name="Login › TS02 - should display error for invalid credentials" classname="frontend\auth.spec.ts" time="4.254">
 </testcase>
-<testcase name="Login › TS03 - should validate required fields" classname="auth.spec.ts" time="13.851">
+<testcase name="Login › TS03 - should validate required fields" classname="frontend\auth.spec.ts" time="3.998">
 </testcase>
-<testcase name="Login › TS04 - should show validation when password is blank" classname="auth.spec.ts" time="13.74">
+<testcase name="Login › TS04 - should show validation when password is blank" classname="frontend\auth.spec.ts" time="4.232">
 </testcase>
-<testcase name="Login › TS05 - should show validation when email is blank" classname="auth.spec.ts" time="13.799">
+<testcase name="Login › TS05 - should show validation when email is blank" classname="frontend\auth.spec.ts" time="4.201">
 </testcase>
-<testcase name="Login › TS06 - should keep authenticated state after reload" classname="auth.spec.ts" time="14.5">
+<testcase name="Login › TS06 - should keep authenticated state after reload" classname="frontend\auth.spec.ts" time="4.92">
 </testcase>
 </testsuite>
-<testsuite name="security.spec.ts" timestamp="2026-03-21T21:35:13.630Z" hostname="frontend-chromium" tests="3" failures="0" skipped="0" time="21.36" errors="0">
-<testcase name="Security / Access Control › SE01 - Não logado tentando fazer checkout deve redirecionar para login" classname="security.spec.ts" time="18.076">
+<testsuite name="frontend\security.spec.ts" timestamp="2026-03-21T22:00:10.556Z" hostname="frontend-chromium" tests="3" failures="0" skipped="0" time="11.389" errors="0">
+<testcase name="Security / Access Control › SE01 - Não logado tentando fazer checkout deve redirecionar para login" classname="frontend\security.spec.ts" time="8.209">
 </testcase>
-<testcase name="Security / Access Control › SE02 - Tentar acessar a página de confirmação (/thank-you) diretamente sem estar logado deve redirecionar" classname="security.spec.ts" time="1.424">
+<testcase name="Security / Access Control › SE02 - Tentar acessar a página de confirmação (/thank-you) diretamente sem estar logado deve redirecionar" classname="frontend\security.spec.ts" time="1.347">
 </testcase>
-<testcase name="Security / Access Control › SE03 - Should revoke protected access after logout" classname="security.spec.ts" time="1.86">
+<testcase name="Security / Access Control › SE03 - Should revoke protected access after logout" classname="frontend\security.spec.ts" time="1.833">
 </testcase>
 </testsuite>
 </testsuites>

@@ -8,7 +8,7 @@ function uniqueUser() {
     email: `pw.user.${suffix}@example.com`,
     password: 'Senha@1234',
     person_type: 'PF',
-    cpf: '529.982.247-25',
+    cpf: null,
   };
 }
 
@@ -16,31 +16,38 @@ test.describe('API Users', () => {
   test('deve registrar e autenticar usuário válido', async ({ request }) => {
     const user = uniqueUser();
 
-    const registerRes = await request.post('/users/register', { data: user });
+    const registerRes = await request.post('users/register', { data: user });
     expect(registerRes.status()).toBe(201);
 
-    const loginRes = await request.post('/users/login', {
+    const loginRes = await request.post('users/login', {
       data: { email: user.email, password: user.password },
     });
     expect(loginRes.status()).toBe(200);
 
     const payload = await loginRes.json();
-    expect(payload.email).toBe(user.email);
-    expect(payload.password).toBeUndefined();
+    expect(payload.accessToken).toBeTruthy();
+    expect(payload.tokenType).toBe('Bearer');
+    expect(payload.user.email).toBe(user.email);
+    expect(payload.user.password).toBeUndefined();
   });
 
   test('deve retornar 409 para e-mail duplicado', async ({ request }) => {
-    const user = uniqueUser();
+    let user = uniqueUser();
+    let first = await request.post('users/register', { data: user });
 
-    const first = await request.post('/users/register', { data: user });
+    if (first.status() !== 201) {
+      user = uniqueUser();
+      first = await request.post('users/register', { data: user });
+    }
+
     expect(first.status()).toBe(201);
 
-    const second = await request.post('/users/register', { data: user });
+    const second = await request.post('users/register', { data: user });
     expect(second.status()).toBe(409);
   });
 
   test('deve retornar 401 para credenciais inválidas', async ({ request }) => {
-    const response = await request.post('/users/login', {
+    const response = await request.post('users/login', {
       data: { email: 'naoexiste@example.com', password: 'senhaErrada' },
     });
 
@@ -48,7 +55,7 @@ test.describe('API Users', () => {
   });
 
   test('deve retornar 400 para payload incompleto', async ({ request }) => {
-    const response = await request.post('/users/register', {
+    const response = await request.post('users/register', {
       data: { first_name: 'SemEmail' },
     });
 

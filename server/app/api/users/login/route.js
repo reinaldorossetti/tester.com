@@ -8,6 +8,7 @@
 import { NextResponse } from 'next/server';
 import { query } from '../../../../lib/db.js';
 import bcrypt from 'bcrypt';
+import { signAccessToken } from '../../../../lib/auth.js';
 
 export async function POST(request) {
     try {
@@ -39,7 +40,15 @@ export async function POST(request) {
         // Return user without the password field
         const safeUser = { ...user };
         delete safeUser.password;
-        return NextResponse.json(safeUser);
+
+        const { accessToken, expiresIn } = signAccessToken(safeUser);
+
+        return NextResponse.json({
+            accessToken,
+            tokenType: 'Bearer',
+            expiresIn,
+            user: safeUser,
+        });
     } catch (err) {
         console.error('[POST /api/users/login]', err.message);
         return NextResponse.json({ error: 'Erro ao autenticar' }, { status: 500 });
