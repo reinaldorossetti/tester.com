@@ -4,14 +4,21 @@ Aplicação de e-commerce completa construída com **React + Vite** no frontend 
 
 Pirâmide de Testes do Projeto:
 
+Todos Testes:  
+https://reinaldorossetti.github.io/tester.com/tests-report/  
+
 Unitários/Unidade:  
-https://reinaldorossetti.github.io/tester.com/unit-tests/  
+https://reinaldorossetti.github.io/tester.com/tests-report/unit-tests/coverage/index.html 
 
 API Testes:  
-https://reinaldorossetti.github.io/tester.com/api-tests/  
+https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-api/index.html 
 
-E2E Testes:  
-https://reinaldorossetti.github.io/tester.com/tests-reports/  
+Playwright Frontend:
+https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-edge/index.html
+
+https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-chromium/index.html
+
+https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-webkit/index.html
 
 ---
 

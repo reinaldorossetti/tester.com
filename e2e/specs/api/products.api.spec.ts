@@ -1,6 +1,14 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('API Products', () => {
+  test('deve listar produtos sem filtro de categoria', async ({ request }) => {
+    const response = await request.get('products');
+    expect(response.status()).toBe(200);
+
+    const payload = await response.json();
+    expect(Array.isArray(payload)).toBeTruthy();
+  });
+
   test('deve criar, buscar, filtrar, atualizar e remover produto', async ({ request }) => {
     const suffix = Date.now();
 
@@ -59,5 +67,28 @@ test.describe('API Products', () => {
 
     const payload = await response.json();
     expect(Array.isArray(payload)).toBeTruthy();
+    expect(payload.length).toBe(0);
+  });
+
+  test('deve retornar 404 ao atualizar produto inexistente', async ({ request }) => {
+    const response = await request.put('products/999999999', {
+      data: {
+        name: 'Inexistente',
+        price: 10,
+        description: null,
+        category: null,
+        image: null,
+        manufacturer: null,
+        line: null,
+        model: null,
+      },
+    });
+
+    expect(response.status()).toBe(404);
+  });
+
+  test('deve retornar 404 ao remover produto inexistente', async ({ request }) => {
+    const response = await request.delete('products/999999999');
+    expect(response.status()).toBe(404);
   });
 });

@@ -54,11 +54,93 @@ test.describe('API Users', () => {
     expect(response.status()).toBe(401);
   });
 
+  test('deve retornar 401 para senha incorreta de usuário existente', async ({ request }) => {
+    const user = uniqueUser();
+    const registerRes = await request.post('users/register', { data: user });
+    expect(registerRes.status()).toBe(201);
+
+    const response = await request.post('users/login', {
+      data: { email: user.email, password: 'SenhaErrada@999' },
+    });
+
+    expect(response.status()).toBe(401);
+  });
+
+  test('deve retornar 400 para login sem email/senha', async ({ request }) => {
+    const response = await request.post('users/login', {
+      data: { email: '', password: '' },
+    });
+
+    expect(response.status()).toBe(400);
+  });
+
   test('deve retornar 400 para payload incompleto', async ({ request }) => {
     const response = await request.post('users/register', {
       data: { first_name: 'SemEmail' },
     });
 
     expect(response.status()).toBe(400);
+  });
+
+  test('deve retornar 409 para CPF duplicado', async ({ request }) => {
+    const suffix = `${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+    const cpf = '12345678909';
+
+    const first = await request.post('users/register', {
+      data: {
+        first_name: 'CPF',
+        last_name: `Primeiro-${suffix}`,
+        email: `cpf.first.${suffix}@example.com`,
+        password: 'Senha@1234',
+        person_type: 'PF',
+        cpf,
+      },
+    });
+    expect(first.status()).toBe(201);
+
+    const second = await request.post('users/register', {
+      data: {
+        first_name: 'CPF',
+        last_name: `Segundo-${suffix}`,
+        email: `cpf.second.${suffix}@example.com`,
+        password: 'Senha@1234',
+        person_type: 'PF',
+        cpf,
+      },
+    });
+
+    expect(second.status()).toBe(409);
+  });
+
+  test('deve retornar 409 para CNPJ duplicado', async ({ request }) => {
+    const suffix = `${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+    const cnpj = '11222333000181';
+
+    const first = await request.post('users/register', {
+      data: {
+        first_name: 'PJ',
+        last_name: `Primeiro-${suffix}`,
+        email: `cnpj.first.${suffix}@example.com`,
+        password: 'Senha@1234',
+        person_type: 'PJ',
+        company_name: `Empresa ${suffix}`,
+        cnpj,
+      },
+    });
+    expect(first.status()).toBe(201);
+
+    const second = await request.post('users/register', {
+      data: {
+        first_name: 'PJ',
+        last_name: `Segundo-${suffix}`,
+        email: `cnpj.second.${suffix}@example.com`,
+        password: 'Senha@1234',
+        person_type: 'PJ',
+        company_name: `Empresa 2 ${suffix}`,
+        cnpj,
+      },
+    });
+
+    expect(second.status()).toBe(409);
   });
 });

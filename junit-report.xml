@@ -1,698 +1,148 @@
-<testsuites id="" name="" tests="159" failures="0" skipped="159" errors="0" time="0.5658299999999999">
-<testsuite name="frontend\auth.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-chromium" tests="6" failures="0" skipped="6" time="0" errors="0">
-<testcase name="Login › TS01 - should log in successfully with next redirect and greeting" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS02 - should display error for invalid credentials" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS03 - should validate required fields" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS04 - should show validation when password is blank" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS05 - should show validation when email is blank" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS06 - should keep authenticated state after reload" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\cart-checkout.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-chromium" tests="12" failures="0" skipped="12" time="0" errors="0">
-<testcase name="Cart and Checkout › TS01 authenticated user should complete checkout and navigate to thank-you page" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS02 non-authenticated user should be redirected to login with next parameter" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS03 empty cart should keep checkout unavailable" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS04 should update quantity, total and badge for a valid positive value" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS05 should keep previous quantity when value is zero" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS06 should keep previous quantity when value is negative" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS07 should handle larger valid quantity values correctly" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS08 should normalize decimal input to integer quantity" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS09 should remove a single item and show empty cart state" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS10 should add three items, remove all of them, and validate empty cart" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS11 should clear cart after successful checkout when leaving thank-you page" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS12 should decrement cart badge after each item removal" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\catalog.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-chromium" tests="6" failures="0" skipped="6" time="0" errors="0">
-<testcase name="Catalog Page › TS01 deve listar produtos ao carregar página" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS02 deve permitir busca por texto e atualizar contagem" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS03 deve aplicar filtro por categoria" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS04 deve mostrar estado vazio quando busca não retorna itens" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS05 deve navegar para detalhes ao clicar no produto" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS06 should preserve search filter after navigating to details and back" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\login.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-chromium" tests="5" failures="0" skipped="5" time="0" errors="0">
-<testcase name="Login › TS01 - Should successfully log in when providing valid credentials" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS02 - Should display an error alert when credentials are invalid" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS03 - Should display a validation message when submitting with empty fields" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS04 - Should display a validation message when password is empty" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS05 - Should navigate to the register page when clicking the create account button" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\product-details.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-chromium" tests="4" failures="0" skipped="4" time="0" errors="0">
-<testcase name="Product Details › TS01 deve exibir dados principais do produto" classname="frontend\product-details.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Product Details › TS02/TS03 deve permitir adicionar ao carrinho e atualizar badge" classname="frontend\product-details.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Product Details › TS04 deve tratar ID inválido" classname="frontend\product-details.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Product Details › TS05 deve voltar para catálogo" classname="frontend\product-details.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\register-language.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-chromium" tests="4" failures="0" skipped="4" time="0" errors="0">
-<testcase name="Register and Language › TS01 registro PF completo com sucesso" classname="frontend\register-language.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register and Language › TS03 validação de campos obrigatórios no registro" classname="frontend\register-language.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register and Language › TS01/TS02 idioma alterna e persiste após reload" classname="frontend\register-language.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register and Language › TS04 should render cart empty-state content in English after language toggle" classname="frontend\register-language.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\register-login.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-chromium" tests="3" failures="0" skipped="3" time="0" errors="0">
-<testcase name="Register → Login — Fluxo Completo › TS01 - Should register a new user and immediately login with the same credentials" classname="frontend\register-login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register → Login — Fluxo Completo › TS02 - Should allow the user to log out and log back in with the same credentials" classname="frontend\register-login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register → Login — Fluxo Completo › TS03 - Should show an error when logging in with wrong password after registration" classname="frontend\register-login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\register.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-chromium" tests="7" failures="0" skipped="7" time="0" errors="0">
-<testcase name="Register › TS01 - Should successfully register a new user when providing all valid requirements" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS02 - rejeita email em formato inválido aleatório" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS03 - rejeita senha curta no step 0" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS04 - rejeita senhas não-correspondentes com dados aleatórios" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS05 - Should display specific validation errors and prevent step advancement when individual required fields are empty" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS06 - rejeita email duplicado com dados aleatórios" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS07 - valida todos os campos vazios com mensagens de validação individuais" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\security.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-chromium" tests="3" failures="0" skipped="3" time="0" errors="0">
-<testcase name="Security / Access Control › SE01 - Não logado tentando fazer checkout deve redirecionar para login" classname="frontend\security.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Security / Access Control › SE02 - Tentar acessar a página de confirmação (/thank-you) diretamente sem estar logado deve redirecionar" classname="frontend\security.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Security / Access Control › SE03 - Should revoke protected access after logout" classname="frontend\security.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\auth.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-webkit" tests="6" failures="0" skipped="6" time="0" errors="0">
-<testcase name="Login › TS01 - should log in successfully with next redirect and greeting" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS02 - should display error for invalid credentials" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS03 - should validate required fields" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS04 - should show validation when password is blank" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS05 - should show validation when email is blank" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS06 - should keep authenticated state after reload" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\cart-checkout.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-webkit" tests="12" failures="0" skipped="12" time="0" errors="0">
-<testcase name="Cart and Checkout › TS01 authenticated user should complete checkout and navigate to thank-you page" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS02 non-authenticated user should be redirected to login with next parameter" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS03 empty cart should keep checkout unavailable" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS04 should update quantity, total and badge for a valid positive value" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS05 should keep previous quantity when value is zero" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS06 should keep previous quantity when value is negative" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS07 should handle larger valid quantity values correctly" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS08 should normalize decimal input to integer quantity" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS09 should remove a single item and show empty cart state" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS10 should add three items, remove all of them, and validate empty cart" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS11 should clear cart after successful checkout when leaving thank-you page" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS12 should decrement cart badge after each item removal" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\catalog.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-webkit" tests="6" failures="0" skipped="6" time="0" errors="0">
-<testcase name="Catalog Page › TS01 deve listar produtos ao carregar página" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS02 deve permitir busca por texto e atualizar contagem" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS03 deve aplicar filtro por categoria" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS04 deve mostrar estado vazio quando busca não retorna itens" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS05 deve navegar para detalhes ao clicar no produto" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS06 should preserve search filter after navigating to details and back" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\login.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-webkit" tests="5" failures="0" skipped="5" time="0" errors="0">
-<testcase name="Login › TS01 - Should successfully log in when providing valid credentials" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS02 - Should display an error alert when credentials are invalid" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS03 - Should display a validation message when submitting with empty fields" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS04 - Should display a validation message when password is empty" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS05 - Should navigate to the register page when clicking the create account button" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\product-details.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-webkit" tests="4" failures="0" skipped="4" time="0" errors="0">
-<testcase name="Product Details › TS01 deve exibir dados principais do produto" classname="frontend\product-details.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Product Details › TS02/TS03 deve permitir adicionar ao carrinho e atualizar badge" classname="frontend\product-details.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Product Details › TS04 deve tratar ID inválido" classname="frontend\product-details.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Product Details › TS05 deve voltar para catálogo" classname="frontend\product-details.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\register-language.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-webkit" tests="4" failures="0" skipped="4" time="0" errors="0">
-<testcase name="Register and Language › TS01 registro PF completo com sucesso" classname="frontend\register-language.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register and Language › TS03 validação de campos obrigatórios no registro" classname="frontend\register-language.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register and Language › TS01/TS02 idioma alterna e persiste após reload" classname="frontend\register-language.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register and Language › TS04 should render cart empty-state content in English after language toggle" classname="frontend\register-language.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\register-login.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-webkit" tests="3" failures="0" skipped="3" time="0" errors="0">
-<testcase name="Register → Login — Fluxo Completo › TS01 - Should register a new user and immediately login with the same credentials" classname="frontend\register-login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register → Login — Fluxo Completo › TS02 - Should allow the user to log out and log back in with the same credentials" classname="frontend\register-login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register → Login — Fluxo Completo › TS03 - Should show an error when logging in with wrong password after registration" classname="frontend\register-login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\register.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-webkit" tests="7" failures="0" skipped="7" time="0" errors="0">
-<testcase name="Register › TS01 - Should successfully register a new user when providing all valid requirements" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS02 - rejeita email em formato inválido aleatório" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS03 - rejeita senha curta no step 0" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS04 - rejeita senhas não-correspondentes com dados aleatórios" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS05 - Should display specific validation errors and prevent step advancement when individual required fields are empty" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS06 - rejeita email duplicado com dados aleatórios" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS07 - valida todos os campos vazios com mensagens de validação individuais" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\security.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-webkit" tests="3" failures="0" skipped="3" time="0" errors="0">
-<testcase name="Security / Access Control › SE01 - Não logado tentando fazer checkout deve redirecionar para login" classname="frontend\security.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Security / Access Control › SE02 - Tentar acessar a página de confirmação (/thank-you) diretamente sem estar logado deve redirecionar" classname="frontend\security.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Security / Access Control › SE03 - Should revoke protected access after logout" classname="frontend\security.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\auth.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-edge" tests="6" failures="0" skipped="6" time="0" errors="0">
-<testcase name="Login › TS01 - should log in successfully with next redirect and greeting" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS02 - should display error for invalid credentials" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS03 - should validate required fields" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS04 - should show validation when password is blank" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS05 - should show validation when email is blank" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS06 - should keep authenticated state after reload" classname="frontend\auth.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\cart-checkout.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-edge" tests="12" failures="0" skipped="12" time="0" errors="0">
-<testcase name="Cart and Checkout › TS01 authenticated user should complete checkout and navigate to thank-you page" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS02 non-authenticated user should be redirected to login with next parameter" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS03 empty cart should keep checkout unavailable" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS04 should update quantity, total and badge for a valid positive value" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS05 should keep previous quantity when value is zero" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS06 should keep previous quantity when value is negative" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS07 should handle larger valid quantity values correctly" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS08 should normalize decimal input to integer quantity" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS09 should remove a single item and show empty cart state" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS10 should add three items, remove all of them, and validate empty cart" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS11 should clear cart after successful checkout when leaving thank-you page" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Cart and Checkout › TS12 should decrement cart badge after each item removal" classname="frontend\cart-checkout.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\catalog.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-edge" tests="6" failures="0" skipped="6" time="0" errors="0">
-<testcase name="Catalog Page › TS01 deve listar produtos ao carregar página" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS02 deve permitir busca por texto e atualizar contagem" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS03 deve aplicar filtro por categoria" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS04 deve mostrar estado vazio quando busca não retorna itens" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS05 deve navegar para detalhes ao clicar no produto" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Catalog Page › TS06 should preserve search filter after navigating to details and back" classname="frontend\catalog.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\login.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-edge" tests="5" failures="0" skipped="5" time="0" errors="0">
-<testcase name="Login › TS01 - Should successfully log in when providing valid credentials" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS02 - Should display an error alert when credentials are invalid" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS03 - Should display a validation message when submitting with empty fields" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS04 - Should display a validation message when password is empty" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Login › TS05 - Should navigate to the register page when clicking the create account button" classname="frontend\login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\product-details.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-edge" tests="4" failures="0" skipped="4" time="0" errors="0">
-<testcase name="Product Details › TS01 deve exibir dados principais do produto" classname="frontend\product-details.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Product Details › TS02/TS03 deve permitir adicionar ao carrinho e atualizar badge" classname="frontend\product-details.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Product Details › TS04 deve tratar ID inválido" classname="frontend\product-details.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Product Details › TS05 deve voltar para catálogo" classname="frontend\product-details.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\register-language.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-edge" tests="4" failures="0" skipped="4" time="0" errors="0">
-<testcase name="Register and Language › TS01 registro PF completo com sucesso" classname="frontend\register-language.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register and Language › TS03 validação de campos obrigatórios no registro" classname="frontend\register-language.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register and Language › TS01/TS02 idioma alterna e persiste após reload" classname="frontend\register-language.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register and Language › TS04 should render cart empty-state content in English after language toggle" classname="frontend\register-language.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\register-login.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-edge" tests="3" failures="0" skipped="3" time="0" errors="0">
-<testcase name="Register → Login — Fluxo Completo › TS01 - Should register a new user and immediately login with the same credentials" classname="frontend\register-login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register → Login — Fluxo Completo › TS02 - Should allow the user to log out and log back in with the same credentials" classname="frontend\register-login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register → Login — Fluxo Completo › TS03 - Should show an error when logging in with wrong password after registration" classname="frontend\register-login.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\register.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-edge" tests="7" failures="0" skipped="7" time="0" errors="0">
-<testcase name="Register › TS01 - Should successfully register a new user when providing all valid requirements" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS02 - rejeita email em formato inválido aleatório" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS03 - rejeita senha curta no step 0" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS04 - rejeita senhas não-correspondentes com dados aleatórios" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS05 - Should display specific validation errors and prevent step advancement when individual required fields are empty" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS06 - rejeita email duplicado com dados aleatórios" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Register › TS07 - valida todos os campos vazios com mensagens de validação individuais" classname="frontend\register.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="frontend\security.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="frontend-edge" tests="3" failures="0" skipped="3" time="0" errors="0">
-<testcase name="Security / Access Control › SE01 - Não logado tentando fazer checkout deve redirecionar para login" classname="frontend\security.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Security / Access Control › SE02 - Tentar acessar a página de confirmação (/thank-you) diretamente sem estar logado deve redirecionar" classname="frontend\security.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="Security / Access Control › SE03 - Should revoke protected access after logout" classname="frontend\security.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="api\cart.api.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="api" tests="2" failures="0" skipped="2" time="0" errors="0">
-<testcase name="API Cart › deve adicionar, incrementar, listar e remover item do carrinho" classname="api\cart.api.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="API Cart › deve validar erros de payload do carrinho" classname="api\cart.api.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="api\products.api.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="api" tests="3" failures="0" skipped="3" time="0" errors="0">
-<testcase name="API Products › deve criar, buscar, filtrar, atualizar e remover produto" classname="api\products.api.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="API Products › deve retornar 400 ao criar produto sem campos obrigatórios" classname="api\products.api.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="API Products › deve retornar array vazio para categoria inexistente" classname="api\products.api.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-</testsuite>
-<testsuite name="api\users.api.spec.ts" timestamp="2026-03-22T20:45:44.183Z" hostname="api" tests="4" failures="0" skipped="4" time="0" errors="0">
-<testcase name="API Users › deve registrar e autenticar usuário válido" classname="api\users.api.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="API Users › deve retornar 409 para e-mail duplicado" classname="api\users.api.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="API Users › deve retornar 401 para credenciais inválidas" classname="api\users.api.spec.ts" time="0">
-<skipped>
-</skipped>
-</testcase>
-<testcase name="API Users › deve retornar 400 para payload incompleto" classname="api\users.api.spec.ts" time="0">
-<skipped>
-</skipped>
+<testsuites id="" name="" tests="6" failures="6" skipped="0" errors="0" time="7.652093000000001">
+<testsuite name="api\products.api.spec.ts" timestamp="2026-03-22T21:43:39.993Z" hostname="api" tests="6" failures="6" skipped="0" time="0.143" errors="0">
+<testcase name="API Products › deve listar produtos sem filtro de categoria" classname="api\products.api.spec.ts" time="0.024">
+<failure message="products.api.spec.ts:4:3 deve listar produtos sem filtro de categoria" type="FAILURE">
+<![CDATA[  [api] › api\products.api.spec.ts:4:3 › API Products › deve listar produtos sem filtro de categoria 
+
+    Error: apiRequestContext.get: connect ECONNREFUSED 127.0.0.1:3001
+    Call log:
+      - → GET http://127.0.0.1:3001/api/products
+        - user-agent: Playwright/1.58.2 (x64; windows 10.0) node/24.11
+        - accept: */*
+        - accept-encoding: gzip,deflate,br
+
+
+      3 | test.describe('API Products', () => {
+      4 |   test('deve listar produtos sem filtro de categoria', async ({ request }) => {
+    > 5 |     const response = await request.get('products');
+        |                                    ^
+      6 |     expect(response.status()).toBe(200);
+      7 |
+      8 |     const payload = await response.json();
+        at D:\github-projects\tester.com\e2e\specs\api\products.api.spec.ts:5:36
+]]>
+</failure>
+</testcase>
+<testcase name="API Products › deve criar, buscar, filtrar, atualizar e remover produto" classname="api\products.api.spec.ts" time="0.025">
+<failure message="products.api.spec.ts:12:3 deve criar, buscar, filtrar, atualizar e remover produto" type="FAILURE">
+<![CDATA[  [api] › api\products.api.spec.ts:12:3 › API Products › deve criar, buscar, filtrar, atualizar e remover produto 
+
+    Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3001
+    Call log:
+      - → POST http://127.0.0.1:3001/api/products
+        - user-agent: Playwright/1.58.2 (x64; windows 10.0) node/24.11
+        - accept: */*
+        - accept-encoding: gzip,deflate,br
+        - content-type: application/json
+        - content-length: 244
+
+
+      13 |     const suffix = Date.now();
+      14 |
+    > 15 |     const createRes = await request.post('products', {
+         |                                     ^
+      16 |       data: {
+      17 |         name: `Produto Playwright ${suffix}`,
+      18 |         price: 123.45,
+        at D:\github-projects\tester.com\e2e\specs\api\products.api.spec.ts:15:37
+]]>
+</failure>
+</testcase>
+<testcase name="API Products › deve retornar 400 ao criar produto sem campos obrigatórios" classname="api\products.api.spec.ts" time="0.023">
+<failure message="products.api.spec.ts:59:3 deve retornar 400 ao criar produto sem campos obrigatórios" type="FAILURE">
+<![CDATA[  [api] › api\products.api.spec.ts:59:3 › API Products › deve retornar 400 ao criar produto sem campos obrigatórios 
+
+    Error: apiRequestContext.post: connect ECONNREFUSED 127.0.0.1:3001
+    Call log:
+      - → POST http://127.0.0.1:3001/api/products
+        - user-agent: Playwright/1.58.2 (x64; windows 10.0) node/24.11
+        - accept: */*
+        - accept-encoding: gzip,deflate,br
+        - content-type: application/json
+        - content-length: 42
+
+
+      58 |
+      59 |   test('deve retornar 400 ao criar produto sem campos obrigatórios', async ({ request }) => {
+    > 60 |     const response = await request.post('products', { data: { description: 'sem campos obrigatórios' } });
+         |                                    ^
+      61 |     expect(response.status()).toBe(400);
+      62 |   });
+      63 |
+        at D:\github-projects\tester.com\e2e\specs\api\products.api.spec.ts:60:36
+]]>
+</failure>
+</testcase>
+<testcase name="API Products › deve retornar array vazio para categoria inexistente" classname="api\products.api.spec.ts" time="0.023">
+<failure message="products.api.spec.ts:64:3 deve retornar array vazio para categoria inexistente" type="FAILURE">
+<![CDATA[  [api] › api\products.api.spec.ts:64:3 › API Products › deve retornar array vazio para categoria inexistente 
+
+    Error: apiRequestContext.get: connect ECONNREFUSED 127.0.0.1:3001
+    Call log:
+      - → GET http://127.0.0.1:3001/api/products?category=__NO_MATCH__PLAYWRIGHT__
+        - user-agent: Playwright/1.58.2 (x64; windows 10.0) node/24.11
+        - accept: */*
+        - accept-encoding: gzip,deflate,br
+
+
+      63 |
+      64 |   test('deve retornar array vazio para categoria inexistente', async ({ request }) => {
+    > 65 |     const response = await request.get('products?category=__NO_MATCH__PLAYWRIGHT__');
+         |                                    ^
+      66 |     expect(response.status()).toBe(200);
+      67 |
+      68 |     const payload = await response.json();
+        at D:\github-projects\tester.com\e2e\specs\api\products.api.spec.ts:65:36
+]]>
+</failure>
+</testcase>
+<testcase name="API Products › deve retornar 404 ao atualizar produto inexistente" classname="api\products.api.spec.ts" time="0.024">
+<failure message="products.api.spec.ts:73:3 deve retornar 404 ao atualizar produto inexistente" type="FAILURE">
+<![CDATA[  [api] › api\products.api.spec.ts:73:3 › API Products › deve retornar 404 ao atualizar produto inexistente 
+
+    Error: apiRequestContext.put: connect ECONNREFUSED 127.0.0.1:3001
+    Call log:
+      - → PUT http://127.0.0.1:3001/api/products/999999999
+        - user-agent: Playwright/1.58.2 (x64; windows 10.0) node/24.11
+        - accept: */*
+        - accept-encoding: gzip,deflate,br
+        - content-type: application/json
+        - content-length: 126
+
+
+      72 |
+      73 |   test('deve retornar 404 ao atualizar produto inexistente', async ({ request }) => {
+    > 74 |     const response = await request.put('products/999999999', {
+         |                                    ^
+      75 |       data: {
+      76 |         name: 'Inexistente',
+      77 |         price: 10,
+        at D:\github-projects\tester.com\e2e\specs\api\products.api.spec.ts:74:36
+]]>
+</failure>
+</testcase>
+<testcase name="API Products › deve retornar 404 ao remover produto inexistente" classname="api\products.api.spec.ts" time="0.024">
+<failure message="products.api.spec.ts:90:3 deve retornar 404 ao remover produto inexistente" type="FAILURE">
+<![CDATA[  [api] › api\products.api.spec.ts:90:3 › API Products › deve retornar 404 ao remover produto inexistente 
+
+    Error: apiRequestContext.delete: connect ECONNREFUSED 127.0.0.1:3001
+    Call log:
+      - → DELETE http://127.0.0.1:3001/api/products/999999999
+        - user-agent: Playwright/1.58.2 (x64; windows 10.0) node/24.11
+        - accept: */*
+        - accept-encoding: gzip,deflate,br
+
+
+      89 |
+      90 |   test('deve retornar 404 ao remover produto inexistente', async ({ request }) => {
+    > 91 |     const response = await request.delete('products/999999999');
+         |                                          ^
+      92 |     expect(response.status()).toBe(404);
+      93 |   });
+      94 | });
+        at D:\github-projects\tester.com\e2e\specs\api\products.api.spec.ts:91:42
+]]>
+</failure>
 </testcase>
 </testsuite>
 </testsuites>

@@ -97,4 +97,79 @@ test.describe('API Cart', () => {
     const deleteWithoutId = await request.delete('cart', { data: {} });
     expect(deleteWithoutId.status()).toBe(401);
   });
+
+  test('deve retornar 400 para cartItemId ausente quando autenticado', async ({ request }) => {
+    const user = await createUser(request);
+    const accessToken = await loginAndGetAccessToken(request, user.email, 'Senha@1234');
+
+    const response = await request.delete('cart', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      data: {},
+    });
+
+    expect(response.status()).toBe(400);
+  });
+
+  test('deve retornar 404 ao remover item inexistente para usuário autenticado', async ({ request }) => {
+    const user = await createUser(request);
+    const accessToken = await loginAndGetAccessToken(request, user.email, 'Senha@1234');
+
+    const response = await request.delete('cart', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      data: { cartItemId: 999999999 },
+    });
+
+    expect(response.status()).toBe(404);
+  });
+
+  test('deve retornar 403 ao tentar acessar carrinho de outro usuário', async ({ request }) => {
+    const userA = await createUser(request);
+    const userB = await createUser(request);
+    const accessTokenA = await loginAndGetAccessToken(request, userA.email, 'Senha@1234');
+
+    const response = await request.get(`cart?userId=${userB.id}`, {
+      headers: { Authorization: `Bearer ${accessTokenA}` },
+    });
+
+    expect(response.status()).toBe(403);
+  });
+
+  test('deve retornar 403 ao tentar adicionar item para outro usuário', async ({ request }) => {
+    const userA = await createUser(request);
+    const userB = await createUser(request);
+    const product = await createProduct(request);
+    const accessTokenA = await loginAndGetAccessToken(request, userA.email, 'Senha@1234');
+
+    const response = await request.post('cart', {
+      headers: { Authorization: `Bearer ${accessTokenA}` },
+      data: { userId: userB.id, productId: product.id, quantity: 1 },
+    });
+
+    expect(response.status()).toBe(403);
+
+    await request.delete(`products/${product.id}`);
+  });
+
+  test('deve retornar 400 para userId inválido no GET do carrinho', async ({ request }) => {
+    const user = await createUser(request);
+    const accessToken = await loginAndGetAccessToken(request, user.email, 'Senha@1234');
+
+    const response = await request.get('cart?userId=abc', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    expect(response.status()).toBe(400);
+  });
+
+  test('deve retornar 400 para payload inválido no POST do carrinho autenticado', async ({ request }) => {
+    const user = await createUser(request);
+    const accessToken = await loginAndGetAccessToken(request, user.email, 'Senha@1234');
+
+    const response = await request.post('cart', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      data: { userId: user.id },
+    });
+
+    expect(response.status()).toBe(400);
+  });
 });
