@@ -30,7 +30,7 @@ jobs:
           cache-dependency-path: package-lock.json
 
       - name: Install frontend dependencies
-        run: npm ci
+        run: npm install
 
       - name: Run unit tests with coverage and JUnit
         run: |
