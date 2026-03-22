@@ -82,7 +82,6 @@ jobs:
           if-no-files-found: warn
 
   e2e:
-    needs: unit-tests
     runs-on: ubuntu-latest
     timeout-minutes: 45
     strategy:
@@ -106,11 +105,11 @@ jobs:
             server/package-lock.json
 
       - name: Install frontend dependencies
-        run: npm ci
+        run: npm install
 
       - name: Install backend dependencies
         working-directory: server
-        run: npm ci
+        run: npm install
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
@@ -211,21 +210,21 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: playwright-report-*
-          path: playwright-report
+          path: tests-report
 
       - name: Download unit test report artifact
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: unit-test-report
-          path: playwright-report/unit-tests
+          path: tests-report/unit-tests
 
       - name: Generate Index HTML
         run: |
-          cat << 'EOF' > playwright-report/index.html
+          cat << 'EOF' > tests-report/index.html
           <!DOCTYPE html>
           <html>
-            <head><title>Playwright Reports</title><style>body { font-family: sans-serif; padding: 2rem; }</style></head>
+            <head><title>Test Reports</title><style>body { font-family: sans-serif; padding: 2rem; }</style></head>
             <body>
               <h1>Test Reports</h1>
               <ul>
@@ -240,13 +239,13 @@ jobs:
           </html>
           EOF
 
-      - name: Deploy Playwright report to gh-pages
+      - name: Deploy Test reports to gh-pages
         if: always() && github.event_name == 'push'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: playwright-report
-          destination_dir: tests-reports
+          publish_dir: tests-report
+          destination_dir: tests-report
           keep_files: true
 
