@@ -13,8 +13,17 @@ import {
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useLanguage } from "../contexts/LanguageContext";
 
-const CartItem = ({ item, onUpdateCart, onRemoveFromCart }) => {
+const CartItem = ({ item, onUpdateCart, onRemoveFromCart, onChange, onRemove }) => {
   const { t } = useLanguage();
+  const handleUpdateCart = onUpdateCart || onChange || (() => {});
+  const handleRemoveFromCart = onRemoveFromCart || onRemove || (() => {});
+  const safeItem = {
+    id: item?.id,
+    image: item?.image ?? "",
+    name: item?.name ?? "Item",
+    price: Number.isFinite(item?.price) ? item.price : 0,
+    quantity: Number.isFinite(item?.quantity) && item.quantity > 0 ? item.quantity : 1,
+  };
   return (
     <ListItem
       alignItems="flex-start"
@@ -28,20 +37,20 @@ const CartItem = ({ item, onUpdateCart, onRemoveFromCart }) => {
         <ListItemAvatar>
           <Avatar
             variant="rounded"
-            src={item.image}
-            alt={item.name}
+            src={safeItem.image}
+            alt={safeItem.name}
             sx={{ width: 80, height: 80, mr: 2 }}
           />
         </ListItemAvatar>
         <ListItemText
           primary={
             <Typography variant="subtitle1" fontWeight={600} sx={{ pr: 3 }}>
-              {item.name}
+              {safeItem.name}
             </Typography>
           }
           secondary={
             <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-              R$ {item.price.toFixed(2)}
+              R$ {safeItem.price.toFixed(2)}
             </Typography>
           }
         />
@@ -61,10 +70,10 @@ const CartItem = ({ item, onUpdateCart, onRemoveFromCart }) => {
             type="number"
             size="small"
             label={t("cart_item.qty")}
-            value={item.quantity}
+            value={safeItem.quantity}
             onChange={(e) => {
               const val = parseInt(e.target.value);
-              if (val > 0) onUpdateCart(item, val);
+              if (val > 0) handleUpdateCart(safeItem, val);
             }}
             inputProps={{ min: 1, style: { textAlign: "center", width: 40 } }}
             sx={{ width: 80 }}
@@ -76,7 +85,7 @@ const CartItem = ({ item, onUpdateCart, onRemoveFromCart }) => {
             color="primary"
             sx={{ minWidth: 90, textAlign: "right" }}
           >
-            R$ {(item.price * item.quantity).toFixed(2)}
+            R$ {(safeItem.price * safeItem.quantity).toFixed(2)}
           </Typography>
         </Box>
 
@@ -85,7 +94,7 @@ const CartItem = ({ item, onUpdateCart, onRemoveFromCart }) => {
             edge="end"
             aria-label="delete"
             color="error"
-            onClick={() => onRemoveFromCart(item)}
+            onClick={() => handleRemoveFromCart(safeItem)}
             sx={{ ml: 2 }}
           >
             <DeleteOutlineIcon />

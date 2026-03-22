@@ -16,14 +16,20 @@ import CartItem from "./CartItem";
 import CheckoutButton from "./CheckoutButton";
 import { useLanguage } from "../contexts/LanguageContext";
 
-const Cart = ({ cartItems, onUpdateCart, onRemoveFromCart, setCartItems }) => {
+const Cart = ({
+  cartItems = [],
+  onUpdateCart = () => {},
+  onRemoveFromCart = () => {},
+  setCartItems = () => {},
+}) => {
   const { t } = useLanguage();
-  const totalPrice = cartItems.reduce(
+  const safeCartItems = Array.isArray(cartItems) ? cartItems : [];
+  const totalPrice = safeCartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
 
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItems = safeCartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <Container maxWidth="md">
@@ -31,7 +37,7 @@ const Cart = ({ cartItems, onUpdateCart, onRemoveFromCart, setCartItems }) => {
         {t("cart.title")}
       </Typography>
 
-      {cartItems.length === 0 ? (
+      {safeCartItems.length === 0 ? (
         <Paper
           elevation={0}
           sx={{
@@ -67,14 +73,14 @@ const Cart = ({ cartItems, onUpdateCart, onRemoveFromCart, setCartItems }) => {
           <Box id="cart-item-list-wrapper" sx={{ flex: 1 }}>
             <Paper elevation={2} sx={{ borderRadius: 3, overflow: "hidden" }}>
               <List disablePadding>
-                {cartItems.map((item, index) => (
+                {safeCartItems.map((item, index) => (
                   <React.Fragment key={item.id}>
                     <CartItem
                       item={item}
                       onUpdateCart={onUpdateCart}
                       onRemoveFromCart={onRemoveFromCart}
                     />
-                    {index < cartItems.length - 1 && <Divider />}
+                    {index < safeCartItems.length - 1 && <Divider />}
                   </React.Fragment>
                 ))}
               </List>
@@ -122,7 +128,7 @@ const Cart = ({ cartItems, onUpdateCart, onRemoveFromCart, setCartItems }) => {
               </Box>
 
               <CheckoutButton
-                cartItems={cartItems}
+                cartItems={safeCartItems}
                 setCartItems={setCartItems}
               />
 

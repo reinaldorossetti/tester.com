@@ -10,9 +10,57 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  checks: write
 
 jobs:
+  unit-tests:
+    name: Unit tests (Vitest)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Run unit tests with coverage and JUnit
+        run: |
+          mkdir -p unit-test-report
+          npx vitest run \
+            --coverage \
+            --reporter=default \
+            --reporter=junit \
+            --outputFile.junit=unit-test-report/junit.xml \
+            --coverage.reportsDirectory=unit-test-report/coverage
+
+      - name: Publish unit test report in GitHub Actions
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Unit tests (Vitest)
+          path: unit-test-report/junit.xml
+          reporter: jest-junit
+          fail-on-error: false
+
+      - name: Upload unit test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-report
+          path: unit-test-report
+          if-no-files-found: error
+
   e2e:
+    needs: unit-tests
     runs-on: ubuntu-latest
     timeout-minutes: 45
     strategy:
@@ -129,7 +177,7 @@ jobs:
 
   deploy-playwright-report:
     name: Deploy Playwright report to GitHub Pages
-    needs: e2e
+    needs: [unit-tests, e2e]
     runs-on: ubuntu-latest
     if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
@@ -142,6 +190,12 @@ jobs:
         with:
           pattern: playwright-report-*
           path: playwright-report
+
+      - name: Download unit test report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: unit-test-report
+          path: playwright-report/unit-tests
 
       - name: Generate Index HTML
         run: |
@@ -156,6 +210,8 @@ jobs:
                 <li><a href="playwright-report-frontend-edge/index.html">Edge</a></li>
                 <li><a href="playwright-report-frontend-webkit/index.html">WebKit</a></li>
                 <li><a href="playwright-report-api/index.html">API</a></li>
+                <li><a href="unit-tests/coverage/index.html">Unit Tests Coverage (Vitest)</a></li>
+                <li><a href="unit-tests/junit.xml">Unit Tests JUnit XML</a></li>
               </ul>
             </body>
           </html>

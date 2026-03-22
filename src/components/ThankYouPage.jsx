@@ -18,7 +18,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import { useLanguage } from "../contexts/LanguageContext";
 
-const ThankYouPage = ({ clearCart }) => {
+const ThankYouPage = ({ clearCart = () => {} }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useLanguage();

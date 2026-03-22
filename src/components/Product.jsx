@@ -18,10 +18,18 @@ import { useLanguage } from "../contexts/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
-const Product = ({ product, onAddToCart }) => {
+const Product = ({ product = {}, onAddToCart = () => {} }) => {
   const [quantity, setQuantity] = useState(1);
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const safeProduct = {
+    id: product.id ?? "unknown",
+    image: product.image ?? "",
+    name: product.name ?? "Produto",
+    description: product.description ?? "",
+    category: product.category ?? "Geral",
+    price: Number.isFinite(product.price) ? product.price : 0,
+  };
 
   return (
     <Card
@@ -36,21 +44,21 @@ const Product = ({ product, onAddToCart }) => {
         },
       }}
     >
-      <Box id={`product-card-image-wrapper-${product.id}`}
-        onClick={() => navigate(`/product/${product.id}`)}
+      <Box id={`product-card-image-wrapper-${safeProduct.id}`}
+        onClick={() => navigate(`/product/${safeProduct.id}`)}
         sx={{ cursor: "pointer", p: 1 }}
       >
         <CardMedia
           component="img"
           height="200"
-          image={product.image}
-          alt={product.name}
+          image={safeProduct.image}
+          alt={safeProduct.name}
           sx={{ objectFit: "contain" }}
         />
       </Box>
       <CardContent sx={{ flexGrow: 1, pb: 1 }}>
         <Chip
-          label={product.category}
+          label={safeProduct.category}
           size="small"
           color="primary"
           variant="outlined"
@@ -61,15 +69,15 @@ const Product = ({ product, onAddToCart }) => {
           component="h2" 
           gutterBottom 
           sx={{ fontSize: "1rem", fontWeight: 700, lineHeight: 1.3, cursor: "pointer", "&:hover": { color: "primary.main" } }}
-          onClick={() => navigate(`/product/${product.id}`)}
+          onClick={() => navigate(`/product/${safeProduct.id}`)}
         >
-          {product.name}
+          {safeProduct.name}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5, fontSize: "0.82rem" }}>
-          {product.description}
+          {safeProduct.description}
         </Typography>
         <Typography variant="h6" color="primary" fontWeight={700}>
-          R$ {product.price.toFixed(2)}
+          R$ {safeProduct.price.toFixed(2)}
         </Typography>
       </CardContent>
 
@@ -77,7 +85,7 @@ const Product = ({ product, onAddToCart }) => {
         <FormControl size="small" sx={{ minWidth: 70 }}>
           <InputLabel id={`qty-label-${product.id}`}>{t("cart_item.qty").replace(":", "")}</InputLabel>
           <Select
-            labelId={`qty-label-${product.id}`}
+            labelId={`qty-label-${safeProduct.id}`}
             value={quantity}
             label={t("cart_item.qty").replace(":", "")}
             onChange={(e) => setQuantity(e.target.value)}
@@ -95,7 +103,7 @@ const Product = ({ product, onAddToCart }) => {
             color="secondary"
             size="small"
             startIcon={<AddShoppingCartIcon />}
-            onClick={() => onAddToCart(product, quantity)}
+            onClick={() => onAddToCart(safeProduct, quantity)}
             sx={{ flexGrow: 1 }}
           >
             {t("product.add_to_cart")}

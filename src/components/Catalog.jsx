@@ -14,7 +14,7 @@ import Product from "./Product";
 import { useLanguage } from "../contexts/LanguageContext";
 import { getProducts } from "../db/api";
 
-const Catalog = ({ onAddToCart, search, setSearch }) => {
+const Catalog = ({ onAddToCart = () => {}, search = "", setSearch = () => {} }) => {
   const { t } = useLanguage();
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -32,7 +32,7 @@ const Catalog = ({ onAddToCart, search, setSearch }) => {
         setIsLoading(true);
         try {
             const data = await getProducts();
-            setProducts(data);
+            setProducts(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error("Failed to load products from SQLite", error);
         } finally {

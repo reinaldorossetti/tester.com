@@ -7,14 +7,16 @@ import LockIcon from "@mui/icons-material/Lock";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useAuth } from "../contexts/AuthContext";
 
-const CheckoutButton = ({ cartItems, setCartItems }) => {
+const CheckoutButton = ({ cartItems = [], setCartItems = () => {} }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useLanguage();
-  const { isLoggedIn } = useAuth();
+  const auth = useAuth();
+  const isLoggedIn = auth?.isLoggedIn ?? auth?.isAuthenticated ?? false;
+  const safeCartItems = Array.isArray(cartItems) ? cartItems : [];
 
   const handleCheckout = () => {
-    if (cartItems.length === 0) {
+    if (safeCartItems.length === 0) {
       toast.error(t("checkout.toast.empty"));
       return;
     }
@@ -27,7 +29,7 @@ const CheckoutButton = ({ cartItems, setCartItems }) => {
     }
 
     toast.success(t("checkout.processing"));
-    navigate("/thank-you", { state: { cartItems } });
+    navigate("/thank-you", { state: { cartItems: safeCartItems } });
   };
 
   return (
@@ -39,7 +41,7 @@ const CheckoutButton = ({ cartItems, setCartItems }) => {
       startIcon={isLoggedIn ? <ShoppingCartCheckoutIcon /> : <LockIcon />}
       onClick={handleCheckout}
       sx={{ py: 1.5, fontSize: "1.1rem" }}
-      disabled={cartItems.length === 0}
+      disabled={safeCartItems.length === 0}
     >
       {isLoggedIn ? t("checkout.button") : "Entrar para Finalizar"}
     </Button>
