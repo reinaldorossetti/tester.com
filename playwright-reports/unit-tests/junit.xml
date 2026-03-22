@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="126" failures="0" errors="0" time="51.982749001">
+    <testsuite name="src/__tests__/App.test.jsx" timestamp="2026-03-22T20:32:47.887Z" hostname="runnervm46oaq" tests="5" failures="0" errors="0" skipped="0" time="0.910996189">
+        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; renderiza navbar, rota inicial e atualiza search" time="0.481315652">
+        </testcase>
+        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; adiciona item no carrinho e incrementa badge" time="0.097611515">
+        </testcase>
+        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; adiciona item existente e dispara toast de atualização de quantidade" time="0.162927043">
+        </testcase>
+        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; na rota /cart, atualiza e remove item via callbacks" time="0.117322882">
+        </testcase>
+        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; protege rota /thank-you e redireciona para login quando não autenticado" time="0.04704681">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/validation.test.js" timestamp="2026-03-22T20:32:47.888Z" hostname="runnervm46oaq" tests="3" failures="0" errors="0" skipped="0" time="0.004335911">
+        <testcase classname="src/__tests__/validation.test.js" name="Validation - Basic Vitest Functionality &gt; should pass a basic math test" time="0.002073253">
+        </testcase>
+        <testcase classname="src/__tests__/validation.test.js" name="Validation - Basic Vitest Functionality &gt; should pass a string test" time="0.000217015">
+        </testcase>
+        <testcase classname="src/__tests__/validation.test.js" name="Validation - Basic Vitest Functionality &gt; should pass when values are truthy" time="0.000242202">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/components/Cart.test.jsx" timestamp="2026-03-22T20:32:47.889Z" hostname="runnervm46oaq" tests="10" failures="0" errors="0" skipped="0" time="0.815318292">
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_001: renderiza estado vazio com CTA para catálogo" time="0.402859864">
+        </testcase>
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_002: renderiza lista de itens quando carrinho tem produtos" time="0.061796162">
+        </testcase>
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_003: calcula subtotal e total corretamente" time="0.023157024">
+        </testcase>
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_004: passa callbacks de update/remove para CartItem" time="0.01682827">
+        </testcase>
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_005: passa cartItems e setCartItems para CheckoutButton" time="0.019570784">
+        </testcase>
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_006: botão continuar comprando aponta para home" time="0.10759093">
+        </testcase>
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_007: normaliza cartItems inválido para array vazio" time="0.009363163">
+        </testcase>
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_008: renderiza título e resumo de pedido em carrinho preenchido" time="0.021003992">
+        </testcase>
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_009: exibe contagem total de itens no resumo" time="0.014977081">
+        </testcase>
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_010: mantém render estável com interações básicas" time="0.132655227">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/components/CartItem.test.jsx" timestamp="2026-03-22T20:32:47.891Z" hostname="runnervm46oaq" tests="8" failures="0" errors="0" skipped="0" time="0.781226196">
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_001: renderiza nome, preço unitário e total da linha" time="0.273684086">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_002: normaliza item inválido para valores seguros" time="0.03537445">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_003: chama onChange quando quantidade válida (&gt;0)" time="0.043985758">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_004: não chama onChange para quantidade inválida (&lt;=0)" time="0.020171254">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_005: prioriza onUpdateCart quando ambos callbacks de update existem" time="0.017875346">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_006: chama onRemove ao clicar no botão delete" time="0.221943204">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_007: prioriza onRemoveFromCart quando ambos callbacks de remoção existem" time="0.087921172">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_008: funciona sem callbacks explícitos (fallback noop)" time="0.074917467">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/components/Catalog.test.jsx" timestamp="2026-03-22T20:32:47.893Z" hostname="runnervm46oaq" tests="10" failures="0" errors="0" skipped="0" time="0.87088909">
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_001: Lista todos produtos (mock API)" time="0.307120117">
+            <system-err>
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_002: Renderiza container principal" time="0.036020692">
+            <system-err>
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_003: Ordena por preço ASC/DESC" time="0.042603487">
+            <system-err>
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_004: Paginação renderiza" time="0.02135382">
+            <system-err>
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_005: Renderiza search input" time="0.032820692">
+            <system-err>
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_006: Aplica filtro por categoria" time="0.039151802">
+            <system-err>
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_007: Busca por termo (debounce mock)" time="0.302858767">
+        </testcase>
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_008: Exibe loader enquanto carrega" time="0.027450749">
+            <system-err>
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_009: Clique produto redireciona para detalhe" time="0.029096314">
+            <system-err>
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_010: Erro na API mostra fallback" time="0.027051695">
+            <system-err>
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+Warning: An update to Catalog inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at Catalog (/home/runner/work/tester.com/tester.com/src/components/Catalog.jsx:17:20)
+    at Router (/home/runner/work/tester.com/tester.com/node_modules/react-router/dist/umd/react-router.development.js:1075:17)
+    at BrowserRouter (/home/runner/work/tester.com/tester.com/node_modules/react-router-dom/dist/umd/react-router-dom.development.js:585:7)
+
+            </system-err>
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/components/Checkout.test.jsx" timestamp="2026-03-22T20:32:47.897Z" hostname="runnervm46oaq" tests="10" failures="0" errors="0" skipped="0" time="0.79945138">
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_001: botão inicia desabilitado com carrinho vazio" time="0.378485657">
+        </testcase>
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_002: usa LockIcon quando usuário não autenticado" time="0.007332921">
+        </testcase>
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_003: usa ShoppingCartCheckoutIcon quando autenticado por isLoggedIn" time="0.056628035">
+        </testcase>
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_004: usa fallback isAuthenticated quando isLoggedIn não existe" time="0.034052985">
+        </testcase>
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_005: com carrinho vazio não permite checkout (permanece desabilitado)" time="0.033937208">
+        </testcase>
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_006: deslogado com itens redireciona para login com next" time="0.105660279">
+        </testcase>
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_007: logado com itens navega para /thank-you com state" time="0.055237346">
+        </testcase>
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_008: normaliza cartItems inválido e mantém desabilitado" time="0.024517378">
+        </testcase>
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_009: codifica pathname especial no parâmetro next" time="0.047874493">
+        </testcase>
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_010: não chama setCartItems no fluxo atual de checkout" time="0.050442658">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/components/Login.test.jsx" timestamp="2026-03-22T20:32:47.899Z" hostname="runnervm46oaq" tests="10" failures="0" errors="0" skipped="0" time="5.944169143">
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_001: renderiza campos, botão de submit e link de registro" time="0.914447229">
+        </testcase>
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_002: valida campos obrigatórios e exibe alerta de erro" time="0.242993416">
+        </testcase>
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_003: alterna visibilidade da senha" time="0.408187354">
+        </testcase>
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_004: realiza login com sucesso, normaliza email e navega para ?next" time="0.799464562">
+        </testcase>
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_005: usa fallback de rota &quot;/&quot; quando ?next não existe" time="0.699970376">
+        </testcase>
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_006: trata resposta sem token como erro de autenticação inválida" time="0.661657688">
+        </testcase>
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_007: usa mensagem fallback quando erro não possui message" time="0.555418115">
+        </testcase>
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_008: exibe estado de loading durante requisição e limpa no finally" time="0.752883976">
+        </testcase>
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_009: fecha alerta de erro pelo onClose do Alert" time="0.275988661">
+        </testcase>
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_010: aceita payload de login sem campo user (fallback para objeto raiz)" time="0.627665393">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/components/Product.test.jsx" timestamp="2026-03-22T20:32:47.901Z" hostname="runnervm46oaq" tests="10" failures="0" errors="0" skipped="0" time="0.706315197">
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_001: Renderiza imagem produto" time="0.367413954">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_002: Renderiza nome e preço" time="0.034407182">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_003: Renderiza rating/estrelas" time="0.038967272">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_004: Exibe badge &quot;sale&quot; se desconto" time="0.027562959">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_005: Componente renderiza sem erros" time="0.03737826">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_006: Click abre detalhe (mock navigate)" time="0.035825682">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_007: Add to cart via ícone (mock dispatch)" time="0.028262532">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_008: Hover mostra botões ações" time="0.054890851">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_009: Wishlist toggle salva (mock localStorage)" time="0.038030571">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_010: Imagem fallback se quebrada" time="0.039418425">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/components/ProductDetails.test.jsx" timestamp="2026-03-22T20:32:47.903Z" hostname="runnervm46oaq" tests="6" failures="0" errors="0" skipped="0" time="1.722507985">
+        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_001: mostra estado de carregamento enquanto busca o produto" time="0.084689034">
+        </testcase>
+        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_002: renderiza fallback de produto não encontrado e permite voltar" time="0.331298282">
+        </testcase>
+        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_003: em erro de API, registra console.error e exibe tela de não encontrado" time="0.016051331">
+        </testcase>
+        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_004: renderiza detalhes completos e chama addToCart com quantidade alterada" time="0.957687961">
+        </testcase>
+        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_005: não renderiza linhas opcionais quando manufacturer/line/model não existem" time="0.099428554">
+        </testcase>
+        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_006: busca novamente quando o id da rota muda" time="0.229476631">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/components/Register.test.jsx" timestamp="2026-03-22T20:32:47.904Z" hostname="runnervm46oaq" tests="19" failures="0" errors="0" skipped="0" time="38.853605827">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_001: Renderiza step inicial com botão próximo e link de login" time="1.117960812">
+            <system-err>
+MUI Grid: The `item` prop has been removed and is no longer necessary. You can safely remove it.
+
+MUI Grid: The `xs` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+MUI Grid: The `sm` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_002: Mostra erros obrigatórios ao avançar sem preencher" time="0.51354729">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_003: Alterna para PJ e exibe campos de Razão Social/CNPJ" time="0.488828488">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_004: Avança para step 1 quando dados PF são válidos" time="3.723635535">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_005: Bloqueia avanço com CPF inválido" time="3.314937839">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_006: Exibe força da senha dinamicamente" time="0.783930171">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_007: Auto-preenche endereço via CEP" time="4.074092789">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_008: Submete com sucesso e chama registerUser com payload normalizado" time="4.261943406">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_009: Mostra toast de erro quando registerUser falha" time="2.668227106">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_010: No step 1, voltar retorna para step 0" time="2.155791212">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_011: Em PJ, bloqueia avanço sem Razão Social/CNPJ válidos" time="2.309507712">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_012: CEP não encontrado exibe erro específico" time="2.100470013">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_013: Falha de rede no CEP exibe erro genérico" time="2.091967157">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_014: Exige campos obrigatórios do step 1 no submit" time="2.019939283">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_015: Sucesso no cadastro navega para home após timeout" time="2.407421469">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_016: Erro de submit sem message usa fallback padrão" time="2.406410954">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_017: Upload de comprovante exibe nome do arquivo selecionado" time="1.988984797">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_018: Link &quot;Fazer login&quot; chama navigate para /login" time="0.11193409">
+        </testcase>
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_019: Toggles de senha/confirmar alternam tipo do input" time="0.31006448">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/components/ThankYouPage.test.jsx" timestamp="2026-03-22T20:32:47.908Z" hostname="runnervm46oaq" tests="10" failures="0" errors="0" skipped="0" time="0.28573657">
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_001: Renderiza mensagem sucesso" time="0.193512849">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_002: Exibe order ID/número do pedido" time="0.011142599">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_003: Exibe resumo pedido (itens, total)" time="0.012170068">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_004: Exibe email confirmação" time="0.009092639">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_005: Botão voltar ao catálogo funciona" time="0.009390926">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_006: Download invoice PDF (mock window.print)" time="0.008906622">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_007: Link track ordem leva ao histórico" time="0.009152991">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_008: Compartilhar pedido (mock social share)" time="0.009636104">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_009: Dados persistem mesmo com reload (mock sessionStorage)" time="0.009000426">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_010: Página renderiza sem erros" time="0.008996549">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/contexts/AuthContext.test.jsx" timestamp="2026-03-22T20:32:47.910Z" hostname="runnervm46oaq" tests="6" failures="0" errors="0" skipped="0" time="0.093336537">
+        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_001: lança erro quando useAuth é usado fora do provider" time="0.0514323">
+            <system-err>
+The above error occurred in the &lt;TestComponent&gt; component:
+
+    at TestComponent (/home/runner/work/tester.com/tester.com/node_modules/@testing-library/react/dist/pure.js:328:5)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_002: inicia deslogado sem dados persistidos" time="0.006441746">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_003: restaura sessão válida do localStorage no mount" time="0.007905519">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_004: limpa storage quando auth_user está corrompido" time="0.011579374">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_005: login persiste usuário/token e atualiza estado" time="0.005977286">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_006: logout remove sessão de estado e storage" time="0.003024741">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/contexts/DatabaseContext.test.jsx" timestamp="2026-03-22T20:32:47.911Z" hostname="runnervm46oaq" tests="4" failures="0" errors="0" skipped="0" time="0.108646704">
+        <testcase classname="src/__tests__/contexts/DatabaseContext.test.jsx" name="DatabaseContext &gt; TC_DB_001: useDatabase fora do provider retorna contexto padrão" time="0.020298476">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/DatabaseContext.test.jsx" name="DatabaseContext &gt; TC_DB_002: exibe loading enquanto inicialização não conclui" time="0.035084311">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/DatabaseContext.test.jsx" name="DatabaseContext &gt; TC_DB_003: em sucesso, renderiza children e ready=true no contexto" time="0.026872237">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/DatabaseContext.test.jsx" name="DatabaseContext &gt; TC_DB_004: em falha, mostra fallback de erro e registra console.error" time="0.021900109">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/contexts/LanguageContext.test.jsx" timestamp="2026-03-22T20:32:47.912Z" hostname="runnervm46oaq" tests="6" failures="0" errors="0" skipped="0" time="0.066038914">
+        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_001: lança erro quando useLanguage é chamado fora do provider" time="0.040361678">
+            <system-err>
+The above error occurred in the &lt;TestComponent&gt; component:
+
+    at TestComponent (/home/runner/work/tester.com/tester.com/node_modules/@testing-library/react/dist/pure.js:328:5)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_002: inicia em pt por padrão e traduz chave conhecida" time="0.006205254">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_003: restaura idioma salvo no localStorage ao montar" time="0.007004407">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_004: toggleLanguage alterna idioma e persiste em localStorage" time="0.003242378">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_005: setAppLanguage troca para idioma válido e ignora inválido" time="0.002541759">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_006: t faz interpolação e fallback para a própria chave" time="0.002139377">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/db/api.test.js" timestamp="2026-03-22T20:32:47.914Z" hostname="runnervm46oaq" tests="9" failures="0" errors="0" skipped="0" time="0.020175066">
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; getProducts chama endpoint padrão" time="0.008787288">
+        </testcase>
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; getProducts com categoria aplica querystring codificada" time="0.000935879">
+        </testcase>
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; getProductById chama endpoint por id" time="0.000612084">
+        </testcase>
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; registerUser envia POST sem Authorization mesmo com token" time="0.001226351">
+        </testcase>
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; loginUser e getUserByEmail fazem POST correto" time="0.000993657">
+        </testcase>
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; getCartItems inclui Authorization quando token existe" time="0.000536503">
+        </testcase>
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; upsertCartItem e removeCartItem chamam endpoints de carrinho" time="0.000701731">
+        </testcase>
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; lança erro com mensagem de API quando res.ok = false" time="0.002522714">
+        </testcase>
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; em 401 remove auth_user/auth_token do localStorage" time="0.001108461">
+        </testcase>
+    </testsuite>
+</testsuites>
