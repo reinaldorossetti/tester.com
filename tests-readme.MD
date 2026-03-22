@@ -18,36 +18,53 @@ A estratégia de testes do projeto cobre principalmente:
 
 ### 1) Casos de teste implementados no código
 
-- **Arquivos spec totais:** `12`
-- Frontend: `9` arquivos
-- API: `3` arquivos
-- **Casos de teste (`test(...)`) implementados:** `59`
-- Frontend: `50`
-- API: `9`
+**Total de Cenários Únicos Automatizados:** `184`
 
-### 2) Resultado da última execução ampla de frontend (sessão atual)
+| Tipo de Teste | Framework | Quantidade | Cobertura |
+| :--- | :--- | :--- | :--- |
+| **Unitários** | Vitest | `125` casos | Componentes e Contextos (Frontend) |
+| **API / Integração** | Playwright | `9` casos | Endpoints de Backend |
+| **End-to-End (E2E)** | Playwright | `50` casos | Fluxos completos de usuário |
 
-Execução realizada em `e2e/specs/frontend/*.spec.ts`.
+> **Nota:** Os testes E2E são executados em 3 navegadores (Chromium, WebKit, Edge), totalizando `150` execuções de UI + `9` de API por pipeline.
 
-- **Testes executados:** `50`
-- **Passaram:** `50`
-- **Falharam:** `0`
-- **Ignorados (skipped):** `0`
-- **Erros técnicos (errors):** `0`
+### 2) Pipeline de Automação (CI/CD)
 
-Taxas da última execução:
+O projeto conta com uma esteira de testes automatizada via **GitHub Actions** (`.github/workflows/e2e-pipeline.yml`), que é disparada a cada *push* ou *pull request* na branch `main`.
 
-- **Taxa de sucesso:** $50/50 = 100\%$
-- **Taxa de falha:** $0/50 = 0\%$
+**Estágios da Pipeline:**
+1.  **Unit Tests**:
+    *   Executa toda a suíte de testes unitários com Vitest.
+    *   Gera relatório de cobertura (Coverage) e XML (JUnit).
+    *   *Falha na pipeline se os testes unitários quebrarem.*
 
-> Observação importante: nesta rodada, a suíte de frontend executou de forma estável, sem falhas funcionais nem falhas de infraestrutura.
+2.  **E2E Tests**:
+    *   Executa os testes Playwright em paralelo (Matrix Strategy) para Chromium, WebKit e Edge.
+    *   Sobe os ambientes de Frontend (Vite) e Backend (Next.js) automaticamente.
+    *   Gera vídeo e screenshots em caso de falha.
 
-### 3) Execução focada dos specs alterados (novos testes)
+3.  **Deploy de Relatórios**:
+    *   Consolida os relatórios de testes E2E e Unitários.
+    *   Publica um relatório unificado no **GitHub Pages**.
+    *   Link do relatório: [https://reinaldorossetti.github.io/tester.com/tests-reports/](https://reinaldorossetti.github.io/tester.com/tests-reports/)
 
-- **Escopo:**
-	- `e2e/specs/frontend/cart-checkout.spec.ts`
-	- `e2e/specs/frontend/catalog.spec.ts`
-	- `e2e/specs/frontend/security.spec.ts`
+### 3) Resultados da última execução de referência
+
+- **Unitários:** `125` testes (100% de sucesso na última validação local).
+- **Frontend E2E:** `50` cenários x 3 navegadores = `150` execuções (Estável).
+- **API:** `9` cenários (Estável).
+
+---
+
+## 🛠️ Detalhes dos Testes
+
+### Unitários (Vitest)
+Focados na validação isolada de componentes React e lógica de contextos.
+- **Login.test.jsx**: Valida renderização, validação de campos, sucesso e falha de login.
+- **Register.test.jsx**: Cobre fluxos de PF/PJ, validação de CPF/CNPJ, CEP e upload de arquivos.
+- **Contexts**: Testes para `AuthContext`, `CartContext`, `LanguageContext` garantindo integridade do estado global.
+
+### End-to-End (Playwright)
 	- `e2e/specs/frontend/register-language.spec.ts`
 - **Passaram:** `25`
 - **Falharam:** `0`
