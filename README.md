@@ -4,6 +4,10 @@ Aplicação de e-commerce completa construída com **React + Vite** no frontend 
 
 Pirâmide de Testes do Projeto:
 
+
+Swagger da API: 
+https://reinaldorossetti.github.io/tester.com/tests-report/swagger/index.html
+
 Todos Testes:  
 https://reinaldorossetti.github.io/tester.com/tests-report/  
 
