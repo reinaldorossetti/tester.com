@@ -2,27 +2,42 @@
 
 Aplicação de e-commerce completa construída com **React + Vite** no frontend e **Next.js + PostgreSQL** no backend, com design visual inspirado na Amazon. Inclui catálogo de produtos, sistema de login/cadastro de usuários, gestão de carrinho e internacionalização PT/EN.
 
-Pirâmide de Testes do Projeto:
-
+Pirâmide de Testes do Projeto:  
 
 Swagger da API: 
-https://reinaldorossetti.github.io/tester.com/tests-report/swagger/index.html
+https://reinaldorossetti.github.io/tester.com/tests-report/swagger/index.html  
 
 Todos Testes:  
 https://reinaldorossetti.github.io/tester.com/tests-report/  
 
 Unitários/Unidade:  
-https://reinaldorossetti.github.io/tester.com/tests-report/unit-tests/coverage/index.html 
+[Coverage](https://reinaldorossetti.github.io/tester.com/tests-report/unit-tests/coverage/index.html)
 
 API Testes:  
-https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-api/index.html 
+[Playwright API](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-api/index.html)
 
-Playwright Frontend:
-https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-edge/index.html
+Playwright Frontend:  
+[Browser Edge](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-edge/index.html)   
 
-https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-chromium/index.html
+[Browser Chromium](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-chromium/index.html)  
 
-https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-webkit/index.html
+[Browser WebKit](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-webkit/index.html)  
+
+---
+
+## 📊 Relatórios e Dashboards (GitHub Pages)
+
+Acompanhe os resultados diários, a cobertura e a documentação pública disponibilizada usando **GH-Pages** através dos nossos relatórios:
+
+- 📑 **Todos os Testes (Índice):** [Visualizar Relatórios Gerais](https://reinaldorossetti.github.io/tester.com/tests-report/)
+- 📘 **Documentação Swagger (API):** [Swagger UI](https://reinaldorossetti.github.io/tester.com/tests-report/swagger/index.html)
+- 🧪 **Cobertura de Unitários/Unidade (Vitest):** [Unit Tests Coverage](https://reinaldorossetti.github.io/tester.com/tests-report/unit-tests/coverage/index.html)
+- 🔌 **Relatório de Testes de API:** [Playwright API Report](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-api/index.html)
+
+**📱 Relatórios UI E2E (Playwright por Browser):**
+- 🌐 [Relatório Frontend - Chromium](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-chromium/index.html)
+- 🌐 [Relatório Frontend - WebKit](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-webkit/index.html)
+- 🌐 [Relatório Frontend - Edge](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-edge/index.html)
 
 ---
 

@@ -1,326 +1,175 @@
-# 🧪 README de Testes — Projeto `tester.com`
+# 🧪 Guia de Testes e Estratégia de QA — `tester.com`
 
-Este documento consolida **como os testes estão estruturados**, **quais frameworks são usados**, e **os resultados mais recentes registrados** no repositório.
-
----
-
-## 🎯 Objetivo da suíte de testes
-
-A estratégia de testes do projeto cobre principalmente:
-
-- **Fluxos de frontend (E2E/UI)**: autenticação, catálogo, carrinho/checkout, cadastro, detalhes de produto e regras de segurança/acesso.
-- **Fluxos de API**: produtos, usuários e carrinho.
-- **Evidências de falha**: screenshot, vídeo e trace na primeira repetição.
+Bem-vindo ao guia de Qualidade e Testes do projeto `tester.com`. Este documento detalha a nossa **Cultura de Qualidade**, a **Estratégia da Pirâmide de Testes**, o ferramental utilizado, e serve como referência para desenvolvedores e QAs garantirem confiabilidade, escalabilidade e previsibilidade em cada entrega.
 
 ---
 
-## 📊 Resumo quantitativo dos testes
+## 🎯 Nossa Cultura de Qualidade (QA)
 
-### 1) Casos de teste implementados no código
-
-**Total de Cenários Únicos Automatizados:** `184`
-
-| Tipo de Teste | Framework | Quantidade | Cobertura |
-| :--- | :--- | :--- | :--- |
-| **Unitários** | Vitest | `125` casos | Componentes e Contextos (Frontend) |
-| **API / Integração** | Playwright | `9` casos | Endpoints de Backend |
-| **End-to-End (E2E)** | Playwright | `50` casos | Fluxos completos de usuário |
-
-> **Nota:** Os testes E2E são executados em 3 navegadores (Chromium, WebKit, Edge), totalizando `150` execuções de UI + `9` de API por pipeline.
-
-### 2) Pipeline de Automação (CI/CD)
-
-O projeto conta com uma esteira de testes automatizada via **GitHub Actions** (`.github/workflows/e2e-pipeline.yml`), que é disparada a cada *push* ou *pull request* na branch `main`.
-
-**Estágios da Pipeline:**
-1.  **Unit Tests**:
-    *   Executa toda a suíte de testes unitários com Vitest.
-    *   Gera relatório de cobertura (Coverage) e XML (JUnit).
-    *   *Falha na pipeline se os testes unitários quebrarem.*
-
-2.  **E2E Tests**:
-    *   Executa os testes Playwright em paralelo (Matrix Strategy) para Chromium, WebKit e Edge.
-    *   Sobe os ambientes de Frontend (Vite) e Backend (Next.js) automaticamente.
-    *   Gera vídeo e screenshots em caso de falha.
-
-3.  **Deploy de Relatórios**:
-    *   Consolida os relatórios de testes E2E e Unitários.
-    *   Publica um relatório unificado no **GitHub Pages**.
-    *   Link do relatório: [https://reinaldorossetti.github.io/tester.com/tests-reports/](https://reinaldorossetti.github.io/tester.com/tests-reports/)
-
-### 3) Resultados da última execução de referência
-
-- **Unitários:** `125` testes (100% de sucesso na última validação local).
-- **Frontend E2E:** `50` cenários x 3 navegadores = `150` execuções (Estável).
-- **API:** `9` cenários (Estável).
+A qualidade neste projeto não é uma etapa final, mas um processo contínuo integrado em todo o Ciclo de Vida de Desenvolvimento de Software (SDLC). 
+Nosso objetivo é:
+- **Shift-Left Testing:** Antecipar testes e validações para as fases iniciais do desenvolvimento.
+- **Feedback Rápido:** Fornecer aos desenvolvedores feedback imediato sobre seus commits usando testes estáticos e unitários.
+- **Redução de Regressões:** Garantir de forma automatizada que refatorações não quebrem fluxos de negócio críticos (E2E).
+- **Cobertura de Código Efetiva:** Exigir `80%` como threshold de segurança para aprovação de PRs.
 
 ---
 
-## 🛠️ Detalhes dos Testes
+## 🧱 A Pirâmide de Testes do Projeto
 
-### Unitários (Vitest)
-Focados na validação isolada de componentes React e lógica de contextos.
-- **Login.test.jsx**: Valida renderização, validação de campos, sucesso e falha de login.
-- **Register.test.jsx**: Cobre fluxos de PF/PJ, validação de CPF/CNPJ, CEP e upload de arquivos.
-- **Contexts**: Testes para `AuthContext`, `CartContext`, `LanguageContext` garantindo integridade do estado global.
+Nossa estratégia baseia-se na tradicional **Pirâmide de Testes**, adaptada para o ecossistema Web (React + Node.js). Ela define a proporção ideal entre os diferentes tipos de teste:
 
-### End-to-End (Playwright)
-	- `e2e/specs/frontend/register-language.spec.ts`
-- **Passaram:** `25`
-- **Falharam:** `0`
+```mermaid
+graph TD
+    A[E2E / UI - Lentos, Alto Valor] --> B[Integração / API - Balanceado]
+    B --> C[Unitários / Componentes - Rápidos, Alta Cobertura]
+    %% Estilização para evidenciar a pirâmide
+```
+*(Nota: Imagine uma pirâmide cuja base é ampla e o topo estreito).*
 
-> Essa execução confirma que os **5 novos testes adicionados** estão passando no conjunto validado.
+### 1. Base (Testes Unitários & Componentes) — Grande Volume
+- **Foco:** Validar unidades isoladas de código (funções, hooks arbitrários do React, utilitários, e renderização isolada de componentes UI).
+- **Características:** Rapidez extrema, isolamento de dependências externas via *mocks* (Banco de Dados, chamadas de rede API externas).
+- **Ferramentas:** Vitest, Testing Library React.
+
+### 2. Meio (Testes de Integração & API) — Volume Moderado
+- **Foco:** Validar o contrato e a resposta da API do backend. Testar como as peças individuais reagem em conjunto.
+- **Características:** Não necessitam de interface de usuário (DOM). Conectam-se ao banco de dados via seeds limpos.
+- **Ferramentas:** Playwright API Testing.
+
+### 3. Topo (Testes End-to-End - E2E UI) — Baixo Volume (Cruciais)
+- **Foco:** Ponta-a-ponta. Validar jornadas críticas de negócio que geram valor (Login, Cadastro de Produto, Carrinho de Compras).
+- **Características:** Lentos e sujeitos a instabilidades de rede (flakiness). Simulam o navegador real consumindo a API real e o banco de dados.
+- **Ferramentas:** Playwright UI.
 
 ---
 
-## 🧱 Estrutura dos testes no repositório
+## 🧰 Stack Tecnológica de QA
 
-```text
-e2e/
-├── data/
-│   └── products.mock.ts
-├── fixtures/
-│   ├── failure-capture.fixture.ts
-│   ├── login.fixture.ts
-│   ├── register.fixture.ts
-│   ├── test-data.fixture.ts
-│   ├── ui.fixture.ts
-│   └── selectors/selectors.ts
-├── helpers/
-│   ├── auth.ts
-│   ├── PageBase.ts
-│   ├── RegisterPage.ts
-│   └── selectors.ts
-├── specs/
-│   ├── api/
-│   │   ├── cart.api.spec.ts
-│   │   ├── products.api.spec.ts
-│   │   └── users.api.spec.ts
-│   └── frontend/
-│       ├── auth.spec.ts
-│       ├── cart-checkout.spec.ts
-│       ├── catalog.spec.ts
-│       ├── login.spec.ts
-│       ├── product-details.spec.ts
-│       ├── register.spec.ts
-│       ├── register-language.spec.ts
-│       ├── register-login.spec.ts
-│       └── security.spec.ts
-└── results/
-		└── artefatos auxiliares de execução
+As ferramentas foram escolhidas buscando sinergia com o frontend em Vite e paralelismo.
+
+### Nível Unitário
+- **Vitest:** Engine principal para testes rápidos. Desenhado para projetos baseados no `Vite`.
+- **@testing-library/react:** Para testes de renderização com foco na perspectiva do usuário (Queries genéricas como `getByRole`).
+- **jsdom:** Emulador DOM em ambiente Node para permitir que os testes rodem fora do navegador.
+- **@vitest/coverage-v8:** Relatórios detalhados da cobertura estrutural do código.
+
+### Nível Integração & E2E
+- **Playwright Oficial (@playwright/test):** Motor central cross-browser corporativo para simular navegação em Chromium, WebKit e Firefox.
+- **@faker-js/faker:** Geração de massa de dados imprevisível ou pseudo-randômica para cadastro (garante robustez do sistema, prevenindo hardcodes).
+
+---
+
+## ⚡ Vitest no Projeto (Deep Dive)
+
+O **Vitest** atua como nossa espinha dorsal para *Shift-Left Testing*.
+
+### Como o Utilizamos
+O Vitest roda contra o diretório `src/__tests__/` ou em arquivos com sufixo `*.spec.jsx` diretamente ao lado da implementação.
+
+**Comportamentos esperados:**
+- Subir de forma rápida e testar a renderização simulada de componentes.
+- Atender obrigatoriamente a régua (Threshold) de **80%** em `lines`, `functions`, `branches`, e `statements`. *A pipeline falhará caso seu novo código diminua a cobertura geral para baixo deste indexador.*
+
+### Comandos de Dia a Dia
+```bash
+npm run test:unit      # Roda tudo uma única vez e para. Ideal para Pré-Commit/CI.
+npm run test:watch     # Continua rodando observando qualquer mudança de arquivo(s) - TDD.
+npm run test:coverage  # Levanta o suite e produz a pasta de relatório coverage/.
+npm run test:ui        # Levanta uma interface explorando os testes e reports visuais.
 ```
 
-### Arquivos de saída de execução
+---
 
-- `junit-report.xml`: resultado em formato JUnit (bom para CI).
-- `playwright-report/`: relatório HTML navegável.
-- `test-results/`: evidências por cenário (screenshot, vídeo, trace, contexto de erro).
+## 🎭 Playwright no Projeto (Deep Dive)
+
+Utilizado para a garantia de qualidade através da simulação fiel das jornadas do cliente em um ambiente completo.
+
+**Principais Definições (`playwright.config.ts`):**
+- **Execução Paralela Completa:** Assegura redução dramática no tempo de QA nas Pipelines.
+- **Ambientes (Workers/Retries):** CI roda 3 *workers* em paralelo com retentativas duplas nos pontos falhos. O uso local levanta até 7 *workers* com 1 tentativa.
+- **Captura Forense Completa em Falhas:** Se o E2E falhar, o Playwright vai armazenar, para auditoria:
+  - `screenshot` da quebra;
+  - `video` com a gravação da cena que falhou;
+  - `trace` contendo logs de rede, ações e DOM de cada instante.
+
+### Comandos de Dia a Dia
+```bash
+npm run test:e2e           # Execução Headless silenciosa.
+npm run test:e2e:ui        # Execução pelo console interativo UI do Playwright.
+npm run test:e2e:debug     # Modo Debugger em tempo real.
+npm run test:e2e:report    # Mostra o relatório final HTML Playwright na porta local.
+```
 
 ---
 
-## ⚙️ Configuração atual do Playwright
+## ▶️ Como Executar o Ecossistema Completo 
 
-Arquivo: `playwright.config.ts`
+Para garantir a ausência de *false-positives*, você precisa rodar toda a stack conectada antes das rotinas de E2E.
 
-- `timeout` por teste: **45s**
-- `expect.timeout`: **15s**
-- Paralelismo: `fullyParallel: true`
-- Tentativas: `1` local / `2` em CI
-- Workers: `70%` local / `3` em CI
-- Reporters:
-	- `list`
-	- `html` (pasta `playwright-report`)
-	- `junit` (arquivo `junit-report.xml`)
-- Coleta de evidências:
-	- `trace: on-first-retry`
-	- `screenshot: only-on-failure`
-	- `video: retain-on-failure`
+### 1) Suba a infraestrutura
+```bash
+docker compose up -d       # Inicia o DB (PostgreSQL)
+```
 
-### Projetos definidos no config
+### 2) Prepare o Backend (API) e Banco
+```bash
+cd server
+npm install
+npm run seed               # Semeia a base de dados zerada (Pré-requisito crítico).
+npm run dev                # Dev Next rodando na porta 3001
+```
 
-- `frontend-chromium`
-- `frontend-webkit`
-- `frontend-edge`
-- `api`
+### 3) Prepare o Frontend e lance os Testes
+Em outro terminal, na raiz principal:
+```bash
+npm install
+npm run dev                # Vite subindo servidor DEV na porta 5174.
 
-> Nota técnica: o `testDir` está apontando para `./e2e/specs/frontend`, então a execução padrão foca os testes de frontend.
-
----
-
-## 🧰 Frameworks e bibliotecas utilizadas nos testes
-
-### Playwright (`@playwright/test`)
-
-É o framework principal de automação. No projeto, ele oferece:
-
-- Execução E2E com múltiplos navegadores.
-- API testing com `request` (nos specs de API).
-- Fixtures reutilizáveis para setup e organização.
-- Repetição automática e coleta rica de evidências.
-- Relatórios HTML e JUnit para análise local e CI.
-
-### Faker (`@faker-js/faker`)
-
-Usado para gerar dados dinâmicos de teste (ex.: cadastro), reduzindo colisões de dados e aumentando a robustez dos cenários.
-
-### Node.js + scripts utilitários
-
-- Script customizado de falhas: `scripts/generate-failure-report.js`
-- Comando para abrir relatório de falhas em HTML.
+# Para validar tudo de uma vez
+npm run test:unit
+npm run test:e2e
+```
 
 ---
 
-## 🚀 Instalação detalhada para executar os testes
+## 🤖 Pipeline CI/CD (GitHub Actions)
 
-## 1. Pré-requisitos
+O processo está consolidado na rotina automatizada (`.github/workflows/e2e-pipeline.yml`).
 
-- Node.js 18+
-- npm
-- Docker + Docker Compose
-
-## 2. Instalar dependências (frontend)
-
-Na raiz do projeto:
-
-`npm install`
-
-## 3. Instalar dependências (backend/API)
-
-Na pasta `server/`:
-
-`npm install`
-
-## 4. Subir banco de dados
-
-Na raiz do projeto:
-
-`docker compose up -d`
-
-## 5. Preparar base de dados
-
-Na pasta `server/`:
-
-`npm run seed`
-
-## 6. Iniciar backend
-
-Na pasta `server/`:
-
-`npm run dev`
-
-Backend esperado em: `http://localhost:3001`
-
-## 7. Iniciar frontend
-
-Na raiz do projeto:
-
-`npm run dev`
-
-Frontend esperado em: `http://localhost:5174`
-
-> Esse passo é crítico para os testes de frontend. Sem a aplicação ativa, haverá `ERR_CONNECTION_REFUSED`.
+Nenhuma code integration deve ir a `main` ou ser mergeada se apresentar falhas nas verificações corporativas. A esteira da nossa CI performa em matriz paralela o seguinte:
+1. Executa unit testes e avalia falha em relação à meta de **80% de Cobertura**.
+2. Disparo Playwright em Matrix de 3 browsers simulados no Headless (Chromium, Edge, Webkit) e validadores de API.
 
 ---
 
-## ▶️ Execução dos testes (detalhado)
+## 📊 Relatórios e Dashboards (GitHub Pages)
 
-Comandos disponíveis no `package.json` da raiz:
+Acompanhe os resultados diários, a cobertura e a documentação pública disponibilizada usando **GH-Pages** através dos nossos relatórios:
 
-- `npm run test:e2e` → execução padrão Playwright
-- `npm run test:e2e:ui` → modo UI interativo
-- `npm run test:e2e:debug` → modo debug
-- `npm run test:e2e:headed` → execução com navegador visível
-- `npm run test:e2e:report` → abre último relatório HTML
-- `npm run test:e2e:failure-report` → gera relatório customizado de falhas
+- 📑 **Todos os Testes (Índice):** [Visualizar Relatórios Gerais](https://reinaldorossetti.github.io/tester.com/tests-report/)
+- 📘 **Documentação Swagger (API):** [Swagger UI](https://reinaldorossetti.github.io/tester.com/tests-report/swagger/index.html)
+- 🧪 **Cobertura de Unitários/Unidade (Vitest):** [Unit Tests Coverage](https://reinaldorossetti.github.io/tester.com/tests-report/unit-tests/coverage/index.html)
+- 🔌 **Relatório de Testes de API:** [Playwright API Report](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-api/index.html)
 
-### Sequência recomendada de execução local
-
-1. Confirmar banco/API/frontend ativos.
-2. Rodar `npm run test:e2e`.
-3. Abrir relatório com `npm run test:e2e:report`.
-4. Se houver falha, investigar `test-results/` (screenshot/vídeo/trace).
+**📱 Relatórios UI E2E (Playwright por Browser):**
+- 🌐 [Relatório Frontend - Chromium](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-chromium/index.html)
+- 🌐 [Relatório Frontend - WebKit](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-webkit/index.html)
+- 🌐 [Relatório Frontend - Edge](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-edge/index.html)
 
 ---
 
-## 📋 Tabela completa dos testes (nome + numeração + feature)
+## 📂 Organização Prática das Pastas (Mapa)
 
-| # | Feature | Nome do teste |
-|---:|---|---|
-| 1 | Cart and Checkout | TS01 authenticated user should complete checkout and navigate to thank-you page |
-| 2 | Cart and Checkout | TS02 non-authenticated user should be redirected to login with next parameter |
-| 3 | Cart and Checkout | TS03 empty cart should keep checkout unavailable |
-| 4 | Cart and Checkout | TS04 should update quantity, total and badge for a valid positive value |
-| 5 | Cart and Checkout | TS05 should keep previous quantity when value is zero |
-| 6 | Cart and Checkout | TS06 should keep previous quantity when value is negative |
-| 7 | Cart and Checkout | TS07 should handle larger valid quantity values correctly |
-| 8 | Cart and Checkout | TS08 should normalize decimal input to integer quantity |
-| 9 | Cart and Checkout | TS09 should remove a single item and show empty cart state |
-| 10 | Cart and Checkout | TS10 should add three items, remove all of them, and validate empty cart |
-| 11 | Cart and Checkout | TS11 should clear cart after successful checkout when leaving thank-you page |
-| 12 | Cart and Checkout | TS12 should decrement cart badge after each item removal |
-| 13 | Login (`auth.spec.ts`) | TS01 - should log in successfully with next redirect and greeting |
-| 14 | Login (`auth.spec.ts`) | TS02 - should display error for invalid credentials |
-| 15 | Login (`auth.spec.ts`) | TS03 - should validate required fields |
-| 16 | Login (`auth.spec.ts`) | TS04 - should show validation when password is blank |
-| 17 | Login (`auth.spec.ts`) | TS05 - should show validation when email is blank |
-| 18 | Login (`auth.spec.ts`) | TS06 - should keep authenticated state after reload |
-| 19 | Login (`login.spec.ts`) | TS01 - Should successfully log in when providing valid credentials |
-| 20 | Login (`login.spec.ts`) | TS02 - Should display an error alert when credentials are invalid |
-| 21 | Login (`login.spec.ts`) | TS03 - Should display a validation message when submitting with empty fields |
-| 22 | Login (`login.spec.ts`) | TS04 - Should display a validation message when password is empty |
-| 23 | Login (`login.spec.ts`) | TS05 - Should navigate to the register page when clicking the create account button |
-| 24 | Catalog Page | TS01 deve listar produtos ao carregar página |
-| 25 | Catalog Page | TS02 deve permitir busca por texto e atualizar contagem |
-| 26 | Catalog Page | TS03 deve aplicar filtro por categoria |
-| 27 | Catalog Page | TS04 deve mostrar estado vazio quando busca não retorna itens |
-| 28 | Catalog Page | TS05 deve navegar para detalhes ao clicar no produto |
-| 29 | Catalog Page | TS06 should preserve search filter after navigating to details and back |
-| 30 | Product Details | TS01 deve exibir dados principais do produto |
-| 31 | Product Details | TS02/TS03 deve permitir adicionar ao carrinho e atualizar badge |
-| 32 | Product Details | TS04 deve tratar ID inválido |
-| 33 | Product Details | TS05 deve voltar para catálogo |
-| 34 | Register | TS01 - Should successfully register a new user when providing all valid requirements |
-| 35 | Register | TS02 - rejeita email em formato inválido aleatório |
-| 36 | Register | TS03 - rejeita senha curta no step 0 |
-| 37 | Register | TS04 - rejeita senhas não-correspondentes com dados aleatórios |
-| 38 | Register | TS05 - Should display specific validation errors and prevent step advancement when individual required fields are empty |
-| 39 | Register | TS06 - rejeita email duplicado com dados aleatórios |
-| 40 | Register | TS07 - valida todos os campos vazios com mensagens de validação individuais |
-| 41 | Register and Language | TS01 registro PF completo com sucesso |
-| 42 | Register and Language | TS03 validação de campos obrigatórios no registro |
-| 43 | Register and Language | TS01/TS02 idioma alterna e persiste após reload |
-| 44 | Register and Language | TS04 should render cart empty-state content in English after language toggle |
-| 45 | Register → Login — Fluxo Completo | TS01 - Should register a new user and immediately login with the same credentials |
-| 46 | Register → Login — Fluxo Completo | TS02 - Should allow the user to log out and log back in with the same credentials |
-| 47 | Register → Login — Fluxo Completo | TS03 - Should show an error when logging in with wrong password after registration |
-| 48 | Security / Access Control | SE01 - Não logado tentando fazer checkout deve redirecionar para login |
-| 49 | Security / Access Control | SE02 - Tentar acessar a página de confirmação (/thank-you) diretamente sem estar logado deve redirecionar |
-| 50 | Security / Access Control | SE03 - Should revoke protected access after logout |
-| 51 | API Products | deve criar, buscar, filtrar, atualizar e remover produto |
-| 52 | API Products | deve retornar 400 ao criar produto sem campos obrigatórios |
-| 53 | API Products | deve retornar array vazio para categoria inexistente |
-| 54 | API Users | deve registrar e autenticar usuário válido |
-| 55 | API Users | deve retornar 409 para e-mail duplicado |
-| 56 | API Users | deve retornar 401 para credenciais inválidas |
-| 57 | API Users | deve retornar 400 para payload incompleto |
-| 58 | API Cart | deve adicionar, incrementar, listar e remover item do carrinho |
-| 59 | API Cart | deve validar erros de payload do carrinho |
+```text
+📁 src/__tests__/          -> Suítes para lógicas de Frontend da Web em Vitest.
+📁 e2e/specs/frontend/     -> Cenários Playwright validando a tela e fluxo de UI E2E.
+📁 e2e/specs/api/          -> Cenários Playwright validando respostas JSON puras.
+📁 server/tests/api/       -> (Node backend) Testes nativos Unit e API do backend.
+📁 test-results/           -> [AUTO-GERADO] Repositório local dos relatórios da falha (video/image).
+📁 playwright-report/      -> [AUTO-GERADO] Dashboard html do sucesso das runs de E2E do Playwright.
+📁 coverage/               -> [AUTO-GERADO] Dashboard html das métricas do unitário pelo Vitest.
+```
 
 ---
-
-## 🔍 Interpretação rápida de falhas
-
-Quando um teste falhar:
-
-1. Verifique se frontend (`5174`) e backend (`3001`) estão ativos.
-2. Abra o HTML report para timeline e logs.
-3. Inspecione o `trace.zip` do cenário com falha.
-4. Revise os fixtures envolvidos no cenário.
-
----
-
-## ✅ Conclusão
-
-Hoje o projeto possui **59 cenários implementados** (50 frontend + 9 API), com rastreabilidade por feature e por caso de teste.
-
-A tabela acima traz a visão completa e numerada dos cenários. Já os resultados de execução demonstram que a saúde da suíte depende diretamente do ambiente estar ativo (`localhost:5174`), reforçando a necessidade de subir a aplicação antes dos testes E2E.
+*Dúvidas de manutenção? Consulte os arquivos de configuração raiz: `vitest.config.js` e `playwright.config.ts`. A Engenharia de Qualidade (QA) é uma responsabilidade compartilhada por todos da equipe. Mantenha os padrões e desenvolva aplicações seguras.*
