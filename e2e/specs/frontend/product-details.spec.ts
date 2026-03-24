@@ -1,6 +1,7 @@
 import { mockProducts } from '../../data/products.mock';
-import { selectors } from '../../fixtures/selectors/selectors';
 import { expect, test } from '../../fixtures/ui.fixture';
+import { ProductDetailsPage } from '../../pages/ProductDetailsPage';
+import { NavComponent } from '../../pages/NavComponent';
 
 test.describe('Product Details', () => {
   test.beforeEach(async ({ page }) => {
@@ -36,20 +37,21 @@ test.describe('Product Details', () => {
   });
 
   test('TS01 deve exibir dados principais do produto', async ({ page, waitForPageLoad }) => {
-    await page.goto('/product/1');
-    await waitForPageLoad(page, 'productDetails');
+    const productDetailsPage = new ProductDetailsPage(page);
+    await productDetailsPage.goToProduct(1);
 
     // Verify product heading
     await expect(page.getByRole('heading', { name: /Relógio Elegante/i })).toBeVisible();
     // Verify product image is rendered
-    await expect(page.locator(selectors.productDetails.image)).toBeVisible();
+    await expect(page.locator(productDetailsPage.image)).toBeVisible();
     // Verify price is displayed
     await expect(page.getByText('R$ 50.99')).toBeVisible();
   });
 
   test('TS02/TS03 deve permitir adicionar ao carrinho e atualizar badge', async ({ page, waitForPageLoad }) => {
-    await page.goto('/product/1');
-    await waitForPageLoad(page, 'productDetails');
+    const productDetailsPage = new ProductDetailsPage(page);
+    const navComponent = new NavComponent(page);
+    await productDetailsPage.goToProduct(1);
 
     // Open MUI quantity dropdown using ARIA attributes for resilience
     await page.locator('[role="combobox"][aria-labelledby="qty-label"]').click();
@@ -58,10 +60,10 @@ test.describe('Product Details', () => {
     await page.locator('[role="option"]').filter({ hasText: '2' }).click();
 
     // Add product to cart
-    await page.getByRole('button', { name: /Adicionar ao Carrinho|Add to Cart/i }).click();
+    await productDetailsPage.clickAddToCart();
 
     // Verify cart badge shows correct quantity
-    await expect(page.locator(selectors.nav.cartBadge)).toContainText('2');
+    await expect(page.locator(navComponent.cartBadge)).toContainText('2');
   });
 
   test('TS04 deve tratar ID inválido', async ({ page }) => {
@@ -72,8 +74,8 @@ test.describe('Product Details', () => {
   });
 
   test('TS05 deve voltar para catálogo', async ({ page, waitForPageLoad }) => {
-    await page.goto('/product/1');
-    await waitForPageLoad(page, 'productDetails');
+    const productDetailsPage = new ProductDetailsPage(page);
+    await productDetailsPage.goToProduct(1);
 
     // Click back button to return to catalog
     await page.getByRole('button', { name: /Voltar|Back/i }).first().click();

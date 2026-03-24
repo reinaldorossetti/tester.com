@@ -1,8 +1,9 @@
 import { expect } from '../../fixtures/ui.fixture';
 import { test, LOGIN_VALIDATION } from '../../fixtures/login.fixture';
 import { REGISTER_VALIDATION } from '../../fixtures/register.fixture';
-import { selectors } from '../../fixtures/selectors/selectors';
-import { RegisterPage } from '../../helpers/RegisterPage';
+import { RegisterPage } from '../../pages/RegisterPage';
+import { LoginPage } from '../../pages/LoginPage';
+import { NavComponent } from '../../pages/NavComponent';
 import { PageBase, waitForPageLoad } from '../../helpers/PageBase';
 
 test.describe('Register → Login — Fluxo Completo', () => {
@@ -23,8 +24,10 @@ test.describe('Register → Login — Fluxo Completo', () => {
   }) => {
     const base = new PageBase(page);
     const registerPage = new RegisterPage(page);
+    const loginPage = new LoginPage(page);
+    const navComponent = new NavComponent(page);
     const userData = base.generateUserData();
-    const cpf = registerPage.generateValidCPF();
+    const cpf = base.generateValidCPF();
 
     // 1. ViaCEP — preenchimento automático de endereço
     await page.route(REGISTER_VALIDATION.apiEndpoints.viacep, async (route) => {
@@ -54,40 +57,36 @@ test.describe('Register → Login — Fluxo Completo', () => {
     await setupLoginSuccessMock(page, userData.email, userData.firstName);
 
     // ── Step 1: Preencher o formulário de Cadastro ───────────────────────────
-    await page.goto('/register');
-    await waitForPageLoad(page, 'register');
+    await registerPage.goToRegister();
 
-    await base.fill(selectors.register.firstName, userData.firstName);
-    await base.fill(selectors.register.lastName, userData.lastName);
-    await base.fill(selectors.register.cpf, cpf);
-    await base.fill(selectors.register.email, userData.email);
-    await base.fill(selectors.register.phone, REGISTER_VALIDATION.testData.validPhone);
-    await base.fill(selectors.register.password, userData.password);
-    await base.fill(selectors.register.confirmPassword, userData.password);
-    await base.click(selectors.register.next);
+    await base.fill(registerPage.firstNameInput, userData.firstName);
+    await base.fill(registerPage.lastNameInput, userData.lastName);
+    await base.fill(registerPage.cpfInput, cpf);
+    await base.fill(registerPage.emailInput, userData.email);
+    await base.fill(registerPage.phoneInput, REGISTER_VALIDATION.testData.validPhone);
+    await base.fill(registerPage.passwordInput, userData.password);
+    await base.fill(registerPage.confirmPasswordInput, userData.password);
+    await registerPage.clickNext();
 
     // Preenche endereço (step 2) — espera o ViaCEP preencher o logradouro
-    await base.fill(selectors.register.addressZip, REGISTER_VALIDATION.testData.validZipCode);
-    await expect(page.locator(selectors.register.addressStreet)).not.toHaveValue('', { timeout: 10_000 });
-    await base.fill(selectors.register.addressNumber, REGISTER_VALIDATION.testData.addressNumber);
-    await page.click(selectors.register.submit);
+    await base.fill(registerPage.zipCodeInput, REGISTER_VALIDATION.testData.validZipCode);
+    await expect(page.locator(registerPage.streetInput)).not.toHaveValue('', { timeout: 10_000 });
+    await base.fill(registerPage.numberInput, REGISTER_VALIDATION.testData.addressNumber);
+    await registerPage.clickSubmit();
 
     // Verifica toast de sucesso do cadastro
-    await expect(page.locator('body')).toContainText(/Cadastro realizado com sucesso!/i, { timeout: base.timeOut });
+    await registerPage.waitForSuccessMessage(base.timeOut);
 
     // ── Step 2: Navega para o Login com as credenciais do cadastro ───────────
-    await page.goto('/login');
-    await waitForPageLoad(page, 'login');
+    await loginPage.goToLogin();
 
-    await base.fill(selectors.login.email, userData.email);
-    await base.fill(selectors.login.password, userData.password);
-    await base.click(selectors.login.submit);
+    await loginPage.login(userData.email, userData.password);
 
     // ── Step 3: Verifica redirecionamento ao catálogo e saudação na NavBar ───
     await waitForPageLoad(page, 'catalog');
     await expect(page).toHaveURL('/');
-    await expect(page.locator(selectors.nav.userGreeting)).toBeVisible({ timeout: base.timeOut });
-    await expect(page.locator(selectors.nav.userGreeting)).toContainText(userData.firstName, { timeout: base.timeOut });
+    await expect(page.locator(navComponent.userGreeting)).toBeVisible({ timeout: base.timeOut });
+    await expect(page.locator(navComponent.userGreeting)).toContainText(userData.firstName, { timeout: base.timeOut });
   });
 
   /**
@@ -99,35 +98,31 @@ test.describe('Register → Login — Fluxo Completo', () => {
     setupLoginSuccessMock,
   }) => {
     const base = new PageBase(page);
+    const loginPage = new LoginPage(page);
+    const navComponent = new NavComponent(page);
     const userData = base.generateUserData();
 
     // Mock de login com sucesso para ambas as tentativas
     await setupLoginSuccessMock(page, userData.email, userData.firstName);
 
-    await page.goto('/login');
-    await waitForPageLoad(page, 'login');
+    await loginPage.goToLogin();
 
-    await base.fill(selectors.login.email, userData.email);
-    await base.fill(selectors.login.password, userData.password);
-    await base.click(selectors.login.submit);
+    await loginPage.login(userData.email, userData.password);
 
     await waitForPageLoad(page, 'catalog');
-    await expect(page.locator(selectors.nav.userGreeting)).toBeVisible({ timeout: 10_000 });
+    await expect(page.locator(navComponent.userGreeting)).toBeVisible({ timeout: 10_000 });
 
-    await base.click(selectors.nav.logoutButton);
+    await navComponent.clickLogout();
 
     // Após logout a saudação não deve mais estar visível
-    await expect(page.locator(selectors.nav.userGreeting)).not.toBeVisible({ timeout: base.timeOut });
+    await expect(page.locator(navComponent.userGreeting)).not.toBeVisible({ timeout: base.timeOut });
 
-    await page.goto('/login');
-    await waitForPageLoad(page, 'login');
+    await loginPage.goToLogin();
 
-    await base.fill(selectors.login.email, userData.email);
-    await base.fill(selectors.login.password, userData.password);
-    await base.click(selectors.login.submit);
+    await loginPage.login(userData.email, userData.password);
 
     await waitForPageLoad(page, 'catalog');
-    await expect(page.locator(selectors.nav.userGreeting)).toBeVisible({ timeout: base.timeOut });
+    await expect(page.locator(navComponent.userGreeting)).toBeVisible({ timeout: base.timeOut });
   });
 
   /**
@@ -139,18 +134,16 @@ test.describe('Register → Login — Fluxo Completo', () => {
     setupLoginFailureMock,
   }) => {
     const base = new PageBase(page);
+    const loginPage = new LoginPage(page);
 
     await setupLoginFailureMock(page);
 
-    await page.goto('/login');
-    await waitForPageLoad(page, 'login');
+    await loginPage.goToLogin();
 
-    await base.fill(selectors.login.email, LOGIN_VALIDATION.testData.validEmail);
-    await base.fill(selectors.login.password, LOGIN_VALIDATION.testData.wrongPassword);
-    await base.click(selectors.login.submit);
+    await loginPage.login(LOGIN_VALIDATION.testData.validEmail, LOGIN_VALIDATION.testData.wrongPassword);
 
-    await expect(page.locator(selectors.login.error)).toBeVisible({ timeout: base.timeOut });
-    await expect(page.locator(selectors.login.error)).toContainText(LOGIN_VALIDATION.errorMessages.invalidCredentials);
+    await expect(page.locator(loginPage.errorAlert)).toBeVisible({ timeout: base.timeOut });
+    await expect(page.locator(loginPage.errorAlert)).toContainText(LOGIN_VALIDATION.errorMessages.invalidCredentials);
 
     // Usuário permanece na página de login
     await expect(page).toHaveURL('/login');

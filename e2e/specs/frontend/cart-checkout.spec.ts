@@ -1,7 +1,10 @@
 import { mockProducts } from '../../data/products.mock';
 import { setAuthenticatedUser } from '../../helpers/auth';
-import { selectors } from '../../fixtures/selectors/selectors';
 import { expect, test } from '../../fixtures/ui.fixture';
+import { CartPage } from '../../pages/CartPage';
+import { CatalogPage } from '../../pages/CatalogPage';
+import { NavComponent } from '../../pages/NavComponent';
+import { ThankYouPage } from '../../pages/ThankYouPage';
 
 test.describe('Cart and Checkout', () => {
   test.beforeEach(async ({ page }) => {
@@ -32,20 +35,17 @@ test.describe('Cart and Checkout', () => {
     });
   });
 
-  const openCartWithOneItem = async (page, waitForPageLoad) => {
-    await page.goto('/');
-    await waitForPageLoad(page, 'catalog');
-    await page.getByRole('button', { name: /Adicionar ao Carrinho|Add to Cart/i }).first().click();
-    await page.locator(selectors.nav.cartButton).click();
-    await expect(page).toHaveURL('/cart');
-  };
-
   /**
    * Validates the happy path for checkout with an authenticated user.
    * Expected behavior: user adds an item, opens cart, completes checkout,
    * and is redirected to the thank-you page with order summary visible.
    */
   test('TS01 authenticated user should complete checkout and navigate to thank-you page', async ({ page, waitForPageLoad }) => {
+    const cartPage = new CartPage(page);
+    const catalogPage = new CatalogPage(page);
+    const navComponent = new NavComponent(page);
+    const thankYouPage = new ThankYouPage(page);
+
     await setAuthenticatedUser(page, {
       id: 101,
       name: 'João',
@@ -54,18 +54,16 @@ test.describe('Cart and Checkout', () => {
       personType: 'PF',
     });
 
-    await page.goto('/');
-    await waitForPageLoad(page, 'catalog');
-
-    await page.getByRole('button', { name: /Adicionar ao Carrinho|Add to Cart/i }).first().click();
-    await page.locator(selectors.nav.cartButton).click();
+    await catalogPage.goToCatalog();
+    await catalogPage.clickAddToCartFirstProduct();
+    await navComponent.clickCartButton();
     await expect(page).toHaveURL('/cart');
 
-    await expect(page.locator(selectors.cart.total)).toBeVisible();
-    await page.getByRole('button', { name: /Fechar Pedido|Proceed to Checkout/i }).click();
+    await expect(page.locator(cartPage.totalAmount)).toBeVisible();
+    await cartPage.clickProceedToCheckout();
 
     await expect(page).toHaveURL('/thank-you');
-    await expect(page.locator('#thank-you-summary-wrapper')).toBeVisible();
+    await expect(page.locator(thankYouPage.summaryWrapper)).toBeVisible();
   });
 
   /**
@@ -74,14 +72,17 @@ test.describe('Cart and Checkout', () => {
    * pointing back to the cart route.
    */
   test('TS02 non-authenticated user should be redirected to login with next parameter', async ({ page, waitForPageLoad }) => {
-    await page.goto('/');
-    await waitForPageLoad(page, 'catalog');
+    const cartPage = new CartPage(page);
+    const catalogPage = new CatalogPage(page);
+    const navComponent = new NavComponent(page);
 
-    await page.getByRole('button', { name: /Adicionar ao Carrinho|Add to Cart/i }).first().click();
-    await page.locator(selectors.nav.cartButton).click();
+    await catalogPage.goToCatalog();
+
+    await catalogPage.clickAddToCartFirstProduct();
+    await navComponent.clickCartButton();
     await expect(page).toHaveURL('/cart');
 
-    await page.getByRole('button', { name: /Entrar para Finalizar/i }).click();
+    await cartPage.clickLoginToCheckout();
     await expect(page).toHaveURL(/\/login\?next=(%2Fcart|\/cart)/);
   });
 
@@ -91,7 +92,8 @@ test.describe('Cart and Checkout', () => {
    * to return to catalog before checkout can happen.
    */
   test('TS03 empty cart should keep checkout unavailable', async ({ page }) => {
-    await page.goto('/cart');
+    const cartPage = new CartPage(page);
+    await cartPage.goToCart();
     await expect(page.locator('body')).toContainText('Meu Carrinho');
     await expect(page.locator('body')).toContainText('Seu carrinho está vazio');
     await expect(page.locator('body')).toContainText('Adicione produtos do catálogo para começar.');
@@ -103,15 +105,17 @@ test.describe('Cart and Checkout', () => {
    * Expected behavior: quantity field, order total, and cart badge reflect the new value.
    */
   test('TS04 should update quantity, total and badge for a valid positive value', async ({ page, waitForPageLoad }) => {
-    await openCartWithOneItem(page, waitForPageLoad);
+    const cartPage = new CartPage(page);
+    const navComponent = new NavComponent(page);
+    await cartPage.openCartWithOneItem(waitForPageLoad);
 
-    const quantityInput = page.locator('#cart-item-quantity-wrapper input[type="number"]').first();
+    const quantityInput = page.locator(cartPage.quantityInputProxy).first();
     await expect(quantityInput).toHaveValue('1');
-    await expect(page.locator(selectors.cart.total)).toContainText('R$ 50.99');
+    await expect(page.locator(cartPage.totalAmount)).toContainText('R$ 50.99');
     await quantityInput.fill('3');
     await expect(quantityInput).toHaveValue('3');
-    await expect(page.locator(selectors.cart.total)).toContainText('R$ 152.97');
-    await expect(page.locator(selectors.nav.cartBadge)).toContainText('3');
+    await expect(page.locator(cartPage.totalAmount)).toContainText('R$ 152.97');
+    await expect(page.locator(navComponent.cartBadge)).toContainText('3');
   });
 
   /**
@@ -119,15 +123,17 @@ test.describe('Cart and Checkout', () => {
    * Expected behavior: quantity remains unchanged because updates only occur when value > 0.
    */
   test('TS05 should keep previous quantity when value is zero', async ({ page, waitForPageLoad }) => {
-    await openCartWithOneItem(page, waitForPageLoad);
+    const cartPage = new CartPage(page);
+    const navComponent = new NavComponent(page);
+    await cartPage.openCartWithOneItem(waitForPageLoad);
 
-    const quantityInput = page.locator('#cart-item-quantity-wrapper input[type="number"]').first();
+    const quantityInput = page.locator(cartPage.quantityInputProxy).first();
     await expect(quantityInput).toHaveValue('1');
 
     await quantityInput.fill('0');
     await expect(quantityInput).toHaveValue('1');
-    await expect(page.locator(selectors.cart.total)).toContainText('R$ 50.99');
-    await expect(page.locator(selectors.nav.cartBadge)).toContainText('1');
+    await expect(page.locator(cartPage.totalAmount)).toContainText('R$ 50.99');
+    await expect(page.locator(navComponent.cartBadge)).toContainText('1');
   });
 
   /**
@@ -135,16 +141,18 @@ test.describe('Cart and Checkout', () => {
    * Expected behavior: negative values are ignored and current quantity is preserved.
    */
   test('TS06 should keep previous quantity when value is negative', async ({ page, waitForPageLoad }) => {
-    await openCartWithOneItem(page, waitForPageLoad);
+    const cartPage = new CartPage(page);
+    const navComponent = new NavComponent(page);
+    await cartPage.openCartWithOneItem(waitForPageLoad);
 
-    const quantityInput = page.locator('#cart-item-quantity-wrapper input[type="number"]').first();
+    const quantityInput = page.locator(cartPage.quantityInputProxy).first();
     await expect(quantityInput).toHaveValue('1');
 
     await quantityInput.fill('-2');
 
     await expect(quantityInput).toHaveValue('1');
-    await expect(page.locator(selectors.cart.total)).toContainText('R$ 50.99');
-    await expect(page.locator(selectors.nav.cartBadge)).toContainText('1');
+    await expect(page.locator(cartPage.totalAmount)).toContainText('R$ 50.99');
+    await expect(page.locator(navComponent.cartBadge)).toContainText('1');
   });
 
   /**
@@ -152,14 +160,16 @@ test.describe('Cart and Checkout', () => {
    * Expected behavior: quantity and financial summary scale correctly for high values.
    */
   test('TS07 should handle larger valid quantity values correctly', async ({ page, waitForPageLoad }) => {
-    await openCartWithOneItem(page, waitForPageLoad);
+    const cartPage = new CartPage(page);
+    const navComponent = new NavComponent(page);
+    await cartPage.openCartWithOneItem(waitForPageLoad);
 
-    const quantityInput = page.locator('#cart-item-quantity-wrapper input[type="number"]').first();
+    const quantityInput = page.locator(cartPage.quantityInputProxy).first();
     await quantityInput.fill('25');
 
     await expect(quantityInput).toHaveValue('25');
-    await expect(page.locator(selectors.cart.total)).toContainText('R$ 1274.75');
-    await expect(page.locator(selectors.nav.cartBadge)).toContainText('25');
+    await expect(page.locator(cartPage.totalAmount)).toContainText('R$ 1274.75');
+    await expect(page.locator(navComponent.cartBadge)).toContainText('25');
   });
 
   /**
@@ -167,14 +177,16 @@ test.describe('Cart and Checkout', () => {
    * Expected behavior: parser converts the value to integer and updates quantity accordingly.
    */
   test('TS08 should normalize decimal input to integer quantity', async ({ page, waitForPageLoad }) => {
-    await openCartWithOneItem(page, waitForPageLoad);
+    const cartPage = new CartPage(page);
+    const navComponent = new NavComponent(page);
+    await cartPage.openCartWithOneItem(waitForPageLoad);
 
-    const quantityInput = page.locator('#cart-item-quantity-wrapper input[type="number"]').first();
+    const quantityInput = page.locator(cartPage.quantityInputProxy).first();
     await quantityInput.fill('2.9');
 
     await expect(quantityInput).toHaveValue('2');
-    await expect(page.locator(selectors.cart.total)).toContainText('R$ 101.98');
-    await expect(page.locator(selectors.nav.cartBadge)).toContainText('2');
+    await expect(page.locator(cartPage.totalAmount)).toContainText('R$ 101.98');
+    await expect(page.locator(navComponent.cartBadge)).toContainText('2');
   });
 
   /**
@@ -182,12 +194,12 @@ test.describe('Cart and Checkout', () => {
    * Expected behavior: after deleting the only item, the cart displays the empty-state content.
    */
   test('TS09 should remove a single item and show empty cart state', async ({ page, waitForPageLoad }) => {
-    await openCartWithOneItem(page, waitForPageLoad);
+    const cartPage = new CartPage(page);
+    await cartPage.openCartWithOneItem(waitForPageLoad);
+    await expect(cartPage.getDeleteButtonLocator()).toHaveCount(1);
+    await cartPage.getDeleteButtonLocator().first().click();
 
-    await expect(page.getByRole('button', { name: /delete/i })).toHaveCount(1);
-    await page.getByRole('button', { name: /delete/i }).first().click();
-
-    await expect(page.getByRole('button', { name: /delete/i })).toHaveCount(0);
+    await expect(cartPage.getDeleteButtonLocator()).toHaveCount(0);
     await expect(page.locator('body')).toContainText(/Seu carrinho está vazio|Your cart is empty/i);
     await expect(page.locator('body')).toContainText(/Adicione produtos do catálogo para começar\.|Add products from catalog to get started\./i);
   });
@@ -197,29 +209,31 @@ test.describe('Cart and Checkout', () => {
    * Expected behavior: all delete actions succeed, no cart items remain, and empty-state UI is shown.
    */
   test('TS10 should add three items, remove all of them, and validate empty cart', async ({ page, waitForPageLoad }) => {
-    await page.goto('/');
-    await waitForPageLoad(page, 'catalog');
+    const cartPage = new CartPage(page);
+    const catalogPage = new CatalogPage(page);
+    const navComponent = new NavComponent(page);
+    await catalogPage.goToCatalog();
 
-    const addButtons = page.getByRole('button', { name: /Adicionar ao Carrinho|Add to Cart/i });
+    const addButtons = catalogPage.getAddToCartButtonLocator();
     await addButtons.nth(0).click();
     await addButtons.nth(1).click();
     await addButtons.nth(2).click();
 
-    await expect(page.locator(selectors.nav.cartBadge)).toContainText('3');
+    await expect(page.locator(navComponent.cartBadge)).toContainText('3');
 
-    await page.locator(selectors.nav.cartButton).click();
+    await navComponent.clickCartButton();
     await expect(page).toHaveURL('/cart');
 
-    await expect(page.getByRole('button', { name: /delete/i })).toHaveCount(3);
+    await expect(cartPage.getDeleteButtonLocator()).toHaveCount(3);
 
-    await page.getByRole('button', { name: /delete/i }).first().click();
-    await expect(page.getByRole('button', { name: /delete/i })).toHaveCount(2);
+    await cartPage.getDeleteButtonLocator().first().click();
+    await expect(cartPage.getDeleteButtonLocator()).toHaveCount(2);
 
-    await page.getByRole('button', { name: /delete/i }).first().click();
-    await expect(page.getByRole('button', { name: /delete/i })).toHaveCount(1);
+    await cartPage.getDeleteButtonLocator().first().click();
+    await expect(cartPage.getDeleteButtonLocator()).toHaveCount(1);
 
-    await page.getByRole('button', { name: /delete/i }).first().click();
-    await expect(page.getByRole('button', { name: /delete/i })).toHaveCount(0);
+    await cartPage.getDeleteButtonLocator().first().click();
+    await expect(cartPage.getDeleteButtonLocator()).toHaveCount(0);
 
     await expect(page.locator('body')).toContainText(/Meu Carrinho|My Cart/i);
     await expect(page.locator('body')).toContainText(/Seu carrinho está vazio|Your cart is empty/i);
@@ -232,6 +246,8 @@ test.describe('Cart and Checkout', () => {
    * the cart should be empty and badge should be reset.
    */
   test('TS11 should clear cart after successful checkout when leaving thank-you page', async ({ page, waitForPageLoad }) => {
+    const cartPage = new CartPage(page);
+    const navComponent = new NavComponent(page);
     await setAuthenticatedUser(page, {
       id: 202,
       name: 'Alice',
@@ -240,20 +256,20 @@ test.describe('Cart and Checkout', () => {
       personType: 'PF',
     });
 
-    await openCartWithOneItem(page, waitForPageLoad);
-    await expect(page.locator(selectors.nav.cartBadge)).toContainText('1');
+    await cartPage.openCartWithOneItem(waitForPageLoad);
+    await expect(page.locator(navComponent.cartBadge)).toContainText('1');
 
-    await page.getByRole('button', { name: /Fechar Pedido|Proceed to Checkout/i }).click();
+    await cartPage.clickProceedToCheckout();
     await expect(page).toHaveURL('/thank-you');
     await waitForPageLoad(page, 'thankYou');
 
     await page.getByRole('button', { name: /Voltar ao Catálogo|Back to Catalog/i }).click();
     await expect(page).toHaveURL('/');
 
-    await page.locator(selectors.nav.cartButton).click();
+    await navComponent.clickCartButton();
     await expect(page).toHaveURL('/cart');
     await expect(page.locator('body')).toContainText(/Seu carrinho está vazio|Your cart is empty/i);
-    await expect(page.locator(selectors.nav.cartBadge)).toContainText('0');
+    await expect(page.locator(navComponent.cartBadge)).toContainText('0');
   });
 
   /**
@@ -261,6 +277,8 @@ test.describe('Cart and Checkout', () => {
    * Expected behavior: badge transitions 3 → 2 → 1 → 0 as items are removed.
    */
   test('TS12 should decrement cart badge after each item removal', async ({ page, waitForPageLoad }) => {
+    const cartPage = new CartPage(page);
+    const navComponent = new NavComponent(page);
     await page.goto('/');
     await waitForPageLoad(page, 'catalog');
 
@@ -268,19 +286,19 @@ test.describe('Cart and Checkout', () => {
     await addButtons.nth(0).click();
     await addButtons.nth(1).click();
     await addButtons.nth(2).click();
-    await expect(page.locator(selectors.nav.cartBadge)).toContainText('3');
+    await expect(page.locator(navComponent.cartBadge)).toContainText('3');
 
-    await page.locator(selectors.nav.cartButton).click();
+    await navComponent.clickCartButton();
     await expect(page).toHaveURL('/cart');
 
-    await page.getByRole('button', { name: /delete/i }).first().click();
-    await expect(page.locator(selectors.nav.cartBadge)).toContainText('2');
+    await cartPage.getDeleteButtonLocator().first().click();
+    await expect(page.locator(navComponent.cartBadge)).toContainText('2');
 
-    await page.getByRole('button', { name: /delete/i }).first().click();
-    await expect(page.locator(selectors.nav.cartBadge)).toContainText('1');
+    await cartPage.getDeleteButtonLocator().first().click();
+    await expect(page.locator(navComponent.cartBadge)).toContainText('1');
 
-    await page.getByRole('button', { name: /delete/i }).first().click();
-    await expect(page.locator(selectors.nav.cartBadge)).toContainText('0');
+    await cartPage.getDeleteButtonLocator().first().click();
+    await expect(page.locator(navComponent.cartBadge)).toContainText('0');
     await expect(page.locator('body')).toContainText(/Seu carrinho está vazio|Your cart is empty/i);
   });
 });

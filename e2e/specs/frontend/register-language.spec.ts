@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { mockProducts } from '../../data/products.mock';
-import { selectors } from '../../fixtures/selectors/selectors';
 import { expect, test } from '../../fixtures/ui.fixture';
-import { RegisterPage } from '../../helpers/RegisterPage';
+import { RegisterPage } from '../../pages/RegisterPage';
+import { NavComponent } from '../../pages/NavComponent';
 
 test.describe('Register and Language', () => {
   test.beforeEach(async ({ page }) => {
@@ -55,20 +55,22 @@ test.describe('Register and Language', () => {
   });
 
   test('TS03 validação de campos obrigatórios no registro', async ({ page, waitForPageLoad }) => {
+    const registerPage = new RegisterPage(page);
     await page.goto('/register');
     await waitForPageLoad(page, 'register');
 
-    await page.click(selectors.register.next);
+    await page.click(registerPage.nextButton);
     await expect(page.locator('body')).toHaveText(/Nome é obrigatório./i);
   });
 
   test('TS01/TS02 idioma alterna e persiste após reload', async ({ page, waitForPageLoad }) => {
+    const navComponent = new NavComponent(page);
     await page.goto('/');
     await waitForPageLoad(page, 'catalog');
 
     await expect(page.getByRole('heading', { name: 'Catálogo de Produtos' })).toBeVisible();
 
-    await page.locator(selectors.nav.languageToggle).click();
+    await page.locator(navComponent.languageToggle).click();
     await expect(page.getByRole('heading', { name: 'Product Catalog' })).toBeVisible();
 
     await page.reload();
@@ -81,10 +83,11 @@ test.describe('Register and Language', () => {
    * English title and empty-cart texts.
    */
   test('TS04 should render cart empty-state content in English after language toggle', async ({ page, waitForPageLoad }) => {
+    const navComponent = new NavComponent(page);
     await page.goto('/');
     await waitForPageLoad(page, 'catalog');
 
-    await page.locator(selectors.nav.languageToggle).click();
+    await page.locator(navComponent.languageToggle).click();
     await expect(page.getByRole('heading', { name: 'Product Catalog' })).toBeVisible();
 
     await page.goto('/cart');

@@ -1,5 +1,5 @@
 import { expect, test } from '../../fixtures/ui.fixture';
-import { selectors } from '../../fixtures/selectors/selectors';
+import { NavComponent } from '../../pages/NavComponent';
 import { mockProducts } from '../../data/products.mock';
 import { setAuthenticatedUser } from '../../helpers/auth';
 
@@ -16,6 +16,7 @@ test.describe('Security / Access Control', () => {
   });
 
   test('SE01 - Não logado tentando fazer checkout deve redirecionar para login', async ({ page, waitForPageLoad }) => {
+    const navComponent = new NavComponent(page);
     // Go to catalog and wait for it to load
     await page.goto('/');
     await waitForPageLoad(page, 'catalog');
@@ -24,7 +25,7 @@ test.describe('Security / Access Control', () => {
     await page.getByRole('button', { name: /Adicionar ao Carrinho|Add to Cart/i }).first().click();
     
     // Go to cart
-    await page.locator(selectors.nav.cartButton).click();
+    await page.locator(navComponent.cartButton).click();
     await expect(page).toHaveURL('/cart');
 
     // Try to checkout
@@ -50,6 +51,7 @@ test.describe('Security / Access Control', () => {
    * Expected behavior: after logout, direct access to /thank-you redirects to login.
    */
   test('SE03 - Should revoke protected access after logout', async ({ page, waitForPageLoad }) => {
+    const navComponent = new NavComponent(page);
     await setAuthenticatedUser(page, {
       id: 700,
       name: 'Security',
@@ -60,10 +62,10 @@ test.describe('Security / Access Control', () => {
 
     await page.goto('/');
     await waitForPageLoad(page, 'catalog');
-    await expect(page.locator(selectors.nav.userGreeting)).toBeVisible();
+    await expect(page.locator(navComponent.userGreeting)).toBeVisible();
 
-    await page.locator(selectors.nav.logoutButton).click();
-    await expect(page.locator(selectors.nav.userGreeting)).not.toBeVisible();
+    await page.locator(navComponent.logoutButton).click();
+    await expect(page.locator(navComponent.userGreeting)).not.toBeVisible();
 
     await page.goto('/thank-you');
     await expect(page).toHaveURL(/\/login\?next=(%2Fthank-you|\/thank-you)/);

@@ -1,5 +1,6 @@
-import { selectors } from '../../fixtures/selectors/selectors';
 import { expect, test } from '../../fixtures/ui.fixture';
+import { LoginPage } from '../../pages/LoginPage';
+import { NavComponent } from '../../pages/NavComponent';
 
 test.describe('Login', () => {
   test.beforeEach(async ({ page }) => {
@@ -40,16 +41,18 @@ test.describe('Login', () => {
    * Expected behavior: user is redirected to `/cart` and a greeting is displayed.
    */
   test('TS01 - should log in successfully with next redirect and greeting', async ({ page, waitForPageLoad }) => {
+    const loginPage = new LoginPage(page);
+    const navComponent = new NavComponent(page);
     await page.goto('/login?next=/cart');
     await waitForPageLoad(page, 'login');
 
-    await page.fill(selectors.login.email, 'valid@example.com');
-    await page.fill(selectors.login.password, 'Senha@1234');
-    await page.click(selectors.login.submit);
+    await loginPage.fillEmail('valid@example.com');
+    await loginPage.fillPassword('Senha@1234');
+    await loginPage.submit();
 
     await expect(page).toHaveURL('/cart');
-    await expect(page.locator(selectors.nav.userGreeting)).toBeVisible();
-    await expect(page.locator(selectors.nav.userGreeting)).toContainText('Valid');
+    await expect(page.locator(navComponent.userGreeting)).toBeVisible();
+    await expect(page.locator(navComponent.userGreeting)).toContainText('Valid');
   });
 
   /**
@@ -57,14 +60,15 @@ test.describe('Login', () => {
    * Expected behavior: login page shows an "invalid credentials" error message.
    */
   test('TS02 - should display error for invalid credentials', async ({ page, waitForPageLoad }) => {
+    const loginPage = new LoginPage(page);
     await page.goto('/login');
     await waitForPageLoad(page, 'login');
 
-    await page.fill(selectors.login.email, 'invalid@example.com');
-    await page.fill(selectors.login.password, 'senhaErrada');
-    await page.click(selectors.login.submit);
+    await loginPage.fillEmail('invalid@example.com');
+    await loginPage.fillPassword('senhaErrada');
+    await loginPage.submit();
 
-    await expect(page.locator(selectors.login.error)).toContainText(/Credenciais inválidas/i);
+    await expect(page.locator(loginPage.errorAlert)).toContainText(/Credenciais inválidas/i);
   });
 
   /**
@@ -72,11 +76,12 @@ test.describe('Login', () => {
    * Expected behavior: submitting empty fields shows a required-fields validation message.
    */
   test('TS03 - should validate required fields', async ({ page, waitForPageLoad }) => {
+    const loginPage = new LoginPage(page);
     await page.goto('/login');
     await waitForPageLoad(page, 'login');
 
-    await page.click(selectors.login.submit);
-    await expect(page.locator(selectors.login.error)).toContainText(/Preencha e-mail e senha/i);
+    await loginPage.submit();
+    await expect(page.locator(loginPage.errorAlert)).toContainText(/Preencha e-mail e senha/i);
   });
 
   /**
@@ -84,14 +89,15 @@ test.describe('Login', () => {
    * Expected behavior: required-fields validation message is shown.
    */
   test('TS04 - should show validation when password is blank', async ({ page, waitForPageLoad }) => {
+    const loginPage = new LoginPage(page);
     await page.goto('/login');
     await waitForPageLoad(page, 'login');
 
-    await page.fill(selectors.login.email, 'valid@example.com');
-    await page.fill(selectors.login.password, '');
-    await page.click(selectors.login.submit);
+    await loginPage.fillEmail('valid@example.com');
+    await loginPage.fillPassword('');
+    await loginPage.submit();
 
-    await expect(page.locator(selectors.login.error)).toContainText(/Preencha e-mail e senha/i);
+    await expect(page.locator(loginPage.errorAlert)).toContainText(/Preencha e-mail e senha/i);
   });
 
   /**
@@ -99,14 +105,15 @@ test.describe('Login', () => {
    * Expected behavior: required-fields validation message is shown.
    */
   test('TS05 - should show validation when email is blank', async ({ page, waitForPageLoad }) => {
+    const loginPage = new LoginPage(page);
     await page.goto('/login');
     await waitForPageLoad(page, 'login');
 
-    await page.fill(selectors.login.email, '');
-    await page.fill(selectors.login.password, 'Senha@1234');
-    await page.click(selectors.login.submit);
+    await loginPage.fillEmail('');
+    await loginPage.fillPassword('Senha@1234');
+    await loginPage.submit();
 
-    await expect(page.locator(selectors.login.error)).toContainText(/Preencha e-mail e senha/i);
+    await expect(page.locator(loginPage.errorAlert)).toContainText(/Preencha e-mail e senha/i);
   });
 
   /**
@@ -114,14 +121,16 @@ test.describe('Login', () => {
    * Expected behavior: authenticated user greeting remains visible after reload.
    */
   test('TS06 - should keep authenticated state after reload', async ({ page, waitForPageLoad }) => {
+    const loginPage = new LoginPage(page);
+    const navComponent = new NavComponent(page);
     await page.goto('/login');
     await waitForPageLoad(page, 'login');
 
-    await page.fill(selectors.login.email, 'valid@example.com');
-    await page.fill(selectors.login.password, 'Senha@1234');
-    await page.click(selectors.login.submit);
+    await loginPage.fillEmail('valid@example.com');
+    await loginPage.fillPassword('Senha@1234');
+    await loginPage.submit();
 
     await page.reload();
-    await expect(page.locator(selectors.nav.userGreeting)).toContainText('Valid');
+    await expect(page.locator(navComponent.userGreeting)).toContainText('Valid');
   });
 });

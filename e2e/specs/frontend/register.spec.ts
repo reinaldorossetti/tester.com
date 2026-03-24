@@ -1,11 +1,13 @@
 import { expect } from '../../fixtures/ui.fixture';
 import { test, REGISTER_VALIDATION } from '../../fixtures/register.fixture';
-import { selectors } from '../../fixtures/selectors/selectors';
-import { RegisterPage } from '../../helpers/RegisterPage';
+import { RegisterPage } from '../../pages/RegisterPage';
+import { LoginPage } from '../../pages/LoginPage';
+import { NavComponent } from '../../pages/NavComponent';
+/* Removed import to helpers; Using local registerPage imported from pages/RegisterPage */
 import { waitForPageLoad, PageBase } from '../../helpers/PageBase';
 
 test.describe('Register', () => {
-
+  
   /**
    * TS01 - Happy path: fills out both steps completely and verifies success via toast message
    */
@@ -13,7 +15,7 @@ test.describe('Register', () => {
     const registerPage = new RegisterPage(page);
     const base = new PageBase(page);
     const userData = base.generateUserData();
-    const cpf = registerPage.generateValidCPF();
+    const cpf = base.generateValidCPF();
 
     // ViaCEP mock to avoid depending on external network
     await setupViacepMock(page);
@@ -21,19 +23,19 @@ test.describe('Register', () => {
     await page.goto('/register');
     await waitForPageLoad(page, 'register');
 
-    await base.fill(selectors.register.firstName, userData.firstName);
-    await base.fill(selectors.register.lastName, userData.lastName);
-    await base.fill(selectors.register.cpf, cpf);
-    await base.fill(selectors.register.email, userData.email);
-    await base.fill(selectors.register.phone, REGISTER_VALIDATION.testData.validPhone);
-    await base.fill(selectors.register.password, userData.password);
-    await base.fill(selectors.register.confirmPassword, userData.password);
-    await base.click(selectors.register.next);
-    await base.fill(selectors.register.addressZip, REGISTER_VALIDATION.testData.validZipCode);
-    
-    await expect(page.locator(selectors.register.addressStreet)).not.toHaveValue('', { timeout: 10_000 });
-    await base.fill(selectors.register.addressNumber, REGISTER_VALIDATION.testData.addressNumber);
-    await page.click(selectors.register.submit);
+    await base.fill(registerPage.firstNameInput, userData.firstName);
+    await base.fill(registerPage.lastNameInput, userData.lastName);
+    await base.fill(registerPage.cpfInput, cpf);
+    await base.fill(registerPage.emailInput, userData.email);
+    await base.fill(registerPage.phoneInput, REGISTER_VALIDATION.testData.validPhone);
+    await base.fill(registerPage.passwordInput, userData.password);
+    await base.fill(registerPage.confirmPasswordInput, userData.password);
+    await base.click(registerPage.nextButton);
+    await base.fill(registerPage.zipCodeInput, REGISTER_VALIDATION.testData.validZipCode);
+
+    await expect(page.locator(registerPage.streetInput)).not.toHaveValue('', { timeout: 10_000 });
+    await base.fill(registerPage.numberInput, REGISTER_VALIDATION.testData.addressNumber);
+    await page.click(registerPage.submitButton);
 
     await expect(page.locator('body')).toContainText(/Cadastro realizado com sucesso!/i, { timeout: 10_000 });
   });
@@ -42,6 +44,7 @@ test.describe('Register', () => {
    * TS02 - Email em formato inválido: erro aparece no helper text do campo email no step 0
    */
   test('TS02 - rejeita email em formato inválido aleatório', async ({ page }) => {
+    const registerPage = new RegisterPage(page);
     const base = new PageBase(page);
     const userData = base.generateUserData();
     const invalidEmail = base.generateInvalidEmail();
@@ -49,20 +52,21 @@ test.describe('Register', () => {
     await page.goto('/register');
     await waitForPageLoad(page, 'register');
 
-    await base.fill(selectors.register.firstName, userData.firstName);
-    await base.fill(selectors.register.lastName, userData.lastName);
-    await base.fill(selectors.register.email, invalidEmail);
-    await base.fill(selectors.register.password, userData.password);
-    await base.fill(selectors.register.confirmPassword, userData.password);
-    await base.click(selectors.register.next);
+    await base.fill(registerPage.firstNameInput, userData.firstName);
+    await base.fill(registerPage.lastNameInput, userData.lastName);
+    await base.fill(registerPage.emailInput, invalidEmail);
+    await base.fill(registerPage.passwordInput, userData.password);
+    await base.fill(registerPage.confirmPasswordInput, userData.password);
+    await base.click(registerPage.nextButton);
 
-    await expect(page.locator(selectors.register.errorEmail)).toContainText(REGISTER_VALIDATION.errorMessages.emailInvalid);
+    await expect(page.locator(registerPage.errorEmail)).toContainText(REGISTER_VALIDATION.errorMessages.emailInvalid);
   });
 
   /**
    * TS03 - Senha curta (< 8 chars): falha na validação local do step 0
    */
   test('TS03 - rejeita senha curta no step 0', async ({ page }) => {
+    const registerPage = new RegisterPage(page);
     const base = new PageBase(page);
     const userData = base.generateUserData();
     const shortPassword = base.generateShortPassword();
@@ -70,21 +74,22 @@ test.describe('Register', () => {
     await page.goto('/register');
     await waitForPageLoad(page, 'register');
 
-    await base.fill(selectors.register.firstName, userData.firstName);
-    await base.fill(selectors.register.lastName, userData.lastName);
-    await base.fill(selectors.register.email, userData.email);
-    await base.fill(selectors.register.password, shortPassword);
-    await base.fill(selectors.register.confirmPassword, shortPassword);
+    await base.fill(registerPage.firstNameInput, userData.firstName);
+    await base.fill(registerPage.lastNameInput, userData.lastName);
+    await base.fill(registerPage.emailInput, userData.email);
+    await base.fill(registerPage.passwordInput, shortPassword);
+    await base.fill(registerPage.confirmPasswordInput, shortPassword);
 
-    await base.click(selectors.register.next);
+    await base.click(registerPage.nextButton);
 
-    await expect(page.locator(selectors.register.errorPassword)).toContainText(REGISTER_VALIDATION.errorMessages.passwordMinLength);
+    await expect(page.locator(registerPage.errorPassword)).toContainText(REGISTER_VALIDATION.errorMessages.passwordMinLength);
   });
 
   /**
    * TS04 - Senhas não correspondem: erro aparece no helper text do campo confirmar senha
    */
   test('TS04 - rejeita senhas não-correspondentes com dados aleatórios', async ({ page }) => {
+    const registerPage = new RegisterPage(page);
     const base = new PageBase(page);
     const userData = base.generateUserData();
     const differentPassword = base.generateDifferentPassword();
@@ -92,14 +97,14 @@ test.describe('Register', () => {
     await page.goto('/register');
     await waitForPageLoad(page, 'register');
 
-    await base.fill(selectors.register.firstName, userData.firstName);
-    await base.fill(selectors.register.lastName, userData.lastName);
-    await base.fill(selectors.register.email, userData.email);
-    await base.fill(selectors.register.password, userData.password);
-    await base.fill(selectors.register.confirmPassword, differentPassword);
-    await base.click(selectors.register.next);
+    await base.fill(registerPage.firstNameInput, userData.firstName);
+    await base.fill(registerPage.lastNameInput, userData.lastName);
+    await base.fill(registerPage.emailInput, userData.email);
+    await base.fill(registerPage.passwordInput, userData.password);
+    await base.fill(registerPage.confirmPasswordInput, differentPassword);
+    await base.click(registerPage.nextButton);
 
-    await expect(page.locator(selectors.register.errorConfirmPassword)).toContainText(/As senhas não coincidem/i);
+    await expect(page.locator(registerPage.errorConfirmPassword)).toContainText(/As senhas não coincidem/i);
   });
 
   /**
@@ -107,6 +112,7 @@ test.describe('Register', () => {
    *        and the empty field should display its specific validation error message.
    */
   test('TS05 - Should display specific validation errors and prevent step advancement when individual required fields are empty', async ({ page }) => {
+    const registerPage = new RegisterPage(page);
     const base = new PageBase(page);
     const userData = base.generateUserData();
     
@@ -115,41 +121,41 @@ test.describe('Register', () => {
       {
         fieldToOmit: 'firstName',
         fillAction: async () => {
-          await base.fill(selectors.register.lastName, userData.lastName);
-          await base.fill(selectors.register.email, userData.email);
-          await base.fill(selectors.register.password, userData.password);
-          await base.fill(selectors.register.confirmPassword, userData.password);
+          await base.fill(registerPage.lastNameInput, userData.lastName);
+          await base.fill(registerPage.emailInput, userData.email);
+          await base.fill(registerPage.passwordInput, userData.password);
+          await base.fill(registerPage.confirmPasswordInput, userData.password);
         },
-        expectedErrorSelector: selectors.register.errorFirstName
+        expectedErrorSelector: registerPage.errorFirstName
       },
       {
         fieldToOmit: 'lastName',
         fillAction: async () => {
-          await base.fill(selectors.register.firstName, userData.firstName);
-          await base.fill(selectors.register.email, userData.email);
-          await base.fill(selectors.register.password, userData.password);
-          await base.fill(selectors.register.confirmPassword, userData.password);
+          await base.fill(registerPage.firstNameInput, userData.firstName);
+          await base.fill(registerPage.emailInput, userData.email);
+          await base.fill(registerPage.passwordInput, userData.password);
+          await base.fill(registerPage.confirmPasswordInput, userData.password);
         },
-        expectedErrorSelector: selectors.register.errorLastName
+        expectedErrorSelector: registerPage.errorLastName
       },
       {
         fieldToOmit: 'email',
         fillAction: async () => {
-          await base.fill(selectors.register.firstName, userData.firstName);
-          await base.fill(selectors.register.lastName, userData.lastName);
-          await base.fill(selectors.register.password, userData.password);
-          await base.fill(selectors.register.confirmPassword, userData.password);
+          await base.fill(registerPage.firstNameInput, userData.firstName);
+          await base.fill(registerPage.lastNameInput, userData.lastName);
+          await base.fill(registerPage.passwordInput, userData.password);
+          await base.fill(registerPage.confirmPasswordInput, userData.password);
         },
-        expectedErrorSelector: selectors.register.errorEmail
+        expectedErrorSelector: registerPage.errorEmail
       },
       {
         fieldToOmit: 'password',
         fillAction: async () => {
-          await base.fill(selectors.register.firstName, userData.firstName);
-          await base.fill(selectors.register.lastName, userData.lastName);
-          await base.fill(selectors.register.email, userData.email);
+          await base.fill(registerPage.firstNameInput, userData.firstName);
+          await base.fill(registerPage.lastNameInput, userData.lastName);
+          await base.fill(registerPage.emailInput, userData.email);
         },
-        expectedErrorSelector: selectors.register.errorPassword
+        expectedErrorSelector: registerPage.errorPassword
       }
     ];
 
@@ -163,10 +169,10 @@ test.describe('Register', () => {
     // Fill all data EXCEPT the selected field
     await scenario.fillAction();
     
-    await base.click(selectors.register.next);
+    await base.click(registerPage.nextButton);
 
     // Ensure step 0 is still visible (did not advance to step 1)
-    await expect(page.locator(selectors.register.next)).toBeVisible();
+    await expect(page.locator(registerPage.nextButton)).toBeVisible();
 
     // Verify the specific empty field shows an error message
     await expect(page.locator(scenario.expectedErrorSelector)).toBeVisible();
@@ -177,10 +183,10 @@ test.describe('Register', () => {
    *        exibido via toast de erro.
    */
   test('TS06 - rejeita email duplicado com dados aleatórios', async ({ page, setupDuplicateEmailMock, setupViacepMock }) => {
+    const registerPage = new RegisterPage(page);
     const base = new PageBase(page);
     const userData = base.generateUserData();
-    const registerPage = new RegisterPage(page);
-    const cpf = registerPage.generateValidCPF();
+    const cpf = base.generateValidCPF();
 
     await setupDuplicateEmailMock(page);
     await setupViacepMock(page);
@@ -188,21 +194,21 @@ test.describe('Register', () => {
     await page.goto('/register');
     await waitForPageLoad(page, 'register');
 
-    await base.fill(selectors.register.firstName, userData.firstName);
-    await base.fill(selectors.register.lastName, userData.lastName);
-    await base.fill(selectors.register.cpf, cpf);
-    await base.fill(selectors.register.email, REGISTER_VALIDATION.testData.duplicateEmail);
-    await base.fill(selectors.register.phone, REGISTER_VALIDATION.testData.validPhone);
-    await base.fill(selectors.register.password, userData.password);
-    await base.fill(selectors.register.confirmPassword, userData.password);
+    await base.fill(registerPage.firstNameInput, userData.firstName);
+    await base.fill(registerPage.lastNameInput, userData.lastName);
+    await base.fill(registerPage.cpfInput, cpf);
+    await base.fill(registerPage.emailInput, REGISTER_VALIDATION.testData.duplicateEmail);
+    await base.fill(registerPage.phoneInput, REGISTER_VALIDATION.testData.validPhone);
+    await base.fill(registerPage.passwordInput, userData.password);
+    await base.fill(registerPage.confirmPasswordInput, userData.password);
 
-    await base.click(selectors.register.next);
+    await base.click(registerPage.nextButton);
 
-    await base.fill(selectors.register.addressZip, REGISTER_VALIDATION.testData.validZipCode);
-    await expect(page.locator(selectors.register.addressStreet)).not.toHaveValue('', { timeout: 10_000 });
-    await base.fill(selectors.register.addressNumber, REGISTER_VALIDATION.testData.addressNumber);
+    await base.fill(registerPage.zipCodeInput, REGISTER_VALIDATION.testData.validZipCode);
+    await expect(page.locator(registerPage.streetInput)).not.toHaveValue('', { timeout: 10_000 });
+    await base.fill(registerPage.numberInput, REGISTER_VALIDATION.testData.addressNumber);
 
-    await page.click(selectors.register.submit);
+    await page.click(registerPage.submitButton);
 
     // Erro exibido via toast
     await expect(page.locator('.Toastify__toast-body')).toContainText(REGISTER_VALIDATION.errorMessages.emailDuplicate, { timeout: 10_000 });
@@ -212,29 +218,30 @@ test.describe('Register', () => {
    * TS07 - Todos os campos vazios: clicar em Next exibe todos os erros de validação do step 0
    */
   test('TS07 - valida todos os campos vazios com mensagens de validação individuais', async ({ page }) => {
+    const registerPage = new RegisterPage(page);
     await page.goto('/register');
     await waitForPageLoad(page, 'register');
 
     // Click "next" button with all fields empty
-    await page.click(selectors.register.next);
+    await page.click(registerPage.nextButton);
 
     // Verify all validation error messages appear
-    await expect(page.locator(selectors.register.errorFirstName)).toBeVisible();
-    await expect(page.locator(selectors.register.errorFirstName)).toContainText(REGISTER_VALIDATION.errorMessages.firstNameRequired);
+    await expect(page.locator(registerPage.errorFirstName)).toBeVisible();
+    await expect(page.locator(registerPage.errorFirstName)).toContainText(REGISTER_VALIDATION.errorMessages.firstNameRequired);
 
-    await expect(page.locator(selectors.register.errorLastName)).toBeVisible();
-    await expect(page.locator(selectors.register.errorLastName)).toContainText(REGISTER_VALIDATION.errorMessages.lastNameRequired);
+    await expect(page.locator(registerPage.errorLastName)).toBeVisible();
+    await expect(page.locator(registerPage.errorLastName)).toContainText(REGISTER_VALIDATION.errorMessages.lastNameRequired);
 
-    await expect(page.locator(selectors.register.errorCpf)).toBeVisible();
-    await expect(page.locator(selectors.register.errorCpf)).toContainText(REGISTER_VALIDATION.errorMessages.cpfInvalid);
+    await expect(page.locator(registerPage.errorCpf)).toBeVisible();
+    await expect(page.locator(registerPage.errorCpf)).toContainText(REGISTER_VALIDATION.errorMessages.cpfInvalid);
 
-    await expect(page.locator(selectors.register.errorEmail)).toBeVisible();
-    await expect(page.locator(selectors.register.errorEmail)).toContainText(REGISTER_VALIDATION.errorMessages.emailInvalid);
+    await expect(page.locator(registerPage.errorEmail)).toBeVisible();
+    await expect(page.locator(registerPage.errorEmail)).toContainText(REGISTER_VALIDATION.errorMessages.emailInvalid);
 
-    await expect(page.locator(selectors.register.errorPhone)).toBeVisible();
-    await expect(page.locator(selectors.register.errorPhone)).toContainText(REGISTER_VALIDATION.errorMessages.phoneInvalid);
+    await expect(page.locator(registerPage.errorPhone)).toBeVisible();
+    await expect(page.locator(registerPage.errorPhone)).toContainText(REGISTER_VALIDATION.errorMessages.phoneInvalid);
 
-    await expect(page.locator(selectors.register.errorPassword)).toBeVisible();
-    await expect(page.locator(selectors.register.errorPassword)).toContainText(REGISTER_VALIDATION.errorMessages.passwordMinLength);
+    await expect(page.locator(registerPage.errorPassword)).toBeVisible();
+    await expect(page.locator(registerPage.errorPassword)).toContainText(REGISTER_VALIDATION.errorMessages.passwordMinLength);
   });
 });
