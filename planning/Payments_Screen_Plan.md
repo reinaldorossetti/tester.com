@@ -25,10 +25,14 @@ Fluxo alvo:
 
 O usuário deve escolher 1 ou 2 métodos de pagamentos disponíveis (simulados), ele pode habilitar dois métodos de pagamento combinados (ex: parte no crédito + parte no PIX) ou apenas um método para o valor total, deixe um método por padrão, usuário deve selecionar a opção dois manualmente.
 
-- Crédito
+- **Split Payment:** Suporte para dividir o total entre dois métodos (Ex: Cartão + PIX).
+- **Detecção de BIN:** Identificação visual automática da bandeira conforme digitação.
+
+Métodos:
+- Crédito (com seletor de parcelamento 1x-12x)
 - Débito
-- PIX
-- Boleto
+- PIX (com timer de expiração 15-30min)
+- Boleto (com data de vencimento D+3)
 
 ### 3) Bandeiras e meios aceitos (exibição)
 
@@ -143,14 +147,19 @@ Tabela `payments`:
 
 ## Regras de Negócio por Método
 
-## Crédito
+## Split Payment (Misto)
+- Permitir definir o valor para o primeiro método (ex: R$ 10,00 no PIX).
+- O saldo restante é automaticamente calculado para o segundo método.
+- O pedido só avança para `/thank-you` se ambos os pagamentos forem bem-sucedidos/pendentes conforme o método.
 
-- Campos: nome, número, validade, CVV, parcelas
+## Crédito
+- Campos: nome, número, validade, CVV, parcelas.
 - Validações:
-  - número com Luhn
-  - validade futura
-  - CVV 3-4 dígitos
-- Resultado esperado: `authorized` ou `failed`
+  - Algoritmo de Luhn para números.
+  - Data de validade (mês/ano) futura.
+  - CVV (3 dígitos para a maioria, 4 para AMEX).
+- Parcelamento: exibição de taxas mock ou "sem juros".
+- Resultado esperado: `authorized` ou `failed`.
 
 ## Débito
 

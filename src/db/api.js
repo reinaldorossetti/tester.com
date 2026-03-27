@@ -108,3 +108,9 @@ export const getOrders = (params = {}) => {
 
 export const getOrderById = (id) =>
     http('GET', `/orders/${id}`);
+
+export const createOrderPayment = (orderId, payload = {}) =>
+    http('POST', `/orders/${orderId}/payments`, payload);
+
+export const getOrderPaymentStatus = (orderId, paymentId) =>
+    http('GET', `/orders/${orderId}/payments/${paymentId}`);

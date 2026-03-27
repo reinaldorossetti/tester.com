@@ -118,6 +118,21 @@ CREATE TABLE IF NOT EXISTS order_items (
     line_total            NUMERIC(10,2) NOT NULL,
     created_at            TIMESTAMPTZ   NOT NULL DEFAULT NOW()
 );
+
+-- ─── payments ─────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS payments (
+    id                 SERIAL        PRIMARY KEY,
+    order_id           INT           NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    user_id            INT           NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    method             TEXT          NOT NULL,
+    amount             NUMERIC(10,2) NOT NULL,
+    status             TEXT          NOT NULL,
+    card_brand         TEXT,
+    provider_reference TEXT,
+    metadata           JSONB,
+    created_at         TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
+    updated_at         TIMESTAMPTZ   NOT NULL DEFAULT NOW()
+);
 `;
 
 async function seed() {

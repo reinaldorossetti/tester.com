@@ -96,7 +96,7 @@ describe('Checkout/CheckoutButton Component', () => {
     expect(navigateMock).toHaveBeenCalledWith('/login?next=%2Fcart');
   });
 
-  it('TC_CHK_007: logado com itens navega para /thank-you com state', async () => {
+  it('TC_CHK_007: logado com itens navega para /payments com state', async () => {
     const user = userEvent.setup();
     authState = { isLoggedIn: true };
     const cartItems = [{ id: 10, quantity: 2 }];
@@ -106,7 +106,7 @@ describe('Checkout/CheckoutButton Component', () => {
 
     expect(createOrder).toHaveBeenCalledTimes(1);
     expect(toast.success).toHaveBeenCalledWith('checkout.processing');
-    expect(navigateMock).toHaveBeenCalledWith('/thank-you', {
+    expect(navigateMock).toHaveBeenCalledWith('/payments', {
       state: {
         cartItems,
         order: expect.objectContaining({ id: 1, order_number: 'ORD-TEST-0001' }),
@@ -129,15 +129,14 @@ describe('Checkout/CheckoutButton Component', () => {
     expect(navigateMock).toHaveBeenCalledWith('/login?next=%2Fcheckout%2Fresumo%20final');
   });
 
-  it('TC_CHK_010: limpa carrinho após checkout com sucesso', async () => {
+  it('TC_CHK_010: não limpa carrinho no checkout, pois pagamento ocorre na próxima etapa', async () => {
     const user = userEvent.setup();
-    const setCartItems = vi.fn();
     authState = { isLoggedIn: true };
 
-    render(<CheckoutButton cartItems={[{ id: 9 }]} setCartItems={setCartItems} />);
+    render(<CheckoutButton cartItems={[{ id: 9 }]} />);
     await user.click(screen.getByRole('button', { name: /checkout.button/i }));
 
-    expect(setCartItems).toHaveBeenCalledWith([]);
+    expect(navigateMock).toHaveBeenCalledWith('/payments', expect.anything());
   });
 
   it('TC_CHK_011: exibe erro e não navega quando API de orders falha', async () => {
@@ -149,6 +148,6 @@ describe('Checkout/CheckoutButton Component', () => {
     await user.click(screen.getByRole('button', { name: /checkout.button/i }));
 
     expect(toast.error).toHaveBeenCalledWith('Falha ao criar pedido');
-    expect(navigateMock).not.toHaveBeenCalledWith('/thank-you', expect.anything());
+    expect(navigateMock).not.toHaveBeenCalledWith('/payments', expect.anything());
   });
 });

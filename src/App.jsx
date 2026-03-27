@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 
 import Catalog from "./components/Catalog";
 import Cart from "./components/Cart";
+import PaymentsPage from "./components/PaymentsPage";
 import ThankYouPage from "./components/ThankYouPage";
 import ProductDetails from "./components/ProductDetails";
 import Register from "./components/Register";
@@ -462,6 +463,14 @@ const AppInner = () => {
                   onUpdateCart={handleUpdateCart}
                   onRemoveFromCart={handleRemoveFromCart}
                 />
+              }
+            />
+            <Route
+              path="/payments"
+              element={
+                <ProtectedRoute>
+                  <PaymentsPage clearCart={() => setCartItems([])} />
+                </ProtectedRoute>
               }
             />
             <Route

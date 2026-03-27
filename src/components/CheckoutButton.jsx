@@ -8,7 +8,7 @@ import { useLanguage } from "../contexts/LanguageContext";
 import { useAuth } from "../contexts/AuthContext";
 import { createOrder } from "../db/api";
 
-const CheckoutButton = ({ cartItems = [], setCartItems = () => {} }) => {
+const CheckoutButton = ({ cartItems = [] }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useLanguage();
@@ -37,8 +37,7 @@ const CheckoutButton = ({ cartItems = [], setCartItems = () => {} }) => {
 
       const order = await createOrder({ idempotencyKey });
       toast.success(t("checkout.processing"));
-      setCartItems([]);
-      navigate("/thank-you", {
+      navigate("/payments", {
         state: {
           cartItems: safeCartItems,
           order,

@@ -46,7 +46,8 @@ function canTransitionStatus(currentStatus, nextStatus) {
     if (normalizedCurrent === normalizedNext) return true;
 
     const transitions = {
-        created: ['paid', 'cancelled'],
+        created: ['pending_payment', 'paid', 'cancelled'],
+        pending_payment: ['paid', 'cancelled'],
         paid: ['processing', 'cancelled'],
         processing: ['shipped', 'cancelled'],
         shipped: ['delivered'],

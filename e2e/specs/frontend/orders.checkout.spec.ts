@@ -36,7 +36,7 @@ test.describe('Frontend Checkout with Orders API', () => {
     });
   });
 
-  test('deve chamar POST /api/orders e redirecionar para thank-you', async ({ page, waitForPageLoad }) => {
+  test('deve chamar POST /api/orders e concluir pagamento antes de ir para thank-you', async ({ page, waitForPageLoad }) => {
     const cartPage = new CartPage(page);
     const navComponent = new NavComponent(page);
     const catalogPage = new CatalogPage(page);
@@ -74,6 +74,20 @@ test.describe('Frontend Checkout with Orders API', () => {
       });
     });
 
+    await page.route('**/api/orders/*/payments', async (route) => {
+      await route.fulfill({
+        status: 201,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          id: 11,
+          order_id: 1,
+          method: 'credit',
+          amount: 50.99,
+          status: 'authorized',
+        }),
+      });
+    });
+
     await setAuthenticatedUser(page, {
       id: 700,
       name: 'Order',
@@ -90,6 +104,10 @@ test.describe('Frontend Checkout with Orders API', () => {
     await waitForPageLoad(page, 'cart');
 
     await cartPage.clickProceedToCheckout();
+    await expect(page).toHaveURL('/payments');
+
+    await page.getByRole('button', { name: /Pagar agora|Pay now/i }).click();
+
     await expect(page).toHaveURL('/thank-you');
     await waitForPageLoad(page, 'thankYou');
 

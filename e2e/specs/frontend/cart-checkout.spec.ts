@@ -51,12 +51,26 @@ test.describe('Cart and Checkout', () => {
         }),
       });
     });
+
+    await page.route('**/api/orders/*/payments', async (route) => {
+      await route.fulfill({
+        status: 201,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          id: 555,
+          order_id: 1,
+          method: 'credit',
+          amount: 50.99,
+          status: 'authorized',
+        }),
+      });
+    });
   });
 
   /**
    * Validates the happy path for checkout with an authenticated user.
    * Expected behavior: user adds an item, opens cart, completes checkout,
-   * and is redirected to the thank-you page with order summary visible.
+  * and is redirected to payments, then thank-you page with order summary visible.
    */
   test('TS01 authenticated user should complete checkout and navigate to thank-you page', async ({ page, waitForPageLoad }) => {
     const cartPage = new CartPage(page);
@@ -79,6 +93,9 @@ test.describe('Cart and Checkout', () => {
 
     await expect(page.locator(cartPage.totalAmount)).toBeVisible();
     await cartPage.clickProceedToCheckout();
+
+    await expect(page).toHaveURL('/payments');
+    await page.getByRole('button', { name: /Pagar agora|Pay now/i }).click();
 
     await expect(page).toHaveURL('/thank-you');
     await expect(page.locator(thankYouPage.summaryWrapper)).toBeVisible();
@@ -260,7 +277,7 @@ test.describe('Cart and Checkout', () => {
 
   /**
    * Validates post-checkout cart cleanup behavior.
-   * Expected behavior: after completing checkout and leaving thank-you page,
+  * Expected behavior: after completing checkout + payment and leaving thank-you page,
    * the cart should be empty and badge should be reset.
    */
   test('TS11 should clear cart after successful checkout when leaving thank-you page', async ({ page, waitForPageLoad }) => {
@@ -278,6 +295,8 @@ test.describe('Cart and Checkout', () => {
     await expect(page.locator(navComponent.cartBadge)).toContainText('1');
 
     await cartPage.clickProceedToCheckout();
+    await expect(page).toHaveURL('/payments');
+    await page.getByRole('button', { name: /Pagar agora|Pay now/i }).click();
     await expect(page).toHaveURL('/thank-you');
     await waitForPageLoad(page, 'thankYou');
 
