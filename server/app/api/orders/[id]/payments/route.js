@@ -76,15 +76,85 @@ function generateBoletoMetadata(orderId, amount) {
   };
 }
 
+function buildPixQrImageDataUrl({ txId, amount }) {
+  const payload = `${txId}|${Number(amount || 0).toFixed(2)}|PIX-MOCK`;
+  const size = 29;
+  const moduleSize = 8;
+  const quietZone = 4;
+  const canvas = (size + quietZone * 2) * moduleSize;
+
+  const isFinderArea = (x, y, offsetX, offsetY) =>
+    x >= offsetX && x < offsetX + 7 && y >= offsetY && y < offsetY + 7;
+
+  const isFinder = (x, y) => (
+    isFinderArea(x, y, 0, 0)
+    || isFinderArea(x, y, size - 7, 0)
+    || isFinderArea(x, y, 0, size - 7)
+  );
+
+  const finderBit = (x, y) => {
+    const local = (offsetX, offsetY) => {
+      const fx = x - offsetX;
+      const fy = y - offsetY;
+      const outer = fx === 0 || fx === 6 || fy === 0 || fy === 6;
+      const inner = fx >= 2 && fx <= 4 && fy >= 2 && fy <= 4;
+      return outer || inner;
+    };
+
+    if (isFinderArea(x, y, 0, 0)) return local(0, 0);
+    if (isFinderArea(x, y, size - 7, 0)) return local(size - 7, 0);
+    if (isFinderArea(x, y, 0, size - 7)) return local(0, size - 7);
+    return false;
+  };
+
+  const seedChar = (index) => payload.charCodeAt(index % payload.length);
+  const moduleRects = [];
+
+  for (let y = 0; y < size; y += 1) {
+    for (let x = 0; x < size; x += 1) {
+      let bit;
+
+      if (isFinder(x, y)) {
+        bit = finderBit(x, y);
+      } else {
+        const seed = seedChar(x * 3 + y * 5) + x * 17 + y * 31;
+        bit = (seed % 7 === 0) || (seed % 11 === 0) || ((x + y) % 9 === 0);
+      }
+
+      if (bit) {
+        const drawX = (x + quietZone) * moduleSize;
+        const drawY = (y + quietZone) * moduleSize;
+        moduleRects.push(`<rect x="${drawX}" y="${drawY}" width="${moduleSize}" height="${moduleSize}" fill="#111111"/>`);
+      }
+    }
+  }
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvas}" height="${canvas}" viewBox="0 0 ${canvas} ${canvas}">
+  <rect width="${canvas}" height="${canvas}" fill="#ffffff"/>
+  ${moduleRects.join('')}
+</svg>`;
+
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+function generatePixMetadata(amount) {
+  const txId = `PIX${Date.now()}`;
+  const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
+  const pixCode = `00020126PIX${Date.now()}5802BR5920TESTER COM6009SAO PAULO62070503***6304ABCD`;
+  const readableText = `Valor ao ler QR Code: R$ ${Number(amount || 0).toFixed(2)}`;
+
+  return {
+    expiresAt,
+    pixCode,
+    qrCode: `PIX-QR-${Date.now()}`,
+    qrCodeImage: buildPixQrImageDataUrl({ txId, amount }),
+    readableText,
+  };
+}
+
 function buildMethodMetadata(method, body = {}) {
   if (method === 'pix') {
-    const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
-    const pixCode = `00020126PIX${Date.now()}5802BR5920TESTER COM6009SAO PAULO62070503***6304ABCD`;
-    return {
-      expiresAt,
-      pixCode,
-      qrCode: `PIX-QR-${Date.now()}`,
-    };
+    return generatePixMetadata(body.amount);
   }
 
   if (method === 'boleto') {

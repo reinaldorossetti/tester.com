@@ -138,6 +138,44 @@ describe('Payments API endpoints', () => {
     expect(payload.metadata.line).toContain('34191.79001');
   });
 
+  it('POST /api/orders/:id/payments gera QR Code PIX mockado com texto legível', async () => {
+    queryMock
+      .mockResolvedValueOnce({ rows: [{ id: 10, user_id: 1, grand_total: 100 }] })
+      .mockResolvedValueOnce({ rows: [{ paid: 0 }] })
+      .mockResolvedValueOnce({
+        rows: [{
+          id: 3,
+          order_id: 10,
+          user_id: 1,
+          method: 'pix',
+          amount: 100,
+          status: 'pending',
+          metadata: {
+            pixCode: '00020126PIX123',
+            qrCodeImage: 'data:image/svg+xml;utf8,%3Csvg%3E%3C%2Fsvg%3E',
+            readableText: 'Valor ao ler QR Code: R$ 100.00',
+          },
+        }],
+      })
+      .mockResolvedValueOnce({ rows: [] });
+
+    const response = await postPayment(
+      jsonRequest('http://localhost/api/orders/10/payments', 'POST', {
+        method: 'pix',
+        amount: 100,
+      }),
+      { params: { id: '10' } }
+    );
+
+    const payload = await response.json();
+
+    expect(response.status).toBe(201);
+    expect(payload.status).toBe('pending');
+    expect(payload.method).toBe('pix');
+    expect(payload.metadata.qrCodeImage).toContain('data:image/svg+xml');
+    expect(payload.metadata.readableText).toContain('Valor ao ler QR Code');
+  });
+
   it('GET /api/orders/:id/payments/:paymentId bloqueia acesso de outro usuário', async () => {
     queryMock.mockResolvedValueOnce({
       rows: [{ id: 7, order_id: 10, order_owner_id: 9, method: 'pix', status: 'pending' }],

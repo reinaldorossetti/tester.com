@@ -71,6 +71,12 @@ const translations = {
     "thank_you.boleto.barcode": "Código de barras",
     "thank_you.boleto.copy": "Copiar linha",
     "thank_you.boleto.download": "Baixar boleto",
+    "thank_you.pix.title": "QR Code PIX gerado",
+    "thank_you.pix.mock_notice": "Este QR Code PIX é mockado para testes e não realiza cobrança real.",
+    "thank_you.pix.code": "Código PIX",
+    "thank_you.pix.readable_text": "Valor lido no QR Code",
+    "thank_you.pix.expires": "Expira em",
+    "thank_you.pix.copy": "Copiar código PIX",
 
     // Payments
     "payments.title": "Pagamento",
@@ -177,6 +183,12 @@ const translations = {
     "thank_you.boleto.barcode": "Barcode",
     "thank_you.boleto.copy": "Copy line",
     "thank_you.boleto.download": "Download boleto",
+    "thank_you.pix.title": "Generated PIX QR Code",
+    "thank_you.pix.mock_notice": "This PIX QR Code is mocked for testing and does not charge real money.",
+    "thank_you.pix.code": "PIX code",
+    "thank_you.pix.readable_text": "Value read from QR Code",
+    "thank_you.pix.expires": "Expires at",
+    "thank_you.pix.copy": "Copy PIX code",
 
     // Payments
     "payments.title": "Payment",

@@ -28,6 +28,8 @@ const ThankYouPage = ({ clearCart = () => {} }) => {
   const items = location.state?.cartItems ?? [];
   const order = location.state?.order ?? null;
   const payments = Array.isArray(order?.payments) ? order.payments : [];
+  const pixPayment = payments.find((p) => p?.method === "pix");
+  const pix = pixPayment?.metadata ?? null;
   const boletoPayment = payments.find((p) => p?.method === "boleto");
   const boleto = boletoPayment?.metadata ?? null;
 
@@ -48,6 +50,19 @@ const ThankYouPage = ({ clearCart = () => {} }) => {
     try {
       if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(line);
+      }
+    } catch {
+      // no-op para ambiente sem clipboard
+    }
+  };
+
+  const handleCopyPixCode = async () => {
+    const code = pix?.pixCode;
+    if (!code) return;
+
+    try {
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(code);
       }
     } catch {
       // no-op para ambiente sem clipboard
@@ -77,6 +92,36 @@ const ThankYouPage = ({ clearCart = () => {} }) => {
         <Typography variant="h6" color="text.secondary" gutterBottom sx={{ mb: 4 }}>
           {t("thank_you.subtitle")}
         </Typography>
+
+        {pix && (
+          <Paper variant="outlined" sx={{ width: "100%", p: 2, mb: 3, textAlign: "left" }}>
+            <Stack spacing={1}>
+              <Typography variant="h6" fontWeight={700}>
+                {t("thank_you.pix.title")}
+              </Typography>
+              <Alert severity="info">{t("thank_you.pix.mock_notice")}</Alert>
+              {pix.qrCodeImage && (
+                <Box sx={{ display: "flex", justifyContent: "center", my: 1 }}>
+                  <Box component="img" src={pix.qrCodeImage} alt="PIX QR Code Mock" sx={{ width: 240, height: 240, border: "1px solid #ddd", borderRadius: 1, p: 1, backgroundColor: "#fff" }} />
+                </Box>
+              )}
+              <Typography variant="body2" sx={{ wordBreak: "break-all" }}>
+                <strong>{t("thank_you.pix.code")}:</strong> {pix.pixCode}
+              </Typography>
+              <Typography variant="body2">
+                <strong>{t("thank_you.pix.readable_text")}:</strong> {pix.readableText || "Valor ao ler QR Code: R$ 0,00"}
+              </Typography>
+              <Typography variant="body2">
+                <strong>{t("thank_you.pix.expires")}:</strong> {String(pix.expiresAt || "").slice(0, 19).replace("T", " ")}
+              </Typography>
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={1}>
+                <Button variant="outlined" onClick={handleCopyPixCode}>
+                  {t("thank_you.pix.copy")}
+                </Button>
+              </Stack>
+            </Stack>
+          </Paper>
+        )}
 
         {boleto && (
           <Paper variant="outlined" sx={{ width: "100%", p: 2, mb: 3, textAlign: "left" }}>

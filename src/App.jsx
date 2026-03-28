@@ -276,8 +276,8 @@ const NavBar = ({ cartCount, search, setSearch }) => {
                 border: "1px solid transparent",
               }}
             >
-              <Typography sx={{ fontSize: "0.75rem", color: "#ccc", lineHeight: 1 }}>{t("nav.hello")}</Typography>
-              <Typography sx={{ fontSize: "0.9rem", fontWeight: 700, lineHeight: 1, maxWidth: 100, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              <Typography sx={{ fontSize: "0.75rem", color: "#fff", lineHeight: 1 }}>{t("nav.hello")}</Typography>
+              <Typography sx={{ fontSize: "0.9rem", fontWeight: 700, lineHeight: 1, color: "#fff", maxWidth: 100, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                 {user?.name}
               </Typography>
             </Box>
