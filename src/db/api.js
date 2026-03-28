@@ -73,6 +73,7 @@ export const createOrder = ({
     paymentMethod = null,
     shippingAddress = null,
     billingInfo = null,
+    items = null,
     idempotencyKey = null,
 } = {}) => {
     const headers = {};
@@ -89,6 +90,7 @@ export const createOrder = ({
             paymentMethod,
             shippingAddress,
             billingInfo,
+            items,
         },
         headers
     );

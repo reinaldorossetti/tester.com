@@ -35,7 +35,14 @@ const CheckoutButton = ({ cartItems = [] }) => {
           ? crypto.randomUUID()
           : `idemp-${Date.now()}`;
 
-      const order = await createOrder({ idempotencyKey });
+      const orderItems = safeCartItems
+        .map((item) => ({
+          productId: Number(item?.product_id ?? item?.id),
+          quantity: Number(item?.quantity ?? 1),
+        }))
+        .filter((item) => Number.isInteger(item.productId) && item.productId > 0 && Number.isInteger(item.quantity) && item.quantity > 0);
+
+      const order = await createOrder({ idempotencyKey, items: orderItems });
       toast.success(t("checkout.processing"));
       navigate("/payments", {
         state: {

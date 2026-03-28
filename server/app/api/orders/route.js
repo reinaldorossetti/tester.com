@@ -31,6 +31,72 @@ function normalizeTotals(body = {}) {
     };
 }
 
+function normalizeBodyItems(body = {}) {
+    const rawItems = body?.items;
+
+    if (rawItems == null) {
+        return { ok: true, hasItems: false, items: [] };
+    }
+
+    if (!Array.isArray(rawItems) || !rawItems.length) {
+        return { ok: false, error: 'items deve ser um array não vazio quando informado' };
+    }
+
+    const seen = new Set();
+    const normalized = [];
+
+    for (const raw of rawItems) {
+        const productId = Number(raw?.productId ?? raw?.product_id ?? raw?.id);
+        const quantity = Number(raw?.quantity ?? 1);
+
+        if (!Number.isInteger(productId) || productId <= 0) {
+            return { ok: false, error: 'items contém productId inválido' };
+        }
+
+        if (!Number.isInteger(quantity) || quantity < 1) {
+            return { ok: false, error: 'items contém quantity inválido' };
+        }
+
+        if (seen.has(productId)) {
+            return { ok: false, error: 'items não pode conter produtos duplicados' };
+        }
+
+        seen.add(productId);
+        normalized.push({ productId, quantity });
+    }
+
+    return { ok: true, hasItems: true, items: normalized };
+}
+
+async function loadRowsFromProvidedItems(client, providedItems) {
+    const ids = providedItems.map((item) => item.productId);
+    const productResult = await client.query(
+        `SELECT id, name, price
+         FROM products
+         WHERE id = ANY($1::int[])`,
+        [ids]
+    );
+
+    const byId = new Map(productResult.rows.map((row) => [Number(row.id), row]));
+    const rows = [];
+
+    for (const item of providedItems) {
+        const product = byId.get(item.productId);
+        if (!product) {
+            return { ok: false, error: 'Produto não encontrado no checkout' };
+        }
+
+        rows.push({
+            product_id: product.id,
+            quantity: item.quantity,
+            product_name: product.name,
+            unit_price: product.price,
+        });
+    }
+
+    return { ok: true, rows };
+}
+
 async function buildOrderDetails(orderId) {
     const orderResult = await query(
         `SELECT id, order_number, user_id, status,
@@ -71,9 +137,14 @@ export async function POST(request) {
         const { userId: authUserId } = authResult.auth;
         const body = await request.json().catch(() => ({}));
         const totals = normalizeTotals(body);
+        const normalizedItems = normalizeBodyItems(body);
 
         if (!totals.ok) {
             return NextResponse.json({ error: totals.error }, { status: 400 });
+        }
+
+        if (!normalizedItems.ok) {
+            return NextResponse.json({ error: normalizedItems.error }, { status: 400 });
         }
 
         const idempotencyKey = getIdempotencyKey(request);
@@ -104,12 +175,24 @@ export async function POST(request) {
                 [authUserId]
             );
 
-            if (!cartResult.rows.length) {
+            let orderRows = cartResult.rows;
+
+            if (!orderRows.length && normalizedItems.hasItems) {
+                const rowsFromBody = await loadRowsFromProvidedItems(client, normalizedItems.items);
+                if (!rowsFromBody.ok) {
+                    await client.query('ROLLBACK');
+                    return NextResponse.json({ error: rowsFromBody.error }, { status: 400 });
+                }
+
+                orderRows = rowsFromBody.rows;
+            }
+
+            if (!orderRows.length) {
                 await client.query('ROLLBACK');
                 return NextResponse.json({ error: 'Carrinho vazio' }, { status: 400 });
             }
 
-            const subtotal = cartResult.rows.reduce(
+            const subtotal = orderRows.reduce(
                 (acc, row) => acc + Number(row.unit_price) * Number(row.quantity),
                 0
             );
@@ -148,7 +231,7 @@ export async function POST(request) {
                 [orderNumber, orderId]
             );
 
-            for (const row of cartResult.rows) {
+            for (const row of orderRows) {
                 const lineTotal = Number(row.unit_price) * Number(row.quantity);
                 await client.query(
                     `INSERT INTO order_items (
@@ -166,7 +249,9 @@ export async function POST(request) {
                 );
             }
 
-            await client.query('DELETE FROM cart_items WHERE user_id = $1', [authUserId]);
+            if (cartResult.rows.length) {
+                await client.query('DELETE FROM cart_items WHERE user_id = $1', [authUserId]);
+            }
 
             await client.query('COMMIT');
 

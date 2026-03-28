@@ -101,6 +101,43 @@ describe('Payments API endpoints', () => {
     expect(payload.method).toBe('credit');
   });
 
+  it('POST /api/orders/:id/payments gera boleto mockado com CNPJ fake', async () => {
+    queryMock
+      .mockResolvedValueOnce({ rows: [{ id: 10, user_id: 1, grand_total: 100 }] })
+      .mockResolvedValueOnce({ rows: [{ paid: 0 }] })
+      .mockResolvedValueOnce({
+        rows: [{
+          id: 2,
+          order_id: 10,
+          user_id: 1,
+          method: 'boleto',
+          amount: 100,
+          status: 'pending',
+          metadata: {
+            beneficiaryDocument: '12.345.678/0001-95',
+            line: '34191.79001 01043.510047 91020.150008 8 9727002600010000',
+          },
+        }],
+      })
+      .mockResolvedValueOnce({ rows: [] });
+
+    const response = await postPayment(
+      jsonRequest('http://localhost/api/orders/10/payments', 'POST', {
+        method: 'boleto',
+        amount: 100,
+      }),
+      { params: { id: '10' } }
+    );
+
+    const payload = await response.json();
+
+    expect(response.status).toBe(201);
+    expect(payload.status).toBe('pending');
+    expect(payload.method).toBe('boleto');
+    expect(payload.metadata.beneficiaryDocument).toBe('12.345.678/0001-95');
+    expect(payload.metadata.line).toContain('34191.79001');
+  });
+
   it('GET /api/orders/:id/payments/:paymentId bloqueia acesso de outro usuário', async () => {
     queryMock.mockResolvedValueOnce({
       rows: [{ id: 7, order_id: 10, order_owner_id: 9, method: 'pix', status: 'pending' }],

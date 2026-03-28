@@ -1,34 +1,10 @@
-<testsuites id="" name="" tests="14" failures="0" skipped="0" errors="0" time="23.240163">
-<testsuite name="frontend\cart-checkout.spec.ts" timestamp="2026-03-27T23:27:27.506Z" hostname="frontend-chromium" tests="12" failures="0" skipped="0" time="94.503" errors="0">
-<testcase name="Cart and Checkout › TS01 authenticated user should complete checkout and navigate to thank-you page" classname="frontend\cart-checkout.spec.ts" time="8.894">
+<testsuites id="" name="" tests="3" failures="0" skipped="0" errors="0" time="6.683994">
+<testsuite name="api\payments.api.spec.ts" timestamp="2026-03-27T23:57:25.847Z" hostname="api" tests="3" failures="0" skipped="0" time="14.876" errors="0">
+<testcase name="API Payments › deve criar pagamento de crédito autorizado e marcar pedido como paid" classname="api\payments.api.spec.ts" time="4.837">
 </testcase>
-<testcase name="Cart and Checkout › TS02 non-authenticated user should be redirected to login with next parameter" classname="frontend\cart-checkout.spec.ts" time="8.602">
+<testcase name="API Payments › deve criar pagamento pix pendente e permitir consulta por paymentId" classname="api\payments.api.spec.ts" time="5.16">
 </testcase>
-<testcase name="Cart and Checkout › TS03 empty cart should keep checkout unavailable" classname="frontend\cart-checkout.spec.ts" time="3.153">
-</testcase>
-<testcase name="Cart and Checkout › TS04 should update quantity, total and badge for a valid positive value" classname="frontend\cart-checkout.spec.ts" time="8.642">
-</testcase>
-<testcase name="Cart and Checkout › TS05 should keep previous quantity when value is zero" classname="frontend\cart-checkout.spec.ts" time="8.475">
-</testcase>
-<testcase name="Cart and Checkout › TS06 should keep previous quantity when value is negative" classname="frontend\cart-checkout.spec.ts" time="8.589">
-</testcase>
-<testcase name="Cart and Checkout › TS07 should handle larger valid quantity values correctly" classname="frontend\cart-checkout.spec.ts" time="8.43">
-</testcase>
-<testcase name="Cart and Checkout › TS08 should normalize decimal input to integer quantity" classname="frontend\cart-checkout.spec.ts" time="6.562">
-</testcase>
-<testcase name="Cart and Checkout › TS09 should remove a single item and show empty cart state" classname="frontend\cart-checkout.spec.ts" time="6.557">
-</testcase>
-<testcase name="Cart and Checkout › TS10 should add three items, remove all of them, and validate empty cart" classname="frontend\cart-checkout.spec.ts" time="7.315">
-</testcase>
-<testcase name="Cart and Checkout › TS11 should clear cart after successful checkout when leaving thank-you page" classname="frontend\cart-checkout.spec.ts" time="11.997">
-</testcase>
-<testcase name="Cart and Checkout › TS12 should decrement cart badge after each item removal" classname="frontend\cart-checkout.spec.ts" time="7.287">
-</testcase>
-</testsuite>
-<testsuite name="frontend\orders.checkout.spec.ts" timestamp="2026-03-27T23:27:27.506Z" hostname="frontend-chromium" tests="2" failures="0" skipped="0" time="13.847" errors="0">
-<testcase name="Frontend Checkout with Orders API › deve chamar POST /api/orders e concluir pagamento antes de ir para thank-you" classname="frontend\orders.checkout.spec.ts" time="7.132">
-</testcase>
-<testcase name="Frontend Checkout with Orders API › deve permanecer no carrinho quando POST /api/orders falhar" classname="frontend\orders.checkout.spec.ts" time="6.715">
+<testcase name="API Payments › deve retornar 400 quando valor de pagamento for maior que saldo do pedido" classname="api\payments.api.spec.ts" time="4.879">
 </testcase>
 </testsuite>
 </testsuites>

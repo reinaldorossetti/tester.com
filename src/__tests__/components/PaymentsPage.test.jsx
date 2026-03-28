@@ -105,4 +105,42 @@ describe('PaymentsPage', () => {
     expect(toast.error).toHaveBeenCalled();
     expect(navigateMock).not.toHaveBeenCalledWith('/thank-you', expect.anything());
   });
+
+  it('gera boleto mockado e navega com dados do boleto', async () => {
+    const user = userEvent.setup();
+    createOrderPayment.mockResolvedValueOnce({
+      id: 9,
+      order_id: 10,
+      method: 'boleto',
+      amount: 199.9,
+      status: 'pending',
+      metadata: {
+        beneficiaryName: 'Empresa Mock de Cobranças LTDA',
+        beneficiaryDocument: '12.345.678/0001-95',
+        line: '34191.79001 01043.510047 91020.150008 8 9727002600010000',
+      },
+    });
+
+    render(<PaymentsPage />);
+    await user.click(screen.getByText('Boleto'));
+    await user.click(screen.getByRole('button', { name: /payments.cta.generate_boleto/i }));
+
+    expect(createOrderPayment).toHaveBeenCalledWith(
+      10,
+      expect.objectContaining({ method: 'boleto' })
+    );
+    expect(toast.info).toHaveBeenCalledWith('payments.pending');
+    expect(navigateMock).toHaveBeenCalledWith('/thank-you', {
+      state: expect.objectContaining({
+        order: expect.objectContaining({
+          payments: expect.arrayContaining([
+            expect.objectContaining({
+              method: 'boleto',
+              metadata: expect.objectContaining({ beneficiaryDocument: '12.345.678/0001-95' }),
+            }),
+          ]),
+        }),
+      }),
+    });
+  });
 });

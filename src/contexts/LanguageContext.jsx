@@ -62,6 +62,15 @@ const translations = {
     "thank_you.table_total": "Total",
     "thank_you.total": "Total: R$ {total}",
     "thank_you.back": "Voltar ao Catálogo",
+    "thank_you.boleto.title": "Boleto gerado",
+    "thank_you.boleto.mock_notice": "Este boleto é mockado para testes e não possui validade bancária real.",
+    "thank_you.boleto.beneficiary": "Beneficiário",
+    "thank_you.boleto.cnpj": "CNPJ",
+    "thank_you.boleto.due_date": "Vencimento",
+    "thank_you.boleto.line": "Linha digitável",
+    "thank_you.boleto.barcode": "Código de barras",
+    "thank_you.boleto.copy": "Copiar linha",
+    "thank_you.boleto.download": "Baixar boleto",
 
     // Payments
     "payments.title": "Pagamento",
@@ -159,6 +168,15 @@ const translations = {
     "thank_you.table_total": "Total",
     "thank_you.total": "Total: ${total}", // changed R$ to $ assuming this might be expected, but let's stick to R$ since formatting might be complex. Actually let's use R$ for parity right now to keep currency formatting simple and not change numbers.
     "thank_you.back": "Back to Catalog",
+    "thank_you.boleto.title": "Generated boleto",
+    "thank_you.boleto.mock_notice": "This boleto is mocked for tests and has no real bank validity.",
+    "thank_you.boleto.beneficiary": "Beneficiary",
+    "thank_you.boleto.cnpj": "CNPJ",
+    "thank_you.boleto.due_date": "Due date",
+    "thank_you.boleto.line": "Digitable line",
+    "thank_you.boleto.barcode": "Barcode",
+    "thank_you.boleto.copy": "Copy line",
+    "thank_you.boleto.download": "Download boleto",
 
     // Payments
     "payments.title": "Payment",

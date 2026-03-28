@@ -13,6 +13,8 @@ import {
   TableHead,
   TableRow,
   Divider,
+  Alert,
+  Stack,
 } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import StorefrontIcon from "@mui/icons-material/Storefront";
@@ -24,6 +26,10 @@ const ThankYouPage = ({ clearCart = () => {} }) => {
   const { t } = useLanguage();
   // Extrair cartItems do estado do roteador
   const items = location.state?.cartItems ?? [];
+  const order = location.state?.order ?? null;
+  const payments = Array.isArray(order?.payments) ? order.payments : [];
+  const boletoPayment = payments.find((p) => p?.method === "boleto");
+  const boleto = boletoPayment?.metadata ?? null;
 
   const totalPrice = items.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -34,6 +40,19 @@ const ThankYouPage = ({ clearCart = () => {} }) => {
   useEffect(() => {
     return () => clearCart();
   }, [clearCart]);
+
+  const handleCopyBoletoLine = async () => {
+    const line = boleto?.line;
+    if (!line) return;
+
+    try {
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(line);
+      }
+    } catch {
+      // no-op para ambiente sem clipboard
+    }
+  };
 
   return (
     <Container maxWidth="md">
@@ -58,6 +77,42 @@ const ThankYouPage = ({ clearCart = () => {} }) => {
         <Typography variant="h6" color="text.secondary" gutterBottom sx={{ mb: 4 }}>
           {t("thank_you.subtitle")}
         </Typography>
+
+        {boleto && (
+          <Paper variant="outlined" sx={{ width: "100%", p: 2, mb: 3, textAlign: "left" }}>
+            <Stack spacing={1}>
+              <Typography variant="h6" fontWeight={700}>
+                {t("thank_you.boleto.title")}
+              </Typography>
+              <Alert severity="info">{t("thank_you.boleto.mock_notice")}</Alert>
+              <Typography variant="body2">
+                <strong>{t("thank_you.boleto.beneficiary")}:</strong> {boleto.beneficiaryName}
+              </Typography>
+              <Typography variant="body2">
+                <strong>{t("thank_you.boleto.cnpj")}:</strong> {boleto.beneficiaryDocument}
+              </Typography>
+              <Typography variant="body2">
+                <strong>{t("thank_you.boleto.due_date")}:</strong> {String(boleto.dueDate || "").slice(0, 10)}
+              </Typography>
+              <Typography variant="body2" sx={{ wordBreak: "break-all" }}>
+                <strong>{t("thank_you.boleto.line")}:</strong> {boleto.line}
+              </Typography>
+              <Typography variant="body2" sx={{ wordBreak: "break-all" }}>
+                <strong>{t("thank_you.boleto.barcode")}:</strong> {boleto.barcode}
+              </Typography>
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={1}>
+                <Button variant="outlined" onClick={handleCopyBoletoLine}>
+                  {t("thank_you.boleto.copy")}
+                </Button>
+                {boleto.downloadUrl && (
+                  <Button component="a" href={boleto.downloadUrl} target="_blank" rel="noreferrer" variant="contained" color="secondary">
+                    {t("thank_you.boleto.download")}
+                  </Button>
+                )}
+              </Stack>
+            </Stack>
+          </Paper>
+        )}
 
         {items.length > 0 && (
           <Box id="thank-you-summary-wrapper" sx={{ width: "100%", mb: 4, textAlign: "left" }}>

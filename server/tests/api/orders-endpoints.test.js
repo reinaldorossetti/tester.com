@@ -84,6 +84,32 @@ describe('Orders API endpoints', () => {
     expect(payload.error).toBe('Carrinho vazio');
   });
 
+  it('POST /api/orders cria pedido com items do payload quando carrinho persistido está vazio', async () => {
+    poolClientQueryMock
+      .mockResolvedValueOnce({ rows: [] }) // BEGIN
+      .mockResolvedValueOnce({ rows: [] }) // cart query (empty)
+      .mockResolvedValueOnce({ rows: [{ id: 5, name: 'Notebook', price: 4999.9 }] }) // products lookup
+      .mockResolvedValueOnce({ rows: [{ id: 101 }] }) // insert order
+      .mockResolvedValueOnce({ rows: [] }) // update order number
+      .mockResolvedValueOnce({ rows: [] }) // insert order item
+      .mockResolvedValueOnce({ rows: [] }); // COMMIT
+
+    queryMock
+      .mockResolvedValueOnce({ rows: [{ id: 101, order_number: 'ORD-TEST-0101', user_id: 1, status: 'created' }] })
+      .mockResolvedValueOnce({ rows: [{ id: 1, order_id: 101, product_id: 5, quantity: 1 }] });
+
+    const response = await postOrders(
+      jsonRequest('http://localhost/api/orders', 'POST', {
+        items: [{ productId: 5, quantity: 1 }],
+      })
+    );
+    const payload = await response.json();
+
+    expect(response.status).toBe(201);
+    expect(payload.id).toBe(101);
+    expect(payload.items).toHaveLength(1);
+  });
+
   it('GET /api/orders lista pedidos do usuário autenticado', async () => {
     queryMock
       .mockResolvedValueOnce({ rows: [{ total: 1 }] })

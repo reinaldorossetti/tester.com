@@ -36,6 +36,46 @@ function detectCardBrand(cardNumber = '') {
   return null;
 }
 
+function onlyDigits(value = '') {
+  return String(value).replace(/\D/g, '');
+}
+
+function formatCnpj(value = '') {
+  const digits = onlyDigits(value).slice(0, 14).padStart(14, '0');
+  return `${digits.slice(0, 2)}.${digits.slice(2, 5)}.${digits.slice(5, 8)}/${digits.slice(8, 12)}-${digits.slice(12, 14)}`;
+}
+
+function generateBoletoMetadata(orderId, amount) {
+  const now = Date.now();
+  const dueDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString();
+  const fakeCnpjDigits = '03.361.252/0004-87';
+  const amountInCents = String(Math.round(Number(amount || 0) * 100)).padStart(10, '0');
+  const banco = '001';
+  const moeda = '9';
+  const fatorVencimento = '9727';
+  const campoLivre = `${String(orderId).padStart(6, '0')}${String(now).slice(-14)}`.slice(0, 25);
+  const barcode = `${banco}${moeda}${fatorVencimento}${amountInCents}${campoLivre}`;
+
+  return {
+    type: 'boleto',
+    issuedAt: new Date().toISOString(),
+    dueDate,
+    beneficiaryName: 'Empresa AmazonQA de Cobranças LTDA',
+    beneficiaryDocument: formatCnpj(fakeCnpjDigits),
+    beneficiaryBank: 'Banco do Brasil S.A.',
+    nossoNumero: `${String(orderId).padStart(8, '0')}${String(now).slice(-5)}`,
+    barcode,
+    line: `00191.79001 01043.510047 91020.150008 8 ${fatorVencimento}${amountInCents.slice(-10)}`,
+    instructions: [
+      'Não receber após o vencimento (mock).',
+      'Multa de 2% após vencimento (mock).',
+      'Juros de 0,033% ao dia (mock).',
+    ],
+    downloadUrl: `/api/orders/${orderId}/boleto/${now}`,
+    note: 'Boleto gerado com dados simulados para ambiente de testes.',
+  };
+}
+
 function buildMethodMetadata(method, body = {}) {
   if (method === 'pix') {
     const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
@@ -48,12 +88,7 @@ function buildMethodMetadata(method, body = {}) {
   }
 
   if (method === 'boleto') {
-    const dueDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString();
-    return {
-      dueDate,
-      line: `34191.79001 01043.510047 91020.150008 8 97270026000${String(Date.now()).slice(-4)}`,
-      downloadUrl: `/api/orders/${body.orderId || ''}/boleto/${Date.now()}`,
-    };
+    return generateBoletoMetadata(body.orderId, body.amount);
   }
 
   return {

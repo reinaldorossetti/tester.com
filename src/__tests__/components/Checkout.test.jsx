@@ -105,6 +105,12 @@ describe('Checkout/CheckoutButton Component', () => {
     await user.click(screen.getByRole('button', { name: /checkout.button/i }));
 
     expect(createOrder).toHaveBeenCalledTimes(1);
+    expect(createOrder).toHaveBeenCalledWith(
+      expect.objectContaining({
+        idempotencyKey: expect.any(String),
+        items: [{ productId: 10, quantity: 2 }],
+      })
+    );
     expect(toast.success).toHaveBeenCalledWith('checkout.processing');
     expect(navigateMock).toHaveBeenCalledWith('/payments', {
       state: {
