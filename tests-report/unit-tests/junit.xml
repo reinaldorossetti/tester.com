@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites name="vitest tests" tests="133" failures="0" errors="0" time="56.188455493">
-    <testsuite name="src/__tests__/App.test.jsx" timestamp="2026-03-28T00:34:15.164Z" hostname="runnervmrg6be" tests="6" failures="0" errors="0" skipped="0" time="1.103822684">
-        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; renderiza navbar, rota inicial e atualiza search" time="0.472683167">
+<testsuites name="vitest tests" tests="133" failures="0" errors="0" time="56.613739762">
+    <testsuite name="src/__tests__/App.test.jsx" timestamp="2026-03-28T00:49:17.379Z" hostname="runnervmrg6be" tests="6" failures="0" errors="0" skipped="0" time="1.094118749">
+        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; renderiza navbar, rota inicial e atualiza search" time="0.450147631">
         </testcase>
-        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; adiciona item no carrinho e incrementa badge" time="0.129414417">
+        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; adiciona item no carrinho e incrementa badge" time="0.115231223">
         </testcase>
-        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; adiciona item existente e dispara toast de atualização de quantidade" time="0.19486146">
+        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; adiciona item existente e dispara toast de atualização de quantidade" time="0.189580755">
         </testcase>
-        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; suporta carrinho com vários produtos distintos" time="0.149852651">
+        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; suporta carrinho com vários produtos distintos" time="0.153388574">
         </testcase>
-        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; na rota /cart, atualiza e remove item via callbacks" time="0.104310019">
+        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; na rota /cart, atualiza e remove item via callbacks" time="0.127275448">
         </testcase>
-        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; protege rota /thank-you e redireciona para login quando não autenticado" time="0.047564078">
-        </testcase>
-    </testsuite>
-    <testsuite name="src/__tests__/validation.test.js" timestamp="2026-03-28T00:34:15.166Z" hostname="runnervmrg6be" tests="3" failures="0" errors="0" skipped="0" time="0.006034555">
-        <testcase classname="src/__tests__/validation.test.js" name="Validation - Basic Vitest Functionality &gt; should pass a basic math test" time="0.002934758">
-        </testcase>
-        <testcase classname="src/__tests__/validation.test.js" name="Validation - Basic Vitest Functionality &gt; should pass a string test" time="0.000299047">
-        </testcase>
-        <testcase classname="src/__tests__/validation.test.js" name="Validation - Basic Vitest Functionality &gt; should pass when values are truthy" time="0.000318985">
+        <testcase classname="src/__tests__/App.test.jsx" name="App Component - Integration Behaviors &gt; protege rota /thank-you e redireciona para login quando não autenticado" time="0.052969871">
         </testcase>
     </testsuite>
-    <testsuite name="src/__tests__/components/Cart.test.jsx" timestamp="2026-03-28T00:34:15.167Z" hostname="runnervmrg6be" tests="10" failures="0" errors="0" skipped="0" time="0.83379406">
-        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_001: renderiza estado vazio com CTA para catálogo" time="0.398751634">
+    <testsuite name="src/__tests__/validation.test.js" timestamp="2026-03-28T00:49:17.384Z" hostname="runnervmrg6be" tests="3" failures="0" errors="0" skipped="0" time="0.004543121">
+        <testcase classname="src/__tests__/validation.test.js" name="Validation - Basic Vitest Functionality &gt; should pass a basic math test" time="0.002216812">
         </testcase>
-        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_002: renderiza lista de itens quando carrinho tem produtos" time="0.070611633">
+        <testcase classname="src/__tests__/validation.test.js" name="Validation - Basic Vitest Functionality &gt; should pass a string test" time="0.0002601">
         </testcase>
-        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_003: calcula subtotal e total corretamente" time="0.020270273">
-        </testcase>
-        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_004: passa callbacks de update/remove para CartItem" time="0.016659403">
-        </testcase>
-        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_005: passa cartItems e setCartItems para CheckoutButton" time="0.020075659">
-        </testcase>
-        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_006: botão continuar comprando aponta para home" time="0.098001593">
-        </testcase>
-        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_007: normaliza cartItems inválido para array vazio" time="0.009762671">
-        </testcase>
-        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_008: renderiza título e resumo de pedido em carrinho preenchido" time="0.024819125">
-        </testcase>
-        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_009: exibe contagem total de itens no resumo" time="0.018743556">
-        </testcase>
-        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_010: mantém render estável com interações básicas" time="0.150878696">
+        <testcase classname="src/__tests__/validation.test.js" name="Validation - Basic Vitest Functionality &gt; should pass when values are truthy" time="0.000223059">
         </testcase>
     </testsuite>
-    <testsuite name="src/__tests__/components/CartItem.test.jsx" timestamp="2026-03-28T00:34:15.169Z" hostname="runnervmrg6be" tests="8" failures="0" errors="0" skipped="0" time="0.774266787">
-        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_001: renderiza nome, preço unitário e total da linha" time="0.285786702">
+    <testsuite name="src/__tests__/components/Cart.test.jsx" timestamp="2026-03-28T00:49:17.385Z" hostname="runnervmrg6be" tests="10" failures="0" errors="0" skipped="0" time="0.80810948">
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_001: renderiza estado vazio com CTA para catálogo" time="0.419429582">
         </testcase>
-        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_002: normaliza item inválido para valores seguros" time="0.02740213">
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_002: renderiza lista de itens quando carrinho tem produtos" time="0.069689762">
         </testcase>
-        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_003: chama onChange quando quantidade válida (&gt;0)" time="0.037368309">
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_003: calcula subtotal e total corretamente" time="0.024372921">
         </testcase>
-        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_004: não chama onChange para quantidade inválida (&lt;=0)" time="0.027956239">
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_004: passa callbacks de update/remove para CartItem" time="0.019681764">
         </testcase>
-        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_005: prioriza onUpdateCart quando ambos callbacks de update existem" time="0.031302456">
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_005: passa cartItems e setCartItems para CheckoutButton" time="0.020309345">
         </testcase>
-        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_006: chama onRemove ao clicar no botão delete" time="0.217342168">
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_006: botão continuar comprando aponta para home" time="0.087283926">
         </testcase>
-        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_007: prioriza onRemoveFromCart quando ambos callbacks de remoção existem" time="0.068127093">
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_007: normaliza cartItems inválido para array vazio" time="0.009545471">
         </testcase>
-        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_008: funciona sem callbacks explícitos (fallback noop)" time="0.07367372">
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_008: renderiza título e resumo de pedido em carrinho preenchido" time="0.016689155">
+        </testcase>
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_009: exibe contagem total de itens no resumo" time="0.01574256">
+        </testcase>
+        <testcase classname="src/__tests__/components/Cart.test.jsx" name="Cart Component &gt; TC_CART_010: mantém render estável com interações básicas" time="0.121647608">
         </testcase>
     </testsuite>
-    <testsuite name="src/__tests__/components/Catalog.test.jsx" timestamp="2026-03-28T00:34:15.171Z" hostname="runnervmrg6be" tests="10" failures="0" errors="0" skipped="0" time="0.844925958">
-        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_001: Lista todos produtos (mock API)" time="0.266420306">
+    <testsuite name="src/__tests__/components/CartItem.test.jsx" timestamp="2026-03-28T00:49:17.387Z" hostname="runnervmrg6be" tests="8" failures="0" errors="0" skipped="0" time="0.804339693">
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_001: renderiza nome, preço unitário e total da linha" time="0.286025666">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_002: normaliza item inválido para valores seguros" time="0.04479583">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_003: chama onChange quando quantidade válida (&gt;0)" time="0.039486791">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_004: não chama onChange para quantidade inválida (&lt;=0)" time="0.031412147">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_005: prioriza onUpdateCart quando ambos callbacks de update existem" time="0.028488449">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_006: chama onRemove ao clicar no botão delete" time="0.226246725">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_007: prioriza onRemoveFromCart quando ambos callbacks de remoção existem" time="0.075435674">
+        </testcase>
+        <testcase classname="src/__tests__/components/CartItem.test.jsx" name="CartItem Component &gt; TC_CI_008: funciona sem callbacks explícitos (fallback noop)" time="0.067280428">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/components/Catalog.test.jsx" timestamp="2026-03-28T00:49:17.388Z" hostname="runnervmrg6be" tests="10" failures="0" errors="0" skipped="0" time="0.856395675">
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_001: Lista todos produtos (mock API)" time="0.274213254">
             <system-err>
 Warning: An update to Catalog inside a test was not wrapped in act(...).
 
@@ -94,7 +94,7 @@ This ensures that you&apos;re testing the behavior the user would see in the bro
 
             </system-err>
         </testcase>
-        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_002: Renderiza container principal" time="0.023967129">
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_002: Renderiza container principal" time="0.023885323">
             <system-err>
 Warning: An update to Catalog inside a test was not wrapped in act(...).
 
@@ -125,7 +125,7 @@ This ensures that you&apos;re testing the behavior the user would see in the bro
 
             </system-err>
         </testcase>
-        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_003: Ordena por preço ASC/DESC" time="0.049635116">
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_003: Ordena por preço ASC/DESC" time="0.028185306">
             <system-err>
 Warning: An update to Catalog inside a test was not wrapped in act(...).
 
@@ -156,7 +156,7 @@ This ensures that you&apos;re testing the behavior the user would see in the bro
 
             </system-err>
         </testcase>
-        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_004: Paginação renderiza" time="0.034028918">
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_004: Paginação renderiza" time="0.02710888">
             <system-err>
 Warning: An update to Catalog inside a test was not wrapped in act(...).
 
@@ -187,7 +187,7 @@ This ensures that you&apos;re testing the behavior the user would see in the bro
 
             </system-err>
         </testcase>
-        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_005: Renderiza search input" time="0.040049024">
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Rendering &gt; TC_CAT_005: Renderiza search input" time="0.026483576">
             <system-err>
 Warning: An update to Catalog inside a test was not wrapped in act(...).
 
@@ -218,7 +218,7 @@ This ensures that you&apos;re testing the behavior the user would see in the bro
 
             </system-err>
         </testcase>
-        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_006: Aplica filtro por categoria" time="0.038600395">
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_006: Aplica filtro por categoria" time="0.034814161">
             <system-err>
 Warning: An update to Catalog inside a test was not wrapped in act(...).
 
@@ -249,9 +249,9 @@ This ensures that you&apos;re testing the behavior the user would see in the bro
 
             </system-err>
         </testcase>
-        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_007: Busca por termo (debounce mock)" time="0.281624366">
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_007: Busca por termo (debounce mock)" time="0.339251571">
         </testcase>
-        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_008: Exibe loader enquanto carrega" time="0.032850832">
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_008: Exibe loader enquanto carrega" time="0.034569844">
             <system-err>
 Warning: An update to Catalog inside a test was not wrapped in act(...).
 
@@ -282,7 +282,7 @@ This ensures that you&apos;re testing the behavior the user would see in the bro
 
             </system-err>
         </testcase>
-        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_009: Clique produto redireciona para detalhe" time="0.034803991">
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_009: Clique produto redireciona para detalhe" time="0.034707752">
             <system-err>
 Warning: An update to Catalog inside a test was not wrapped in act(...).
 
@@ -313,7 +313,7 @@ This ensures that you&apos;re testing the behavior the user would see in the bro
 
             </system-err>
         </testcase>
-        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_010: Erro na API mostra fallback" time="0.038847846">
+        <testcase classname="src/__tests__/components/Catalog.test.jsx" name="Catalog Component &gt; Filtering &amp; Sorting &gt; TC_CAT_010: Erro na API mostra fallback" time="0.027769473">
             <system-err>
 Warning: An update to Catalog inside a test was not wrapped in act(...).
 
@@ -345,102 +345,102 @@ This ensures that you&apos;re testing the behavior the user would see in the bro
             </system-err>
         </testcase>
     </testsuite>
-    <testsuite name="src/__tests__/components/Checkout.test.jsx" timestamp="2026-03-28T00:34:15.174Z" hostname="runnervmrg6be" tests="11" failures="0" errors="0" skipped="0" time="1.142462425">
-        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_001: botão inicia desabilitado com carrinho vazio" time="0.442918849">
+    <testsuite name="src/__tests__/components/Checkout.test.jsx" timestamp="2026-03-28T00:49:17.391Z" hostname="runnervmrg6be" tests="11" failures="0" errors="0" skipped="0" time="1.126563319">
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_001: botão inicia desabilitado com carrinho vazio" time="0.531764805">
         </testcase>
-        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_002: usa LockIcon quando usuário não autenticado" time="0.007246712">
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_002: usa LockIcon quando usuário não autenticado" time="0.00850791">
         </testcase>
-        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_003: usa ShoppingCartCheckoutIcon quando autenticado por isLoggedIn" time="0.073255359">
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_003: usa ShoppingCartCheckoutIcon quando autenticado por isLoggedIn" time="0.07526896">
         </testcase>
-        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_004: usa fallback isAuthenticated quando isLoggedIn não existe" time="0.032899549">
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_004: usa fallback isAuthenticated quando isLoggedIn não existe" time="0.057838577">
         </testcase>
-        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_005: com carrinho vazio não permite checkout (permanece desabilitado)" time="0.054775739">
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_005: com carrinho vazio não permite checkout (permanece desabilitado)" time="0.049418099">
         </testcase>
-        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_006: deslogado com itens redireciona para login com next" time="0.152990527">
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_006: deslogado com itens redireciona para login com next" time="0.126291743">
         </testcase>
-        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_007: logado com itens navega para /payments com state" time="0.082818107">
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_007: logado com itens navega para /payments com state" time="0.057856249">
         </testcase>
-        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_008: normaliza cartItems inválido e mantém desabilitado" time="0.041180458">
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_008: normaliza cartItems inválido e mantém desabilitado" time="0.022779361">
         </testcase>
-        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_009: codifica pathname especial no parâmetro next" time="0.066857442">
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_009: codifica pathname especial no parâmetro next" time="0.058866206">
         </testcase>
-        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_010: não limpa carrinho no checkout, pois pagamento ocorre na próxima etapa" time="0.070312859">
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_010: não limpa carrinho no checkout, pois pagamento ocorre na próxima etapa" time="0.064297175">
         </testcase>
-        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_011: exibe erro e não navega quando API de orders falha" time="0.112129652">
-        </testcase>
-    </testsuite>
-    <testsuite name="src/__tests__/components/Login.test.jsx" timestamp="2026-03-28T00:34:15.176Z" hostname="runnervmrg6be" tests="10" failures="0" errors="0" skipped="0" time="6.244896486">
-        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_001: renderiza campos, botão de submit e link de registro" time="0.967721438">
-        </testcase>
-        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_002: valida campos obrigatórios e exibe alerta de erro" time="0.303190454">
-        </testcase>
-        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_003: alterna visibilidade da senha" time="0.432585753">
-        </testcase>
-        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_004: realiza login com sucesso, normaliza email e navega para ?next" time="0.929129804">
-        </testcase>
-        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_005: usa fallback de rota &quot;/&quot; quando ?next não existe" time="0.706241133">
-        </testcase>
-        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_006: trata resposta sem token como erro de autenticação inválida" time="0.608436454">
-        </testcase>
-        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_007: usa mensagem fallback quando erro não possui message" time="0.627134143">
-        </testcase>
-        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_008: exibe estado de loading durante requisição e limpa no finally" time="0.734098943">
-        </testcase>
-        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_009: fecha alerta de erro pelo onClose do Alert" time="0.306257522">
-        </testcase>
-        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_010: aceita payload de login sem campo user (fallback para objeto raiz)" time="0.626432087">
+        <testcase classname="src/__tests__/components/Checkout.test.jsx" name="Checkout/CheckoutButton Component &gt; TC_CHK_011: exibe erro e não navega quando API de orders falha" time="0.068572586">
         </testcase>
     </testsuite>
-    <testsuite name="src/__tests__/components/PaymentsPage.test.jsx" timestamp="2026-03-28T00:34:15.178Z" hostname="runnervmrg6be" tests="5" failures="0" errors="0" skipped="0" time="2.315242091">
-        <testcase classname="src/__tests__/components/PaymentsPage.test.jsx" name="PaymentsPage &gt; renderiza tela de pagamentos com resumo e métodos" time="0.471487613">
+    <testsuite name="src/__tests__/components/Login.test.jsx" timestamp="2026-03-28T00:49:17.393Z" hostname="runnervmrg6be" tests="10" failures="0" errors="0" skipped="0" time="6.220689212">
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_001: renderiza campos, botão de submit e link de registro" time="0.99095971">
         </testcase>
-        <testcase classname="src/__tests__/components/PaymentsPage.test.jsx" name="PaymentsPage &gt; habilita split payment e exibe campos adicionais" time="0.591297836">
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_002: valida campos obrigatórios e exibe alerta de erro" time="0.343636413">
         </testcase>
-        <testcase classname="src/__tests__/components/PaymentsPage.test.jsx" name="PaymentsPage &gt; envia pagamento simples e navega para thank-you" time="0.495385635">
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_003: alterna visibilidade da senha" time="0.381391635">
         </testcase>
-        <testcase classname="src/__tests__/components/PaymentsPage.test.jsx" name="PaymentsPage &gt; mostra erro e não navega quando pagamento falha" time="0.346786766">
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_004: realiza login com sucesso, normaliza email e navega para ?next" time="0.805657707">
         </testcase>
-        <testcase classname="src/__tests__/components/PaymentsPage.test.jsx" name="PaymentsPage &gt; gera boleto mockado e navega com dados do boleto" time="0.405280277">
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_005: usa fallback de rota &quot;/&quot; quando ?next não existe" time="0.761113205">
         </testcase>
-    </testsuite>
-    <testsuite name="src/__tests__/components/Product.test.jsx" timestamp="2026-03-28T00:34:15.179Z" hostname="runnervmrg6be" tests="10" failures="0" errors="0" skipped="0" time="0.787797521">
-        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_001: Renderiza imagem produto" time="0.414079921">
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_006: trata resposta sem token como erro de autenticação inválida" time="0.591660015">
         </testcase>
-        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_002: Renderiza nome e preço" time="0.04579472">
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_007: usa mensagem fallback quando erro não possui message" time="0.674879752">
         </testcase>
-        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_003: Renderiza rating/estrelas" time="0.030447024">
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_008: exibe estado de loading durante requisição e limpa no finally" time="0.815444417">
         </testcase>
-        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_004: Exibe badge &quot;sale&quot; se desconto" time="0.055662865">
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_009: fecha alerta de erro pelo onClose do Alert" time="0.283291221">
         </testcase>
-        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_005: Componente renderiza sem erros" time="0.041703406">
-        </testcase>
-        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_006: Click abre detalhe (mock navigate)" time="0.043210397">
-        </testcase>
-        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_007: Add to cart via ícone (mock dispatch)" time="0.030794177">
-        </testcase>
-        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_008: Hover mostra botões ações" time="0.046849288">
-        </testcase>
-        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_009: Wishlist toggle salva (mock localStorage)" time="0.038465464">
-        </testcase>
-        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_010: Imagem fallback se quebrada" time="0.035527208">
+        <testcase classname="src/__tests__/components/Login.test.jsx" name="Login Component &gt; TC_LOGIN_010: aceita payload de login sem campo user (fallback para objeto raiz)" time="0.567648413">
         </testcase>
     </testsuite>
-    <testsuite name="src/__tests__/components/ProductDetails.test.jsx" timestamp="2026-03-28T00:34:15.181Z" hostname="runnervmrg6be" tests="6" failures="0" errors="0" skipped="0" time="1.609562603">
-        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_001: mostra estado de carregamento enquanto busca o produto" time="0.076231868">
+    <testsuite name="src/__tests__/components/PaymentsPage.test.jsx" timestamp="2026-03-28T00:49:17.395Z" hostname="runnervmrg6be" tests="5" failures="0" errors="0" skipped="0" time="2.456182557">
+        <testcase classname="src/__tests__/components/PaymentsPage.test.jsx" name="PaymentsPage &gt; renderiza tela de pagamentos com resumo e métodos" time="0.547976811">
         </testcase>
-        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_002: renderiza fallback de produto não encontrado e permite voltar" time="0.297926368">
+        <testcase classname="src/__tests__/components/PaymentsPage.test.jsx" name="PaymentsPage &gt; habilita split payment e exibe campos adicionais" time="0.604027107">
         </testcase>
-        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_003: em erro de API, registra console.error e exibe tela de não encontrado" time="0.010753729">
+        <testcase classname="src/__tests__/components/PaymentsPage.test.jsx" name="PaymentsPage &gt; envia pagamento simples e navega para thank-you" time="0.479323752">
         </testcase>
-        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_004: renderiza detalhes completos e chama addToCart com quantidade alterada" time="0.903556062">
+        <testcase classname="src/__tests__/components/PaymentsPage.test.jsx" name="PaymentsPage &gt; mostra erro e não navega quando pagamento falha" time="0.364961029">
         </testcase>
-        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_005: não renderiza linhas opcionais quando manufacturer/line/model não existem" time="0.106713594">
-        </testcase>
-        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_006: busca novamente quando o id da rota muda" time="0.210854491">
+        <testcase classname="src/__tests__/components/PaymentsPage.test.jsx" name="PaymentsPage &gt; gera boleto mockado e navega com dados do boleto" time="0.454875447">
         </testcase>
     </testsuite>
-    <testsuite name="src/__tests__/components/Register.test.jsx" timestamp="2026-03-28T00:34:15.183Z" hostname="runnervmrg6be" tests="19" failures="0" errors="0" skipped="0" time="39.967366998">
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_001: Renderiza step inicial com botão próximo e link de login" time="1.192565826">
+    <testsuite name="src/__tests__/components/Product.test.jsx" timestamp="2026-03-28T00:49:17.396Z" hostname="runnervmrg6be" tests="10" failures="0" errors="0" skipped="0" time="0.719763137">
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_001: Renderiza imagem produto" time="0.354935473">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_002: Renderiza nome e preço" time="0.042960393">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_003: Renderiza rating/estrelas" time="0.0434058">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_004: Exibe badge &quot;sale&quot; se desconto" time="0.040571376">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Display &gt; TC_PROD_005: Componente renderiza sem erros" time="0.039738507">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_006: Click abre detalhe (mock navigate)" time="0.063387117">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_007: Add to cart via ícone (mock dispatch)" time="0.037006642">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_008: Hover mostra botões ações" time="0.04178565">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_009: Wishlist toggle salva (mock localStorage)" time="0.02689641">
+        </testcase>
+        <testcase classname="src/__tests__/components/Product.test.jsx" name="Product Component (Card) &gt; Product Interactions &gt; TC_PROD_010: Imagem fallback se quebrada" time="0.025063989">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/components/ProductDetails.test.jsx" timestamp="2026-03-28T00:49:17.398Z" hostname="runnervmrg6be" tests="6" failures="0" errors="0" skipped="0" time="1.636082726">
+        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_001: mostra estado de carregamento enquanto busca o produto" time="0.082026878">
+        </testcase>
+        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_002: renderiza fallback de produto não encontrado e permite voltar" time="0.302873274">
+        </testcase>
+        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_003: em erro de API, registra console.error e exibe tela de não encontrado" time="0.014021884">
+        </testcase>
+        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_004: renderiza detalhes completos e chama addToCart com quantidade alterada" time="0.852795828">
+        </testcase>
+        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_005: não renderiza linhas opcionais quando manufacturer/line/model não existem" time="0.138694114">
+        </testcase>
+        <testcase classname="src/__tests__/components/ProductDetails.test.jsx" name="ProductDetails Component &gt; TC_PD_006: busca novamente quando o id da rota muda" time="0.239856307">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/components/Register.test.jsx" timestamp="2026-03-28T00:49:17.399Z" hostname="runnervmrg6be" tests="19" failures="0" errors="0" skipped="0" time="40.359146057">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_001: Renderiza step inicial com botão próximo e link de login" time="1.435558452">
             <system-err>
 MUI Grid: The `item` prop has been removed and is no longer necessary. You can safely remove it.
 
@@ -451,67 +451,67 @@ MUI Grid: The `sm` prop has been removed. See https://mui.com/material-ui/migrat
 
             </system-err>
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_002: Mostra erros obrigatórios ao avançar sem preencher" time="0.593010444">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_002: Mostra erros obrigatórios ao avançar sem preencher" time="0.490486854">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_003: Alterna para PJ e exibe campos de Razão Social/CNPJ" time="0.600461734">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_003: Alterna para PJ e exibe campos de Razão Social/CNPJ" time="0.477497308">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_004: Avança para step 1 quando dados PF são válidos" time="3.69540919">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_004: Avança para step 1 quando dados PF são válidos" time="3.475763184">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_005: Bloqueia avanço com CPF inválido" time="3.339805976">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_005: Bloqueia avanço com CPF inválido" time="3.50895507">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_006: Exibe força da senha dinamicamente" time="0.783470127">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_006: Exibe força da senha dinamicamente" time="0.871224819">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_007: Auto-preenche endereço via CEP" time="3.930305039">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_007: Auto-preenche endereço via CEP" time="3.954081717">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_008: Submete com sucesso e chama registerUser com payload normalizado" time="4.288714033">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_008: Submete com sucesso e chama registerUser com payload normalizado" time="4.314166665">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_009: Mostra toast de erro quando registerUser falha" time="3.725149101">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_009: Mostra toast de erro quando registerUser falha" time="3.747923536">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_010: No step 1, voltar retorna para step 0" time="2.132355965">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_010: No step 1, voltar retorna para step 0" time="2.124482841">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_011: Em PJ, bloqueia avanço sem Razão Social/CNPJ válidos" time="2.317793251">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_011: Em PJ, bloqueia avanço sem Razão Social/CNPJ válidos" time="2.360082819">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_012: CEP não encontrado exibe erro específico" time="2.121165579">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_012: CEP não encontrado exibe erro específico" time="2.192172168">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_013: Falha de rede no CEP exibe erro genérico" time="2.105139411">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_013: Falha de rede no CEP exibe erro genérico" time="2.098793147">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_014: Exige campos obrigatórios do step 1 no submit" time="1.993908587">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_014: Exige campos obrigatórios do step 1 no submit" time="2.022020688">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_015: Sucesso no cadastro navega para home após timeout" time="2.379513459">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_015: Sucesso no cadastro navega para home após timeout" time="2.440025795">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_016: Erro de submit sem message usa fallback padrão" time="2.399598205">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_016: Erro de submit sem message usa fallback padrão" time="2.423935684">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_017: Upload de comprovante exibe nome do arquivo selecionado" time="1.957394993">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_017: Upload de comprovante exibe nome do arquivo selecionado" time="1.996033776">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_018: Link &quot;Fazer login&quot; chama navigate para /login" time="0.107607452">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_018: Link &quot;Fazer login&quot; chama navigate para /login" time="0.112268371">
         </testcase>
-        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_019: Toggles de senha/confirmar alternam tipo do input" time="0.299909188">
-        </testcase>
-    </testsuite>
-    <testsuite name="src/__tests__/components/ThankYouPage.test.jsx" timestamp="2026-03-28T00:34:15.186Z" hostname="runnervmrg6be" tests="10" failures="0" errors="0" skipped="0" time="0.284912938">
-        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_001: Renderiza mensagem sucesso" time="0.196935841">
-        </testcase>
-        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_002: Exibe order ID/número do pedido" time="0.009209772">
-        </testcase>
-        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_003: Exibe resumo pedido (itens, total)" time="0.010955925">
-        </testcase>
-        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_004: Exibe email confirmação" time="0.009008938">
-        </testcase>
-        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_005: Botão voltar ao catálogo funciona" time="0.009258222">
-        </testcase>
-        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_006: Download invoice PDF (mock window.print)" time="0.009479183">
-        </testcase>
-        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_007: Link track ordem leva ao histórico" time="0.009277889">
-        </testcase>
-        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_008: Compartilhar pedido (mock social share)" time="0.008933597">
-        </testcase>
-        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_009: Dados persistem mesmo com reload (mock sessionStorage)" time="0.00848437">
-        </testcase>
-        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_010: Página renderiza sem erros" time="0.00797449">
+        <testcase classname="src/__tests__/components/Register.test.jsx" name="Register Component &gt; Register flows &gt; TC_REG_019: Toggles de senha/confirmar alternam tipo do input" time="0.308526764">
         </testcase>
     </testsuite>
-    <testsuite name="src/__tests__/contexts/AuthContext.test.jsx" timestamp="2026-03-28T00:34:15.188Z" hostname="runnervmrg6be" tests="6" failures="0" errors="0" skipped="0" time="0.050645589">
-        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_001: lança erro quando useAuth é usado fora do provider" time="0.026365187">
+    <testsuite name="src/__tests__/components/ThankYouPage.test.jsx" timestamp="2026-03-28T00:49:17.402Z" hostname="runnervmrg6be" tests="10" failures="0" errors="0" skipped="0" time="0.288610605">
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_001: Renderiza mensagem sucesso" time="0.198747711">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_002: Exibe order ID/número do pedido" time="0.011326878">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_003: Exibe resumo pedido (itens, total)" time="0.011658331">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_004: Exibe email confirmação" time="0.009971246">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Content &gt; TC_TY_005: Botão voltar ao catálogo funciona" time="0.009699265">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_006: Download invoice PDF (mock window.print)" time="0.008722847">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_007: Link track ordem leva ao histórico" time="0.008467326">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_008: Compartilhar pedido (mock social share)" time="0.008414606">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_009: Dados persistem mesmo com reload (mock sessionStorage)" time="0.007904116">
+        </testcase>
+        <testcase classname="src/__tests__/components/ThankYouPage.test.jsx" name="ThankYouPage Component &gt; Page Actions &gt; TC_TY_010: Página renderiza sem erros" time="0.008242413">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/contexts/AuthContext.test.jsx" timestamp="2026-03-28T00:49:17.404Z" hostname="runnervmrg6be" tests="6" failures="0" errors="0" skipped="0" time="0.075005727">
+        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_001: lança erro quando useAuth é usado fora do provider" time="0.041160057">
             <system-err>
 The above error occurred in the &lt;TestComponent&gt; component:
 
@@ -522,29 +522,29 @@ Visit https://reactjs.org/link/error-boundaries to learn more about error bounda
 
             </system-err>
         </testcase>
-        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_002: inicia deslogado sem dados persistidos" time="0.005454263">
+        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_002: inicia deslogado sem dados persistidos" time="0.007365332">
         </testcase>
-        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_003: restaura sessão válida do localStorage no mount" time="0.005311437">
+        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_003: restaura sessão válida do localStorage no mount" time="0.011240195">
         </testcase>
-        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_004: limpa storage quando auth_user está corrompido" time="0.006564532">
+        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_004: limpa storage quando auth_user está corrompido" time="0.004098363">
         </testcase>
-        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_005: login persiste usuário/token e atualiza estado" time="0.00175527">
+        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_005: login persiste usuário/token e atualiza estado" time="0.002879951">
         </testcase>
-        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_006: logout remove sessão de estado e storage" time="0.001908135">
-        </testcase>
-    </testsuite>
-    <testsuite name="src/__tests__/contexts/DatabaseContext.test.jsx" timestamp="2026-03-28T00:34:15.190Z" hostname="runnervmrg6be" tests="4" failures="0" errors="0" skipped="0" time="0.10688432">
-        <testcase classname="src/__tests__/contexts/DatabaseContext.test.jsx" name="DatabaseContext &gt; TC_DB_001: useDatabase fora do provider retorna contexto padrão" time="0.023542709">
-        </testcase>
-        <testcase classname="src/__tests__/contexts/DatabaseContext.test.jsx" name="DatabaseContext &gt; TC_DB_002: exibe loading enquanto inicialização não conclui" time="0.033804802">
-        </testcase>
-        <testcase classname="src/__tests__/contexts/DatabaseContext.test.jsx" name="DatabaseContext &gt; TC_DB_003: em sucesso, renderiza children e ready=true no contexto" time="0.024086827">
-        </testcase>
-        <testcase classname="src/__tests__/contexts/DatabaseContext.test.jsx" name="DatabaseContext &gt; TC_DB_004: em falha, mostra fallback de erro e registra console.error" time="0.02071649">
+        <testcase classname="src/__tests__/contexts/AuthContext.test.jsx" name="AuthContext &gt; TC_AUTH_006: logout remove sessão de estado e storage" time="0.003013532">
         </testcase>
     </testsuite>
-    <testsuite name="src/__tests__/contexts/LanguageContext.test.jsx" timestamp="2026-03-28T00:34:15.190Z" hostname="runnervmrg6be" tests="6" failures="0" errors="0" skipped="0" time="0.095379932">
-        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_001: lança erro quando useLanguage é chamado fora do provider" time="0.05618317">
+    <testsuite name="src/__tests__/contexts/DatabaseContext.test.jsx" timestamp="2026-03-28T00:49:17.405Z" hostname="runnervmrg6be" tests="4" failures="0" errors="0" skipped="0" time="0.079061918">
+        <testcase classname="src/__tests__/contexts/DatabaseContext.test.jsx" name="DatabaseContext &gt; TC_DB_001: useDatabase fora do provider retorna contexto padrão" time="0.015214124">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/DatabaseContext.test.jsx" name="DatabaseContext &gt; TC_DB_002: exibe loading enquanto inicialização não conclui" time="0.027536544">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/DatabaseContext.test.jsx" name="DatabaseContext &gt; TC_DB_003: em sucesso, renderiza children e ready=true no contexto" time="0.016590644">
+        </testcase>
+        <testcase classname="src/__tests__/contexts/DatabaseContext.test.jsx" name="DatabaseContext &gt; TC_DB_004: em falha, mostra fallback de erro e registra console.error" time="0.015799475">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/contexts/LanguageContext.test.jsx" timestamp="2026-03-28T00:49:17.406Z" hostname="runnervmrg6be" tests="6" failures="0" errors="0" skipped="0" time="0.066232732">
+        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_001: lança erro quando useLanguage é chamado fora do provider" time="0.039788494">
             <system-err>
 The above error occurred in the &lt;TestComponent&gt; component:
 
@@ -555,35 +555,35 @@ Visit https://reactjs.org/link/error-boundaries to learn more about error bounda
 
             </system-err>
         </testcase>
-        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_002: inicia em pt por padrão e traduz chave conhecida" time="0.015207811">
+        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_002: inicia em pt por padrão e traduz chave conhecida" time="0.006645247">
         </testcase>
-        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_003: restaura idioma salvo no localStorage ao montar" time="0.010092817">
+        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_003: restaura idioma salvo no localStorage ao montar" time="0.006597957">
         </testcase>
-        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_004: toggleLanguage alterna idioma e persiste em localStorage" time="0.003085149">
+        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_004: toggleLanguage alterna idioma e persiste em localStorage" time="0.003318205">
         </testcase>
-        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_005: setAppLanguage troca para idioma válido e ignora inválido" time="0.002405863">
+        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_005: setAppLanguage troca para idioma válido e ignora inválido" time="0.002582149">
         </testcase>
-        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_006: t faz interpolação e fallback para a própria chave" time="0.002446449">
+        <testcase classname="src/__tests__/contexts/LanguageContext.test.jsx" name="LanguageContext &gt; TC_LANG_006: t faz interpolação e fallback para a própria chave" time="0.002229295">
         </testcase>
     </testsuite>
-    <testsuite name="src/__tests__/db/api.test.js" timestamp="2026-03-28T00:34:15.192Z" hostname="runnervmrg6be" tests="9" failures="0" errors="0" skipped="0" time="0.020460546">
-        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; getProducts chama endpoint padrão" time="0.008790169">
+    <testsuite name="src/__tests__/db/api.test.js" timestamp="2026-03-28T00:49:17.407Z" hostname="runnervmrg6be" tests="9" failures="0" errors="0" skipped="0" time="0.018895054">
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; getProducts chama endpoint padrão" time="0.008179371">
         </testcase>
-        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; getProducts com categoria aplica querystring codificada" time="0.000936215">
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; getProducts com categoria aplica querystring codificada" time="0.000963573">
         </testcase>
-        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; getProductById chama endpoint por id" time="0.000587195">
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; getProductById chama endpoint por id" time="0.000550726">
         </testcase>
-        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; registerUser envia POST sem Authorization mesmo com token" time="0.001173657">
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; registerUser envia POST sem Authorization mesmo com token" time="0.001124285">
         </testcase>
-        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; loginUser e getUserByEmail fazem POST correto" time="0.000922789">
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; loginUser e getUserByEmail fazem POST correto" time="0.000882451">
         </testcase>
-        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; getCartItems inclui Authorization quando token existe" time="0.000567127">
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; getCartItems inclui Authorization quando token existe" time="0.000522834">
         </testcase>
-        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; upsertCartItem e removeCartItem chamam endpoints de carrinho" time="0.000801404">
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; upsertCartItem e removeCartItem chamam endpoints de carrinho" time="0.000713362">
         </testcase>
-        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; lança erro com mensagem de API quando res.ok = false" time="0.002619661">
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; lança erro com mensagem de API quando res.ok = false" time="0.002456883">
         </testcase>
-        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; em 401 remove auth_user/auth_token do localStorage" time="0.001140565">
+        <testcase classname="src/__tests__/db/api.test.js" name="db/api.js &gt; em 401 remove auth_user/auth_token do localStorage" time="0.001040187">
         </testcase>
     </testsuite>
 </testsuites>
