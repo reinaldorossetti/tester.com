@@ -28,14 +28,14 @@ flowchart BT
 
 **Relatórios públicos da pirâmide e da documentação:**
 
-- **Índice geral de testes:** https://reinaldorossetti.github.io/tester.com/tests-report/
-- **Cobertura unitária (Vitest):** [Coverage](https://reinaldorossetti.github.io/tester.com/tests-report/unit-tests/coverage/index.html)
-- **Testes de API (Playwright):** [Playwright API](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-api/index.html)
-- **Testes de contrato (Pact):** [Pact Contract Report](https://reinaldorossetti.github.io/tester.com/tests-report/contract-tests/pacts/tester-web-frontend-tester-backend-api.json)
-- **E2E Frontend (Playwright / Chromium):** [Browser Chromium](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-chromium/index.html)
-- **E2E Frontend (Playwright / WebKit):** [Browser WebKit](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-webkit/index.html)
-- **E2E Frontend (Playwright / Edge):** [Browser Edge](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-edge/index.html)
-- **Swagger da API:** https://reinaldorossetti.github.io/tester.com/tests-report/swagger/index.html
+- **Índice geral de testes:** https://reinaldorossetti.github.io/amazonQA.com/tests-report/
+- **Cobertura unitária (Vitest):** [Coverage](https://reinaldorossetti.github.io/amazonQA.com/tests-report/unit-tests/coverage/index.html)
+- **Testes de API (Playwright):** [Playwright API](https://reinaldorossetti.github.io/amazonQA.com/tests-report/playwright-report-api/index.html)
+- **Testes de contrato (Pact):** [Pact Contract Report](https://reinaldorossetti.github.io/amazonQA.com/tests-report/contract-tests/pacts/tester-web-frontend-tester-backend-api.json)
+- **E2E Frontend (Playwright / Chromium):** [Browser Chromium](https://reinaldorossetti.github.io/amazonQA.com/tests-report/playwright-report-frontend-chromium/index.html)
+- **E2E Frontend (Playwright / WebKit):** [Browser WebKit](https://reinaldorossetti.github.io/amazonQA.com/tests-report/playwright-report-frontend-webkit/index.html)
+- **E2E Frontend (Playwright / Edge):** [Browser Edge](https://reinaldorossetti.github.io/amazonQA.com/tests-report/playwright-report-frontend-edge/index.html)
+- **Swagger da API:** https://reinaldorossetti.github.io/amazonQA.com/tests-report/swagger/index.html
 - **Guia completo de Pact:** [Guia de Testes de Pacto](docs/pact-tests-guide.md)
 
 ---
@@ -44,17 +44,17 @@ flowchart BT
 
 Acompanhe os resultados diários, a cobertura e a documentação pública disponibilizada usando **GH-Pages** através dos nossos relatórios:
 
-- 📑 **Todos os Testes (Índice):** [Visualizar Relatórios Gerais](https://reinaldorossetti.github.io/tester.com/tests-report/)
-- 📘 **Documentação Swagger (API):** [Swagger UI](https://reinaldorossetti.github.io/tester.com/tests-report/swagger/index.html)
-- 🧪 **Cobertura de Unitários/Unidade (Vitest):** [Unit Tests Coverage](https://reinaldorossetti.github.io/tester.com/tests-report/unit-tests/coverage/index.html)
-- 🔌 **Relatório de Testes de API:** [Playwright API Report](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-api/index.html)
-- 🤝 **Relatório de Testes de Contrato (Pact):** [Pact Contract Report](https://reinaldorossetti.github.io/tester.com/tests-report/contract-tests/pacts/tester-web-frontend-tester-backend-api.json)
+- 📑 **Todos os Testes (Índice):** [Visualizar Relatórios Gerais](https://reinaldorossetti.github.io/amazonQA.com/tests-report/)
+- 📘 **Documentação Swagger (API):** [Swagger UI](https://reinaldorossetti.github.io/amazonQA.com/tests-report/swagger/index.html)
+- 🧪 **Cobertura de Unitários/Unidade (Vitest):** [Unit Tests Coverage](https://reinaldorossetti.github.io/amazonQA.com/tests-report/unit-tests/coverage/index.html)
+- 🔌 **Relatório de Testes de API:** [Playwright API Report](https://reinaldorossetti.github.io/amazonQA.com/tests-report/playwright-report-api/index.html)
+- 🤝 **Relatório de Testes de Contrato (Pact):** [Pact Contract Report](https://reinaldorossetti.github.io/amazonQA.com/tests-report/contract-tests/pacts/tester-web-frontend-tester-backend-api.json)
 - 📘 **Guia dos Testes de Pacto:** [pact-tests-guide.md](docs/pact-tests-guide.md)
 
 **📱 Relatórios UI E2E (Playwright por Browser):**
-- 🌐 [Relatório Frontend - Chromium](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-chromium/index.html)
-- 🌐 [Relatório Frontend - WebKit](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-webkit/index.html)
-- 🌐 [Relatório Frontend - Edge](https://reinaldorossetti.github.io/tester.com/tests-report/playwright-report-frontend-edge/index.html)
+- 🌐 [Relatório Frontend - Chromium](https://reinaldorossetti.github.io/amazonQA.com/tests-report/playwright-report-frontend-chromium/index.html)
+- 🌐 [Relatório Frontend - WebKit](https://reinaldorossetti.github.io/amazonQA.com/tests-report/playwright-report-frontend-webkit/index.html)
+- 🌐 [Relatório Frontend - Edge](https://reinaldorossetti.github.io/amazonQA.com/tests-report/playwright-report-frontend-edge/index.html)
 
 ---
 
@@ -62,7 +62,7 @@ Acompanhe os resultados diários, a cobertura e a documentação pública dispon
 
 Os testes de contrato validam o acordo entre **frontend (consumer)** e **backend (provider)** sem depender de uma suíte E2E completa.
 
-- 📄 **Report do contrato publicado (GH Pages):** [Pact Contract Report](https://reinaldorossetti.github.io/tester.com/tests-report/contract-tests/pacts/tester-web-frontend-tester-backend-api.json)
+- 📄 **Report do contrato publicado (GH Pages):** [Pact Contract Report](https://reinaldorossetti.github.io/amazonQA.com/tests-report/contract-tests/pacts/tester-web-frontend-tester-backend-api.json)
 - 📚 **Guia completo (implementação + execução):** [Guia de Testes de Pacto](docs/pact-tests-guide.md)
 
 Esse fluxo garante que mudanças na API não quebrem o consumo esperado no frontend e adiciona uma camada extra de segurança na esteira de CI.
@@ -70,8 +70,8 @@ Esse fluxo garante que mudanças na API não quebrem o consumo esperado no front
 ---
 Passo a Passo para Rodar a Aplicação Localmente:
 ````
-git clone https://github.com/reinaldorossetti/tester.com.git
-cd tester.com
+git clone https://github.com/reinaldorossetti/amazonQA.com.git
+cd amazonQA.com
 docker-compose -f docker-compose.yml up
 
 # Backend
@@ -605,7 +605,7 @@ cd .. && npm run build && npm run preview
 ## 📁 Estrutura de Pastas
 
 ```text
-tester.com/
+amazonQA.com/
 ├── docker-compose.yml         # Serviço PostgreSQL 16-alpine
 ├── package.json               # Frontend (React + Vite)
 ├── vite.config.js             # Proxy /api → :3001
